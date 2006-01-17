@@ -122,26 +122,6 @@
                     TreatWarningsAsErrors = "false"
                     WarningLevel = "4"
                 />
-                <Config
-                    Name = "Release (QA)"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = ""
-                    DocumentationFile = ""
-                    DebugSymbols = "true"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "false"
-                    OutputPath = "bin\Release\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
-                />
             </Settings>
             <References>
                 <Reference
@@ -244,20 +224,10 @@
                     AssemblyName = "SandBar"
                     HintPath = "..\..\..\DivElements\SandBar\SandBar.dll"
                 />
-                <Reference
-                    Name = "SimPe Sims"
-                    Project = "{9877B092-C8C0-4B84-B5A0-F9A68AA1C0E4}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
             </References>
         </Build>
         <Files>
             <Include>
-                <File
-                    RelPath = "ActionDeleteSim.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
                 <File
                     RelPath = "ActionIntriguedNeighborhood.cs"
                     SubType = "Code"
@@ -391,26 +361,6 @@
                 <File
                     RelPath = "subitems.png"
                     BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "TattItem.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TattUI.cs"
-                    SubType = "UserControl"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TattUI.resx"
-                    DependentUpon = "TattUI.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "TattWrapper.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "WantCacheFile.cs"

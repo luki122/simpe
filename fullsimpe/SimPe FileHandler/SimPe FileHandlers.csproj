@@ -122,26 +122,6 @@
                     TreatWarningsAsErrors = "false"
                     WarningLevel = "4"
                 />
-                <Config
-                    Name = "Release (QA)"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = ""
-                    DocumentationFile = ""
-                    DebugSymbols = "true"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "false"
-                    OutputPath = "bin\Release\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
-                />
             </Settings>
             <References>
                 <Reference
@@ -303,11 +283,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Elements.es.resx"
-                    DependentUpon = "Elements.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "Elements.pl.resx"
                     DependentUpon = "Elements.cs"
                     BuildAction = "EmbeddedResource"
@@ -324,11 +299,6 @@
                 />
                 <File
                     RelPath = "Elements2.de.resx"
-                    DependentUpon = "Elements2.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Elements2.es.resx"
                     DependentUpon = "Elements2.cs"
                     BuildAction = "EmbeddedResource"
                 />

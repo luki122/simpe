@@ -401,11 +401,7 @@ namespace SimPe.Plugin
 			{
 				int sz = 16;
 				if ((typecode!=0x03) || (ver==4)) sz += 15;
-				if ((typecode<=0x03) && (version==3)) 
-				{
-					if (ver==5) sz = 31;
-					else sz = 15;
-				}
+				if ((typecode<=0x03) && (version==3)) sz = 15;
 				if ((typecode<=0x03) && ver==4) sz = 31;
 
 				items = new ExtensionItem[1];
@@ -455,11 +451,7 @@ namespace SimPe.Plugin
 			{
 				int sz = 16;
 				if ((typecode!=0x03) || (ver==4)) sz += 15;
-				if ((typecode<=0x03) && (version==3)) 
-				{
-					if (ver==5) sz = 31;
-					else sz = 15;
-				}				
+				if ((typecode<=0x03) && (version==3)) sz = 15;
 				if ((typecode<=0x03) && ver==4) sz = 31;
 
 				if (items.Length>0) data = items[0].Data;

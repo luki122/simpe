@@ -377,9 +377,6 @@ Package: {filename}</value>
 	<data name="SimPe.Data.ObjectTypes.Unknown">
 		<value>Unknown</value>
 	</data>
-	<data name="SimPe.Data.ObjectTypes.Tiles">
-		<value>Tiles</value>
-	</data>
 	<data name="Other">
 		<value>Other</value>
 	</data>
@@ -479,8 +476,8 @@ Package: {filename}</value>
 	<data name="SimPe.Data.ObjFunctionSubSort.Decorative_Curtain">
 		<value>Decorative / Curtain</value>
 	</data>
-	<data name="SimPe.Data.ObjFunctionSubSort.Decorative_Rugs">
-		<value>Decorative / Rugs</value>
+	<data name="SimPe.Data.ObjFunctionSubSort.Decorative_UnknownA">
+		<value>Decorative / Unknown I</value>
 	</data>
 	<data name="SimPe.Data.ObjFunctionSubSort.Decorative_UnknownB">
 		<value>Decorative / Unknown II</value>
@@ -620,8 +617,8 @@ Package: {filename}</value>
 	<data name="SimPe.Data.ObjFunctionSubSort.General_UnknownD">
 		<value>General / Unknown IV</value>
 	</data>
-	<data name="SimPe.Data.ObjFunctionSubSort.General_Car">
-		<value>General / Cars</value>
+	<data name="SimPe.Data.ObjFunctionSubSort.General_UnknownC">
+		<value>General / Unknown III</value>
 	</data>
 	<data name="SimPe.Data.ObjFunctionSubSort.General_UnknownA">
 		<value>General / Unknown I</value>
@@ -692,12 +689,8 @@ Package: {filename}</value>
 		<value>Roofs</value>
     </data>
     
-    <data name="SimPe.Data.XObjFunctionSubSort.Fence_Rail">
-		<value>Fences and Rails</value>
-    </data>
-    
-    <data name="SimPe.Data.XObjFunctionSubSort.Fence_Halfwall">
-		<value>Halfwalls</value>
+    <data name="SimPe.Data.XObjFunctionSubSort.Fence">
+		<value>Fences</value>
     </data>
     
     <data name="SimPe.Data.XObjFunctionSubSort.Terrain">
@@ -756,94 +749,4 @@ Package: {filename}</value>
      <data name="SimPe.Data.XObjFunctionSubSort.Wall_Other">
 		<value>Walls / Other</value>
     </data>
-     <data name="SimPe.Data.XObjFunctionSubSort.Hood_Landmark">
-		<value>Neighborhood / Landmark</value>
-    </data>
-     <data name="SimPe.Data.XObjFunctionSubSort.Hood_Flora">
-		<value>Neighborhood / Flora</value>
-    </data>
-     <data name="SimPe.Data.XObjFunctionSubSort.Hood_Effects">
-		<value>Neighborhood / Effects</value>
-    </data>
-     <data name="SimPe.Data.XObjFunctionSubSort.Hood_Misc">
-		<value>Neighborhood / Misc</value>
-    </data>
-     <data name="SimPe.Data.XObjFunctionSubSort.Hood_Stone">
-		<value>Neighborhood / Stone</value>
-    </data>
-     <data name="SimPe.Data.XObjFunctionSubSort.Hood_Other">
-		<value>Neighborhood / Other</value>
-    </data>
-    <data name="Fun">
-        <value>Pleasure</value>
-    </data>
-    <data name="Fix_Fence_Warning">
-        <value>"Making a Fence compatible with the Original Game, is a nasty Hack, which can cause conflicts in the Game. I would not suggest to do this, if you plan to Release the Fence!
-
-If you still want to offer the Fence for the original Game, please consider to release it in two seperate Packages. One with the Fence for University and higher, and one for the Original Game.
-
-Do you really want to make this Fence compatible with the original Game?"</value>
-    </data>
-    <data name="Censor_Install_Warn">
-		<value>You have installed Nightlife, this means, that SimPE needs to copy a File into your Config folder, in order to remove the Blur.
-    
-Do you want to continue?</value>
-    </data>
-    <data name="Censor_UnInstall_Warn">
-		<value>In order to bring the Blur back, SimPE has to delete the file {filename}.
-    
-Do you want to continue?</value>
-    </data>
-    <data name="Check FileTable">
-		<value>Check FileTable</value>
-	</data>
-	<data name="Delete Sim">
-		<value>Delete Sim</value>
-	</data>
-	<data name="Nothing">
-		<value>Nothing</value>
-	</data>
-	<data name="Romance">
-		<value>Romance</value>
-	</data>
-	<data name="Family">
-		<value>Family</value>
-	</data>
-	<data name="Fortune">
-		<value>Fortune</value>
-	</data>
-	<data name="Reputation">
-		<value>Reputation</value>
-	</data>
-	<data name="Knowledge">
-		<value>Knowledge</value>
-	</data>
-	<data name="Growup">
-		<value>Grow Up</value>
-	</data>
-	<data name="Fun">
-		<value>Fun</value>
-	</data>
-	<data name="Chees">
-		<value>Chees</value>
-	</data>
-	<data name="PresetClassic">
-	    <value>classic</value>
-	</data>
-	<data name="PresetModern">
-	    <value>modern</value>
-	</data>
-	<data name="PresetChanged">
-		<value>The Look and Feel of SimPE was changed to "{name}".
-
-Do you want to start SimPE now?</value>
-	</data>
-	<data name="ObsoleteOW">
-		<value>The windowed ObjectWorkshop is obsololete. Please use the dockable ObjectWorkshop.
-
-You should use the dockable ObjectWorkshop, which can be activated with the "Windows->ObjectWorkshop" Menu.
-
-Continue anyway?
-		</value>
-	</data>
 </root>

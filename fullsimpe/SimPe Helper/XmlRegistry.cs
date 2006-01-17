@@ -266,9 +266,7 @@ namespace SimPe
 		/// <param name="create">true, if you want to create the File if it does not exist</param>
 		public XmlRegistry(string xmlfilename, bool create)
 		{
-#if MAC
-			Console.WriteLine("Loading Settings from \""+xmlfilename+"\".");
-#endif
+				
 			root = new XmlRegistryKey();
 			if (create) 
 			{

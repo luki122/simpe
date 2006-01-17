@@ -1346,7 +1346,7 @@ namespace SimPe.Plugin.Tool.Dockable
 
 		internal SimPe.Events.ResourceEventArgs items;
 		internal LoadedPackage guipackage;
-		
+
 		private void ResourceDock_Load(object sender, System.EventArgs e)
 		{
 		
@@ -1397,8 +1397,7 @@ namespace SimPe.Plugin.Tool.Dockable
 					e.Resource.FileDescriptor.Changed = true;
 				} 
 				catch {}
-			}			
-			guipackage.PauseIndexChangedEvents();
+			}
 			guipackage.RestartIndexChangedEvents();
 		}
 
@@ -1419,7 +1418,6 @@ namespace SimPe.Plugin.Tool.Dockable
 				} 
 				catch {}
 			}
-			guipackage.PauseIndexChangedEvents();
 			guipackage.RestartIndexChangedEvents();
 		}
 
@@ -1442,10 +1440,7 @@ namespace SimPe.Plugin.Tool.Dockable
 				} 
 				catch {}
 			}
-			
-			guipackage.PauseIndexChangedEvents();
 			guipackage.RestartIndexChangedEvents();
-			
 		}
 
 		private void tbinstance2_TextChanged(object sender, System.EventArgs ea)
@@ -1466,7 +1461,6 @@ namespace SimPe.Plugin.Tool.Dockable
 				} 
 				catch {}
 			}
-			guipackage.PauseIndexChangedEvents();
 			guipackage.RestartIndexChangedEvents();
 		}
 		
@@ -1489,7 +1483,6 @@ namespace SimPe.Plugin.Tool.Dockable
 				} 
 				catch {}
 			}
-			guipackage.PauseIndexChangedEvents();
 			guipackage.RestartIndexChangedEvents();
 		}
 

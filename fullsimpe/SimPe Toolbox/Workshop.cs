@@ -90,8 +90,6 @@ namespace SimPe.Plugin
 			btclone.Enabled = false;
 			btclone.Refresh();
 			this.tabControl1.SelectedIndex = 1;
-#if DEBUG
-#else
 			if ((!Helper.WindowsRegistry.HiddenMode) || (!Helper.DebugMode))
 			{
 				lbobj.SelectionMode = SelectionMode.One;
@@ -103,7 +101,10 @@ namespace SimPe.Plugin
 
 				//this.cbpar.Visible = false;
 			} 
-#endif			
+			else 
+			{
+				//this.cbpar.Checked = true;
+			}
 			
 			this.tviapl = new TreeNode("Appliances"); tv.Nodes.Add(tviapl);
 			this.tvideco = new TreeNode("Decorative"); tv.Nodes.Add(tvideco);

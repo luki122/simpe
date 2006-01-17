@@ -124,8 +124,6 @@ namespace SimPe
 		private TD.SandDock.DockContainer dockContainer1;
 		private System.Windows.Forms.Timer resourceSelectionTimer;
 		private TD.SandBar.MenuButtonItem miSaveCopyAs;
-		private TD.SandBar.MenuButtonItem miOpenNightlifeRes;
-		private TD.SandBar.ButtonItem biReset;
 		private System.ComponentModel.IContainer components;
 
 		public MainForm()
@@ -165,7 +163,7 @@ namespace SimPe
 			
 			resloader = new ResourceLoader(dc, package);
 
-			remote = new RemoteHandler(package, resloader, plugger, miWindow);
+			remote = new RemoteHandler(package, resloader);
 			remote.LoadedResource += new ChangedResourceEvent(rh_LoadedResource);
 			
 			SetupResourceViewToolBar();
@@ -242,7 +240,6 @@ namespace SimPe
 			this.miNewDc = new TD.SandBar.MenuButtonItem();
 			this.biUpdate = new TD.SandBar.ButtonItem();
 			this.miUpdate = new TD.SandBar.MenuButtonItem();
-			this.biReset = new TD.SandBar.ButtonItem();
 			this.tbAction = new TD.SandBar.ToolBar();
 			this.tbTools = new TD.SandBar.ToolBar();
 			this.tbWindow = new TD.SandBar.ToolBar();
@@ -251,7 +248,6 @@ namespace SimPe
 			this.miOpenIn = new TD.SandBar.MenuButtonItem();
 			this.miOpenSimsRes = new TD.SandBar.MenuButtonItem();
 			this.miOpenUniRes = new TD.SandBar.MenuButtonItem();
-			this.miOpenNightlifeRes = new TD.SandBar.MenuButtonItem();
 			this.miOpenDownloads = new TD.SandBar.MenuButtonItem();
 			this.miSaveCopyAs = new TD.SandBar.MenuButtonItem();
 			this.miRecent = new TD.SandBar.MenuButtonItem();
@@ -635,8 +631,7 @@ namespace SimPe
 																			  this.biSaveAs,
 																			  this.biClose,
 																			  this.biNewDc,
-																			  this.biUpdate,
-																			  this.biReset});
+																			  this.biUpdate});
 			this.toolBar1.Location = ((System.Drawing.Point)(resources.GetObject("toolBar1.Location")));
 			this.toolBar1.Name = "toolBar1";
 			this.toolBar1.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("toolBar1.RightToLeft")));
@@ -766,13 +761,6 @@ namespace SimPe
 			this.miUpdate.ToolTipText = resources.GetString("miUpdate.ToolTipText");
 			this.miUpdate.Activate += new System.EventHandler(this.Activate_miUpdate);
 			// 
-			// biReset
-			// 
-			this.biReset.Image = ((System.Drawing.Image)(resources.GetObject("biReset.Image")));
-			this.biReset.Text = resources.GetString("biReset.Text");
-			this.biReset.ToolTipText = resources.GetString("biReset.ToolTipText");
-			this.biReset.Activate += new System.EventHandler(this.Activate_biReset);
-			// 
 			// tbAction
 			// 
 			this.tbAction.AccessibleDescription = resources.GetString("tbAction.AccessibleDescription");
@@ -886,7 +874,6 @@ namespace SimPe
 			this.miOpenIn.Items.AddRange(new TD.SandBar.ToolbarItemBase[] {
 																			  this.miOpenSimsRes,
 																			  this.miOpenUniRes,
-																			  this.miOpenNightlifeRes,
 																			  this.miOpenDownloads});
 			this.miOpenIn.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("miOpenIn.Shortcut")));
 			this.miOpenIn.Shortcut2 = ((System.Windows.Forms.Shortcut)(resources.GetObject("miOpenIn.Shortcut2")));
@@ -908,14 +895,6 @@ namespace SimPe
 			this.miOpenUniRes.Text = resources.GetString("miOpenUniRes.Text");
 			this.miOpenUniRes.ToolTipText = resources.GetString("miOpenUniRes.ToolTipText");
 			this.miOpenUniRes.Activate += new System.EventHandler(this.Activate_miOpenUniRes);
-			// 
-			// miOpenNightlifeRes
-			// 
-			this.miOpenNightlifeRes.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("miOpenNightlifeRes.Shortcut")));
-			this.miOpenNightlifeRes.Shortcut2 = ((System.Windows.Forms.Shortcut)(resources.GetObject("miOpenNightlifeRes.Shortcut2")));
-			this.miOpenNightlifeRes.Text = resources.GetString("miOpenNightlifeRes.Text");
-			this.miOpenNightlifeRes.ToolTipText = resources.GetString("miOpenNightlifeRes.ToolTipText");
-			this.miOpenNightlifeRes.Activate += new System.EventHandler(this.Activate_miOpenNightlifeRes);
 			// 
 			// miOpenDownloads
 			// 
@@ -1985,7 +1964,6 @@ namespace SimPe
 		TreeBuilder treebuilder;
 		ViewFilter filter;
 		TreeNodeTag lastusedtnt;
-		TreeView lasttreeview;
 		PluginManager plugger;
 		ResourceLoader resloader;
 		RemoteHandler remote;
@@ -2007,7 +1985,7 @@ namespace SimPe
 		void AfterFileLoad(LoadedPackage sender)
 		{
 			sender.UpdateProviders();	
-			ShowNewFile(true);		
+			ShowNewFile();		
 		}	
 	
 		/// <summary>
@@ -2028,12 +2006,6 @@ namespace SimPe
 		{
 			UpdateFileInfo();
 			package.UpdateProviders();
-
-			if (lasttreeview!=null) 
-			{
-				System.Windows.Forms.TreeViewEventArgs tvea = new TreeViewEventArgs(this.lasttreeview.SelectedNode, TreeViewAction.ByMouse);
-				SelectResourceNode(this.lasttreeview, tvea);
-			}
 		}
 
 		/// <summary>
@@ -2053,12 +2025,12 @@ namespace SimPe
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void AddedRemovedIndexResource(object sender, EventArgs e)
-		{			
-			UpdateFileIndex();
+		{
+			ShowNewFile();
 		}
 
 		/// <summary>
-		/// This Method displays the content of a File
+		/// Thsi Method displays the content of a File
 		/// </summary>
 		void UpdateFileInfo()
 		{
@@ -2067,68 +2039,9 @@ namespace SimPe
 		}
 
 		/// <summary>
-		/// Selects the <see cref="TreeNode"/> that has the same Name as the passed <see cref="TreeNodeTag"/>
-		/// </summary>
-		/// <param name="nodes">List of TreeNode Object</param>
-		/// <param name="tnt"><see cref="TreeNodeTag"/> that should be used to find the matching TreeNode</param>
-		/// <returns>true if a selection was made</returns>
-		/// <remarks>also sets <see cref="lastusedtnt"/> to the selected Node</remarks>
-		bool ReSelectTreeNode(TreeNodeCollection nodes, TreeNodeTag tnt)
-		{
-			if (this.lasttreeview==null || tnt==null || nodes==null) return false;
-
-			foreach (TreeNode node in nodes)	
-			{		
-				if (node.Tag is TreeNodeTag)				
-					if (((TreeNodeTag)node.Tag).Name == tnt.Name) 
-					{
-						node.TreeView.SelectedNode = node;
-						this.lastusedtnt = (TreeNodeTag)node.Tag;
-						return true;
-					}
-
-				if (ReSelectTreeNode(node.Nodes, tnt)) return true;
-			}
-			
-			return false;
-		}
-
-		/// <summary>
-		/// When adding removing a Resource, the ResourceList and ResourceTree need to be Updated.
-		/// That is done in this Method
-		/// </summary>
-		void UpdateFileIndex()
-		{			
-			SimPe.Collections.PackedFileDescriptors list = new SimPe.Collections.PackedFileDescriptors();
-			
-			foreach (ListViewItem lvi in lv.Items) 
-			{
-				ListViewTag lvt = (ListViewTag)lvi.Tag;
-				if (lvi.Selected)
-					list.Add(lvt.Resource.FileDescriptor);									
-			}
-
-			TreeNodeTag tnt = lastusedtnt;
-			ShowNewFile(false);			
-			if (tnt!=null && lasttreeview!=null) 
-			{
-				tnt.Refresh(lv);
-				ReSelectTreeNode(this.lasttreeview.Nodes, tnt);
-			}
-					
-
-			
-			foreach (ListViewItem lvi in lv.Items) 
-			{
-				ListViewTag lvt = (ListViewTag)lvi.Tag;
-				if (list.Contains(lvt.Resource.FileDescriptor)) lvi.Selected = true;
-			}
-		}
-
-		/// <summary>
 		/// This Method displays the content of a File
 		/// </summary>
-		void ShowNewFile(bool autoselect)
+		void ShowNewFile()
 		{
 			plugger.ChangedGuiResourceEventHandler(this, new SimPe.Events.ResourceEventArgs(package));
 			tvInstance.Nodes.Clear();
@@ -2139,7 +2052,7 @@ namespace SimPe
 			TreeBuilder.ClearListView(lv);
 
 			
-			SetupActiveResourceView(autoselect);	
+			SetupActiveResourceView();	
 			package.UpdateRecentFileMenu(this.miRecent);			
 
 			UpdateFileInfo();
@@ -2214,17 +2127,6 @@ namespace SimPe
 			this.tbPlugAction.IsExpanded = Helper.WindowsRegistry.Layout.PluginActionBoxExpanded;
 			this.tbExtAction.IsExpanded = Helper.WindowsRegistry.Layout.ToolActionBoxExpanded;*/
 			
-
-			this.lv.Columns[0].Width = Helper.WindowsRegistry.Layout.TypeColumnWidth;
-			this.lv.Columns[1].Width = Helper.WindowsRegistry.Layout.GroupColumnWidth;
-			this.lv.Columns[2].Width = Helper.WindowsRegistry.Layout.InstanceHighColumnWidth;
-			this.lv.Columns[3].Width = Helper.WindowsRegistry.Layout.InstanceColumnWidth;
-
-			if (this.lv.Columns.Count>4) 
-			{
-				this.lv.Columns[4].Width = Helper.WindowsRegistry.Layout.OffsetColumnWidth;
-				this.lv.Columns[5].Width = Helper.WindowsRegistry.Layout.SizeColumnWidth;
-			}
 
 			UpdateDockMenus();
 		}
@@ -2373,7 +2275,6 @@ namespace SimPe
 			this.miClose.Enabled = package.Loaded;
 
 			this.miOpenUniRes.Enabled = Helper.WindowsRegistry.EPInstalled>=1;
-			this.miOpenNightlifeRes.Enabled = Helper.WindowsRegistry.EPInstalled>=2;
 		}
 		#endregion
 
@@ -2428,13 +2329,13 @@ namespace SimPe
 				}
 			}
 
-			SetupActiveResourceView(true);
+			SetupActiveResourceView();
 		}
 
 		/// <summary>
 		/// Display the content of the current package in the choosen TreeView
 		/// </summary>
-		void SetupActiveResourceView(bool autoselect)
+		void SetupActiveResourceView()
 		{
 			foreach (TD.SandBar.ToolbarItemBase c in tbResource.Items) 
 			{
@@ -2448,10 +2349,9 @@ namespace SimPe
 					{
 						if (tbl.TreeView.Nodes.Count==0)
 						{
-							tbl.Generate(autoselect);							
+							tbl.Generate();							
 							if (tbl.TreeView.Nodes.Count>0) lastusedtnt = (TreeNodeTag)tbl.TreeView.Nodes[0].Tag;							
 						}
-
 						this.SelectResourceNode(tbl.TreeView, new TreeViewEventArgs(tbl.TreeView.SelectedNode, TreeViewAction.ByMouse));
 						//special Treatment for Neighborhood Files
 						if (Helper.IsNeighborhoodFile(package.FileName) && tbl.TreeView.Nodes.Count>0) tvType.SelectedNode = tbl.TreeView.Nodes[0];
@@ -2559,9 +2459,7 @@ namespace SimPe
 				lv.Columns.RemoveAt(lv.Columns.Count-1);
 			}	
 			
-			cbsemig.Items.Add("[Group Filter]");
-			cbsemig.Items.Add(new SimPe.Data.SemiGlobalAlias(true, 0x7FD46CD0, "Globals"));
-			cbsemig.Items.Add(new SimPe.Data.SemiGlobalAlias(true, 0x7FE59FD0, "Behaviour"));
+			cbsemig.Items.Add("");
 			foreach (Data.SemiGlobalAlias sga in Data.MetaData.SemiGlobals)
 				if (sga.Known) this.cbsemig.Items.Add(sga);
 			if (cbsemig.Items.Count>0) cbsemig.SelectedIndex = 0;
@@ -2573,9 +2471,6 @@ namespace SimPe
 
 			//load Files passed on the commandline
 			package.LoadOrImportFiles(pargs, true);
-
-			//Set the Lock State of the Docks
-			MakeFloatable(!Helper.WindowsRegistry.LockDocks);
 		}
 
 		void Activate_miOpen(object sender, System.EventArgs e)
@@ -2596,9 +2491,6 @@ namespace SimPe
 		void SelectResourceNode(object sender, System.Windows.Forms.TreeViewEventArgs e)
 		{
 			lastusedtnt = null;
-			if(sender==null) return;
-			lasttreeview = (TreeView)sender;
-			
 			if (e==null) return;
 			if (e.Node==null) return;
 			if (e.Node.Tag==null) return;
@@ -2633,7 +2525,6 @@ namespace SimPe
 			if (lastusedtnt!=null) lastusedtnt.Refresh(lv);
 		}				
 		
-		
 		//int ct = 0;
 		/// <summary>
 		/// 
@@ -2642,7 +2533,6 @@ namespace SimPe
 		/// <param name="e">null to indicate, that his Method was called internal, and should NOT open a Resource!</param>
 		private void SelectResource(object sender, System.EventArgs e)
 		{		
-			
 			//ct++; this.Text=(ct/2).ToString();	//was used to test for a Bug related to opened Docks
 			if (lv.SelectedItems.Count<=2) SelectResource(sender, false, false);
 			else DereferedResourceSelect();
@@ -2728,18 +2618,15 @@ namespace SimPe
 			}
 			
 			SimPe.Events.ResourceEventArgs res = new SimPe.Events.ResourceEventArgs(package);
-			bool goon = (!fromdbl && !Helper.WindowsRegistry.SimpleResourceSelect && !frommiddle) || (lv.SelectedItems.Count>1);
-			foreach (ListViewItem lvi in lv.SelectedItems) 
+			for (int i=0; i<lv.SelectedItems.Count; i++)
 			{
-				ListViewTag lvt = (ListViewTag)lvi.Tag;
-
+				ListViewTag lvt = (ListViewTag)lv.SelectedItems[i].Tag;
 				res.Items.Add(new SimPe.Events.ResourceContainer(lvt.Resource));
 
-				if (goon) continue;
+				if (!fromdbl && !Helper.WindowsRegistry.SimpleResourceSelect && !frommiddle) continue;
 
 				//only the first one get's added to the Plugin View				
-				if ((lv.SelectedItems.Count==1 && !fromchg && lv.Tag==null)) 				
-					resloader.AddResource(lvt.Resource, !fm);	
+				if ((lv.SelectedItems.Count==1 && !fromchg && lv.Tag==null)) resloader.AddResource(lvt.Resource, !fm);
 			}
 
 			//notify the Action Tools that the selection was changed
@@ -2752,8 +2639,6 @@ namespace SimPe
 			OptionForm of = new OptionForm();
 			of.NewTheme +=new ChangedThemeEvent(ChangedTheme);
 			of.ResetLayout += new EventHandler(ResetLayout);
-			of.UnlockDocks += new EventHandler(UnLockDocks);
-			of.LockDocks += new EventHandler(LockDocks);
 
 			System.Drawing.Icon icon = null;
 			if (miPref.Image is System.Drawing.Bitmap)
@@ -2776,17 +2661,6 @@ namespace SimPe
 				Helper.WindowsRegistry.Layout.PluginActionBoxExpanded = this.tbPlugAction.IsExpanded;
 				Helper.WindowsRegistry.Layout.DefaultActionBoxExpanded = this.tbDefaultAction.IsExpanded;
 				Helper.WindowsRegistry.Layout.ToolActionBoxExpanded = this.tbExtAction.IsExpanded;
-
-				Helper.WindowsRegistry.Layout.TypeColumnWidth = this.lv.Columns[0].Width;
-				Helper.WindowsRegistry.Layout.GroupColumnWidth = this.lv.Columns[1].Width;
-				Helper.WindowsRegistry.Layout.InstanceHighColumnWidth = this.lv.Columns[2].Width;
-				Helper.WindowsRegistry.Layout.InstanceColumnWidth = this.lv.Columns[3].Width;
-
-				if (lv.Columns.Count>4)
-				{
-					Helper.WindowsRegistry.Layout.OffsetColumnWidth = this.lv.Columns[4].Width;
-					Helper.WindowsRegistry.Layout.SizeColumnWidth = this.lv.Columns[5].Width;
-				}
 			}
 		}
 
@@ -2921,7 +2795,7 @@ namespace SimPe
 			if (ClosePackage())
 			{
 				SimPe.Packages.StreamFactory.CloseAll();
-				this.ShowNewFile(true);
+				this.ShowNewFile();
 			}							
 		}
 
@@ -2974,28 +2848,18 @@ namespace SimPe
 		private void Activate_miOpenSimsRes(object sender, System.EventArgs e)
 		{
 			ofd.InitialDirectory = System.IO.Path.Combine(Helper.WindowsRegistry.SimsPath, "TSData\\Res");
-			ofd.FileName = "";
 			this.Activate_miOpen(sender, e);
 		}
 
 		private void Activate_miOpenUniRes(object sender, System.EventArgs e)
 		{
 			ofd.InitialDirectory = System.IO.Path.Combine(Helper.WindowsRegistry.SimsEP1Path, "TSData\\Res");
-			ofd.FileName = "";
-			this.Activate_miOpen(sender, e);
-		}
-
-		private void Activate_miOpenNightlifeRes(object sender, System.EventArgs e)
-		{
-			ofd.InitialDirectory = System.IO.Path.Combine(Helper.WindowsRegistry.SimsEP2Path, "TSData\\Res");
-			ofd.FileName = "";
 			this.Activate_miOpen(sender, e);
 		}
 
 		private void Activate_miOpenDownloads(object sender, System.EventArgs e)
 		{
 			ofd.InitialDirectory = System.IO.Path.Combine(Helper.WindowsRegistry.SimSavegameFolder, "Downloads");
-			ofd.FileName = "";
 			this.Activate_miOpen(sender, e);
 		}
 
@@ -3044,8 +2908,7 @@ namespace SimPe
 						filter.Group = sga.Id;					
 						filter.FilterGroup = (cbsemig.Text.Trim()!="");					
 					}
-				} 
-				else filter.FilterGroup = false;
+				} else filter.FilterGroup = false;
 			} 
 			catch 
 			{
@@ -3118,55 +2981,9 @@ namespace SimPe
 			sfd.FileName = package.FileName;
 			if (sfd.ShowDialog()==DialogResult.OK) 
 			{
-				SimPe.Packages.GeneratableFile gf = (SimPe.Packages.GeneratableFile)package.Package.Clone();
-				gf.Save(sfd.FileName);	
-				//package.UpdateRecentFileMenu(this.miRecent);
+				package.Save(sfd.FileName, true);	
+				package.UpdateRecentFileMenu(this.miRecent);
 			}
-		}
-
-		private void Activate_biReset(object sender, System.EventArgs e)
-		{
-			ResetLayout(null, null);
-			
-		}
-
-		void MakeFloatable(TD.SandDock.DockableWindow dw, bool fl)
-		{
-			dw.AllowFloat = fl;
-			dw.AllowDockBottom = fl;
-			dw.AllowDockLeft = fl;
-			dw.AllowDockRight = fl;
-			dw.AllowDockTop = fl;
-			dw.AllowDockCenter = fl;
-
-			dw.AllowClose = fl;			
-		}
-
-		void MakeFloatable(bool fl)
-		{
-			foreach (TD.SandBar.MenuItemBase mi in this.miWindow.Items)
-			{
-				if (mi.Tag==null) continue;
-				TD.SandDock.DockableWindow dw = mi.Tag as TD.SandDock.DockableWindow;
-
-				MakeFloatable(dw, fl);
-			}
-
-			MakeFloatable(this.dcFilter, fl);
-			MakeFloatable(this.dcResource, fl);
-			MakeFloatable(this.dcPlugin, fl);
-
-			this.dcPlugin.AllowClose = false;
-		}
-
-		private void UnLockDocks(object sender, EventArgs e)
-		{
-			MakeFloatable(true);
-		}
-
-		private void LockDocks(object sender, EventArgs e)
-		{
-			MakeFloatable(false);
 		}
 	}
 			

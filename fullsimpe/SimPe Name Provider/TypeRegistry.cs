@@ -59,11 +59,6 @@ namespace SimPe.PackedFiles
 		ArrayList atools;
 
 		/// <summary>
-		/// Contains all available Listeners
-		/// </summary>
-		SimPe.Collections.InternalListeners listeners;
-
-		/// <summary>
 		/// Used to access the Windows Registry
 		/// </summary>
 		Registry reg;
@@ -90,7 +85,6 @@ namespace SimPe.PackedFiles
 			toolsp = new ArrayList();
 			dtools = new ArrayList();
 			atools = new ArrayList();
-			listeners = new SimPe.Collections.InternalListeners();
 
 			il = new System.Windows.Forms.ImageList();
 			il.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
@@ -337,23 +331,21 @@ namespace SimPe.PackedFiles
 					{
 						if (!atools.Contains(tool)) 					
 							atools.Add((SimPe.Interfaces.IToolAction)tool);	
-					} 					
-					else if  (tool.GetType().GetInterface("SimPe.Interfaces.IToolPlus", true) == typeof(SimPe.Interfaces.IToolPlus)) 
-					{
-						if (!toolsp.Contains(tool)) 					
-							toolsp.Add((SimPe.Interfaces.IToolPlus)tool);	
 					} 
-					else if (Helper.StartedGui != Executable.Classic && tool.GetType().GetInterface("SimPe.Interfaces.IListener", true) == typeof(SimPe.Interfaces.IListener)) 
+					else 
 					{
-						if (!listeners.Contains((SimPe.Interfaces.IListener)tool)) 					
-							listeners.Add((SimPe.Interfaces.IListener)tool);	
-					} 
-					else if (tool.GetType().GetInterface("SimPe.Interfaces.ITool", true) == typeof(SimPe.Interfaces.ITool)) 
-					{
-						if (!tools.Contains(tool)) 					
-							tools.Add((SimPe.Interfaces.ITool)tool);										  
+						if  (tool.GetType().GetInterface("SimPe.Interfaces.IToolPlus", true) == typeof(SimPe.Interfaces.IToolPlus)) 
+						{
+							if (!toolsp.Contains(tool)) 					
+								toolsp.Add((SimPe.Interfaces.IToolPlus)tool);	
+						} 
+
+						if  (tool.GetType().GetInterface("SimPe.Interfaces.ITool", true) == typeof(SimPe.Interfaces.ITool)) 
+						{
+							if (!tools.Contains(tool)) 					
+								tools.Add((SimPe.Interfaces.ITool)tool);										  
+						}
 					}
-					
 			
 		}		
 
@@ -367,24 +359,7 @@ namespace SimPe.PackedFiles
 		{
 			factory.LinkedRegistry = this;
 			factory.LinkedProvider = this;
-			string s = SimPe.Localization.GetString("Unknown");
-			try 
-			{
-				s = factory.FileName;
-				Register(factory.KnownTools);
-			} 
-			catch (Exception ex)
-			{
-				Helper.ExceptionMessage("Unable to load Tool \""+s+"\". You Probaly have a Plugin/Tool installed, that is not compatible with the current SimPE Release.", ex);
-			}
-		}
-
-		public SimPe.Collections.Listeners Listeners
-		{
-			get
-			{
-				return listeners;
-			}
+			Register(factory.KnownTools);
 		}
 			
 
@@ -429,22 +404,5 @@ namespace SimPe.PackedFiles
 		}
 
 		#endregion
-	}
-}
-
-namespace SimPe.Collections 
-{
-	internal class InternalListeners : SimPe.Collections.Listeners
-	{		
-		internal InternalListeners() : base() {}
-		internal void Add(IListener lst)
-		{
-			list.Add(lst);
-		}
-
-		internal void Clear() 
-		{
-			list.Clear();
-		}		
 	}
 }

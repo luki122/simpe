@@ -2693,7 +2693,7 @@ namespace SimPe.Plugin
 				{
 					GeometryDataContainer gmdc = (GeometryDataContainer) this.tMesh.Tag;
 					
-					StartImport(ofd, gmdc, Helper.WindowsRegistry.GmdcExtension, (ElementSorting)cbaxis.Items[cbaxis.SelectedIndex], false);
+					StartImport(ofd, gmdc, ".obj", (ElementSorting)cbaxis.Items[cbaxis.SelectedIndex], false);
 				}				
 			}
 			catch (Exception exception1)
@@ -2775,12 +2775,11 @@ namespace SimPe.Plugin
 			ofd.FilterIndex = ExporterLoader.FindFirstImporterIndexByExtension(defext)+1;
 
 			ofd.AddExtension = true;												
-			ofd.FileName = Helper.SaveFileName(Hashes.StripHashFromName(gmdc.Parent.FileName).Trim().ToLower());					
+			ofd.FileName = Hashes.StripHashFromName(gmdc.Parent.FileName).Trim().ToLower();					
 			if (ofd.ShowDialog() == DialogResult.OK) 
 			{
 				//Now perpare the Import
-				IGmdcImporter importer = ExporterLoader.Importers[ofd.FilterIndex-1];
-				Helper.WindowsRegistry.GmdcExtension = importer.FileExtension;
+				IGmdcImporter importer = ExporterLoader.Importers[ofd.FilterIndex-1];	
 				importer.Component.Sorting = sorting;
 				System.IO.FileStream meshreader = File.OpenRead(ofd.FileName);
 
@@ -2826,26 +2825,20 @@ namespace SimPe.Plugin
 				sfd.FilterIndex = ExporterLoader.FindFirstIndexByExtension(defext)+1;
 
 				sfd.AddExtension = true;												
-				sfd.FileName = Helper.SaveFileName(Hashes.StripHashFromName(gmdc.Parent.FileName).Trim().ToLower());					
+				sfd.FileName = Hashes.StripHashFromName(gmdc.Parent.FileName).Trim().ToLower();					
 				if (sfd.ShowDialog() == DialogResult.OK) 
 				{
 					//Now perfor the Export
 					IGmdcExporter exporter = ExporterLoader.Exporters[sfd.FilterIndex-1];
-					Helper.WindowsRegistry.GmdcExtension = exporter.FileExtension;
 					exporter.Component.Sorting = sorting;	
 					exporter.CorrectJointSetup = corjoints;
 					if (!sfd.FileName.Trim().ToLower().EndsWith(exporter.FileExtension.Trim().ToLower())) sfd.FileName += exporter.FileExtension;
 
-					Stream s = exporter.Process(gmdc, groups);	
-					System.IO.BinaryReader br = new BinaryReader(s);
-					br.BaseStream.Seek(0, SeekOrigin.Begin);
-					
+					Stream s = exporter.Process(gmdc, groups);		
+					StreamReader sr = new StreamReader(s);
 						
-					System.IO.FileStream meshwriter = File.Create(sfd.FileName);
-					meshwriter.Write(br.ReadBytes((int)s.Length), 0, (int)s.Length);
-					
-					//System.IO.StreamWriter meshwriter = File.CreateText(sfd.FileName);						
-					//meshwriter.Write(sr.ReadToEnd());
+					System.IO.StreamWriter meshwriter = File.CreateText(sfd.FileName);						
+					meshwriter.Write(sr.ReadToEnd());
 					meshwriter.Close();
 				}
 			}
@@ -2863,7 +2856,7 @@ namespace SimPe.Plugin
 				if (this.tMesh.Tag != null)
 				{
 					GeometryDataContainer gmdc = (GeometryDataContainer) this.tMesh.Tag;
-					StartExport(sfd, gmdc, Helper.WindowsRegistry.GmdcExtension, GetModelsExt(), (ElementSorting)cbaxis.Items[cbaxis.SelectedIndex], cbCorrect.Checked);
+					StartExport(sfd, gmdc, ".obj", GetModelsExt(), (ElementSorting)cbaxis.Items[cbaxis.SelectedIndex], cbCorrect.Checked);
 					
 				}				
 			}

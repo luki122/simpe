@@ -32,7 +32,9 @@ namespace SimPe.Plugin
 			//
 			InitializeComponent();
 
-			cbv2.Visible = Helper.WindowsRegistry.HiddenMode;
+			//
+			// TODO: Fügen Sie den Konstruktorcode nach dem Aufruf von InitializeComponent hinzu
+			//
 		}
 
 		/// <summary>
@@ -149,7 +151,6 @@ namespace SimPe.Plugin
 			// cbv2
 			// 
 			this.cbv2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.cbv2.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.cbv2.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.cbv2.Location = new System.Drawing.Point(16, 304);
 			this.cbv2.Name = "cbv2";
@@ -220,7 +221,6 @@ namespace SimPe.Plugin
 		/// <returns></returns>
 		public static string ReplaceOldUnique(string name, string newunique, bool force) 
 		{
-			newunique = newunique.Replace("_", ".");
 			string[] parts = name.Split("[".ToCharArray(), 2);
 			if (parts.Length>1) 
 			{
@@ -228,26 +228,10 @@ namespace SimPe.Plugin
 				if (ends.Length>1) return parts[0]+newunique+ends[1];
 			}
 			
-			//make sure the uniqe part is added to the ModelName
 			if (force) 
-			{				
-				parts = name.Split("_".ToCharArray(), 2);
-				
-				name = "";
-				bool first = true;
-				foreach (string s in parts)
-				{
-					if (!first) name += "_";
-					name += s;
-					if (first) 
-					{
-						first = false;
-						name += "-"+newunique;
-					}
-				}				
-			}		
-				
-			return name;
+				return name+"-"+newunique;
+			else
+				return name;
 		}
 
 		/// <summary>
@@ -260,8 +244,6 @@ namespace SimPe.Plugin
 		/// <returns></returns>
 		public static Hashtable GetNames(bool auto, SimPe.Interfaces.Files.IPackageFile package, ListView lv, string username) 
 		{
-			username = username.Replace("_", ".");
-
 			if (lv!=null) lv.Items.Clear();
 			Hashtable ht = new Hashtable(CaseInsensitiveHashCodeProvider.DefaultInvariant, CaseInsensitiveComparer.DefaultInvariant);
 			string old = Hashes.StripHashFromName(FindMainOldName(package).ToLower().Trim());
@@ -388,7 +370,7 @@ namespace SimPe.Plugin
 
 			string old = Hashes.StripHashFromName(FindMainOldName(package).ToLower().Trim());
 			current_unique = GetUniqueName();
-			if (old.EndsWith("_cres")) old = old.Substring(0, old.Length-5);
+			if (old.IndexOf("_cres")==old.Length-5) old = old.Substring(0, old.Length-5);
 			if (uniquename) 
 			{
 				string name = RenameForm.ReplaceOldUnique(old, current_unique, true);

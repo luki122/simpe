@@ -47,8 +47,7 @@ namespace SimPe.Plugin
 			set {count = value; }
 		}
 
-		byte headerflag;
-		byte cacheflags; //name by pljones
+		byte reserved_00;
 
 		byte type;
 		public byte Type 
@@ -71,11 +70,11 @@ namespace SimPe.Plugin
 			set {locals = value; }
 		}
 
-		ushort treeversion;
-		public ushort TreeVersion 
+		ushort flags;
+		public ushort Flags 
 		{
-			get { return treeversion; }
-			set {treeversion = value; }
+			get { return flags; }
+			set {flags = value; }
 		}
 
 		ushort zero;
@@ -94,34 +93,21 @@ namespace SimPe.Plugin
 		{
 			format = reader.ReadUInt16();
 			switch (format) 
-			{				
-				case 0x8009: 
-				{					
-					count = (uint)reader.ReadUInt16();
-					type = reader.ReadByte();
-					argc = reader.ReadByte();
-					locals = reader.ReadByte();
-					headerflag = reader.ReadByte();
-					treeversion = reader.ReadUInt16();
-					zero = reader.ReadUInt16();
-					cacheflags = reader.ReadByte();
-					break;
-				}
+			{
                 case 0x8000:
 				case 0x8001: 
 				case 0x8002: 
 				case 0x8004:
 				case 0x8006: 
 				case 0x8005: 
-				case 0x8007:
-				case 0x8008: 
+				case 0x8007: 
 				{					
 					count = (uint)reader.ReadUInt16();
 					type = reader.ReadByte();
 					argc = reader.ReadByte();
 					locals = reader.ReadByte();
-					headerflag = reader.ReadByte();
-					treeversion = reader.ReadUInt16();
+					reserved_00 = reader.ReadByte();
+					flags = reader.ReadUInt16();
 					zero = reader.ReadUInt16();
 					break;
 				}
@@ -131,7 +117,7 @@ namespace SimPe.Plugin
 					argc = reader.ReadByte();
 					locals = (ushort) reader.ReadByte();
 					zero = reader.ReadByte();
-					treeversion = reader.ReadUInt16();					
+					flags = reader.ReadUInt16();					
 					count = reader.ReadUInt32();
 					break;
 				}
@@ -151,18 +137,6 @@ namespace SimPe.Plugin
 			writer.Write(format);
 			switch (format) 
 			{
-				case 0x8009:
-				{					
-					writer.Write((ushort)count);
-					writer.Write(type);
-					writer.Write(argc);
-					writer.Write((byte)locals);
-					writer.Write((byte)headerflag);
-					writer.Write(treeversion);
-					writer.Write(zero);					
-					writer.Write((byte)cacheflags);
-					break;
-				}
 				case 0x8000:
 				case 0x8001: 
 				case 0x8002: 
@@ -170,14 +144,13 @@ namespace SimPe.Plugin
 				case 0x8006: 
 				case 0x8005: 
 				case 0x8007: 
-				case 0x8008: 
 				{					
 					writer.Write((ushort)count);
 					writer.Write(type);
 					writer.Write(argc);
 					writer.Write((byte)locals);
-					writer.Write((byte)headerflag);
-					writer.Write(treeversion);
+					writer.Write((byte)reserved_00);
+					writer.Write(flags);
 					writer.Write(zero);
 					break;
 				}
@@ -187,7 +160,7 @@ namespace SimPe.Plugin
 					writer.Write(argc);
 					writer.Write((byte)locals);
 					writer.Write((byte)zero);
-					writer.Write(treeversion);					
+					writer.Write(flags);					
 					writer.Write(count);
 					break;
 				}

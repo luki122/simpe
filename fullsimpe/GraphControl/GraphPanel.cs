@@ -44,7 +44,7 @@ namespace Ambertation.Windows.Forms
 			get { return li;}
 		}
 
-		public Ambertation.Collections.GraphElements Items
+		protected Ambertation.Collections.GraphElements Items
 		{
 			get { return li;}
 		}

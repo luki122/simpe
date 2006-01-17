@@ -51,7 +51,6 @@ namespace SimPe
 			this.LoadStaticWrappers();
 
 			wloader.AddMenuItems(ref ChangedGuiResourceEvent, toolmenu, tootoolbar, new ToolMenuItemExt.ExternalToolNotify(ClosedToolPluginHandler));
-			wloader.AddListeners(ref ChangedGuiResourceEvent);
 			//dc.ActiveDocumentChanged += new TD.SandDock.ActiveDocumentEventHandler(wloader.ActiveDocumentChanged);
 			//lp.AfterFileLoad += new SimPe.Events.PackageFileLoadedEvent(wloader.ChangedPackage);
 
@@ -90,7 +89,7 @@ namespace SimPe
 			FileTable.WrapperRegistry.Register(new SimPe.PackedFiles.Wrapper.Factory.ExtendedWrapperFactory());
 			FileTable.WrapperRegistry.Register(new SimPe.PackedFiles.Wrapper.Factory.DefaultWrapperFactory());
 			FileTable.WrapperRegistry.Register(new SimPe.PackedFiles.Wrapper.Factory.GenericWrapperFactory());
-			FileTable.WrapperRegistry.Register(new SimPe.Plugin.ScenegraphWrapperFactory());
+			FileTable.WrapperRegistry.Register(new SimPe.Plugin.WrapperFactory());
 			FileTable.WrapperRegistry.Register(new SimPe.Plugin.RefFileFactory());
 			FileTable.WrapperRegistry.Register(new SimPe.PackedFiles.Wrapper.Factory.ClstWrapperFactory());
 		}

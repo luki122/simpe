@@ -77,8 +77,7 @@ namespace SimPe.PackedFiles.UserInterface
 			form.cbaspiration.Items.Add(new LocalizedAspirationTypes(Data.MetaData.AspirationTypes.Knowledge));
 			form.cbaspiration.Items.Add(new LocalizedAspirationTypes(Data.MetaData.AspirationTypes.Reputation));
 			form.cbaspiration.Items.Add(new LocalizedAspirationTypes(Data.MetaData.AspirationTypes.Romance));
-			form.cbaspiration.Items.Add(new LocalizedAspirationTypes(Data.MetaData.AspirationTypes.Growup));			
-			form.cbaspiration.Items.Add(new LocalizedAspirationTypes(Data.MetaData.AspirationTypes.Fun));
+			form.cbaspiration.Items.Add(new LocalizedAspirationTypes(Data.MetaData.AspirationTypes.Growup));
 
 			
 			form.cblifesection.Items.Clear();
@@ -303,7 +302,7 @@ namespace SimPe.PackedFiles.UserInterface
 			}
 
 			//University
-			if ((int)sdesc.Version>=(int)SimPe.PackedFiles.Wrapper.SDescVersions.University) 
+			if (sdesc.Version==SimPe.PackedFiles.Wrapper.SDescVersions.University) 
 			{
 				if (!form.tcsdesc.TabPages.Contains(form.tbuni)) form.tcsdesc.TabPages.Add(form.tbuni);
 				form.cbmajor.SelectedIndex = 0;

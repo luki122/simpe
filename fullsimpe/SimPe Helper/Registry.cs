@@ -86,18 +86,11 @@ namespace SimPe
 		/// Reload the SimPe Registry
 		/// </summary>
 		public void Reload()
-		{			
+		{
+			
 			reg = new XmlRegistry(System.IO.Path.Combine(Helper.SimPeDataPath, "simpe.xreg"), true);
 			xrk = reg.CurrentUser.CreateSubKey("Software\\Ambertation\\SimPe");
-			ReloadLayout();
-		}
-
-		/// <summary>
-		/// Reload the SimPe Registry
-		/// </summary>
-		public void ReloadLayout()
-		{
-			lr = new LayoutRegistry(xrk.CreateSubKey("Layout"));		
+			lr = new LayoutRegistry(xrk.CreateSubKey("Layout"));			
 		}
 
 		/// <summary>
@@ -185,8 +178,8 @@ namespace SimPe
 #if MAC
 				return 0;
 #else
-			RegistryKey rkf = rk.CreateSubKey("Settings");	
-			return Convert.ToInt64(rkf.GetValue("LastVersion", (long)0));
+				RegistryKey rkf = rk.CreateSubKey("Settings");	
+				return Convert.ToInt64(rkf.GetValue("LastVersion", (long)0));
 #endif			
 		}
 
@@ -588,45 +581,12 @@ namespace SimPe
 		/// <summary>
 		/// Name of the Sims Application
 		/// </summary>
-		public string SimsEP2Path
-		{
-			get 
-			{
-				try 
-				{
-					XmlRegistryKey  rkf = xrk.CreateSubKey("Settings");
-					object o = rkf.GetValue("SimsEP2Path");
-					if (o==null) return this.RealEP2GamePath;
-					else 
-					{
-						string fl = o.ToString();
-
-						if (!System.IO.Directory.Exists(fl)) return this.RealEP2GamePath;
-						return fl;
-					}
-				} 
-				catch (Exception) 
-				{
-					return this.RealEP2GamePath;
-				}
-			}
-			set
-			{
-				XmlRegistryKey rkf = xrk.CreateSubKey("Settings");
-				rkf.SetValue("SimsEP2Path", value);
-			}
-		}
-
-		/// <summary>
-		/// Name of the Sims Application
-		/// </summary>
 		public string SimsApplication
 		{
 			get 
 			{
 				try 
 				{
-					if (this.EPInstalled==2) return System.IO.Path.Combine(this.SimsEP2Path, "TSBin\\Sims2EP2.exe");
 					if (this.EPInstalled==1) return System.IO.Path.Combine(this.SimsEP1Path, "TSBin\\Sims2EP1.exe");
 					else return System.IO.Path.Combine(this.SimsPath, "TSBin\\Sims2.exe");					
 				} 
@@ -883,7 +843,7 @@ namespace SimPe
 			{
 				XmlRegistryKey  rkf = xrk.CreateSubKey("Settings");
 				object o = rkf.GetValue("BigPackageResourceCount", 1000);
-				return Convert.ToInt32(o);
+				return Convert.ToInt16(o);
 			}
 			set
 			{
@@ -929,25 +889,6 @@ namespace SimPe
 		}
 
 		/// <summary>
-		/// returns the last Extension used during a GMDC import/export
-		/// </summary>
-		public string GmdcExtension
-		{
-			get 
-			{
-				XmlRegistryKey  rkf = xrk.CreateSubKey("Settings");
-				object o = rkf.GetValue("GmdcExtension", ".obj");
-				string s = o.ToString();
-				return s.Replace("*", "");
-			}
-			set
-			{
-				XmlRegistryKey rkf = xrk.CreateSubKey("Settings");
-				rkf.SetValue("GmdcExtension", value);
-			}
-		}
-
-		/// <summary>
 		/// true, if the user did want to correct the Joint definitions during the last Export
 		/// </summary>
 		public bool CorrectJointDefinitionOnExport
@@ -984,24 +925,6 @@ namespace SimPe
 		}
 
 		/// <summary>
-		/// Should we search the objects.package's for Sims?
-		/// </summary>
-		public bool DeepSimTemplateScan
-		{
-			get 
-			{
-				XmlRegistryKey  rkf = xrk.CreateSubKey("Settings");
-				object o = rkf.GetValue("DeepSimTemplateScan", false);
-				return Convert.ToBoolean(o);
-			}
-			set
-			{
-				XmlRegistryKey rkf = xrk.CreateSubKey("Settings");
-				rkf.SetValue("DeepSimTemplateScan", value);
-			}
-		}
-
-		/// <summary>
 		/// Schould we load Stuff Asynchron to the main Thread?
 		/// </summary>
 		public bool AsynchronLoad
@@ -1016,24 +939,6 @@ namespace SimPe
 			{
 				XmlRegistryKey rkf = xrk.CreateSubKey("Settings");
 				rkf.SetValue("AsynchronLoad", value);
-			}
-		}
-
-		/// <summary>
-		/// Schould we lock the Docks?
-		/// </summary>
-		public bool LockDocks
-		{
-			get 
-			{
-				XmlRegistryKey  rkf = xrk.CreateSubKey("Settings");
-				object o = rkf.GetValue("LockDocks", false);
-				return Convert.ToBoolean(o);
-			}
-			set
-			{
-				XmlRegistryKey rkf = xrk.CreateSubKey("Settings");
-				rkf.SetValue("LockDocks", value);
 			}
 		}
 
@@ -1054,32 +959,6 @@ namespace SimPe
 				rkf.SetValue("LastUpdateCheck", value);
 			}
 		}
-
-		#region Report Format
-		public enum ReportFormats : int
-		{
-			Descriptive,
-			CSV
-		}
-
-		/// <summary>
-		/// The Which Format do Reports have
-		/// </summary>
-		public ReportFormats ReportFormat
-		{
-			get 
-			{
-				XmlRegistryKey  rkf = xrk.CreateSubKey("Settings");
-				object o = rkf.GetValue("ReportFormat", (int)ReportFormats.Descriptive);
-				return (ReportFormats)Convert.ToInt32(o);
-			}
-			set
-			{
-				XmlRegistryKey rkf = xrk.CreateSubKey("Settings");
-				rkf.SetValue("ReportFormat", (int)value);
-			}
-		}
-		#endregion
 
 		#region Wrappers
 		/// <summary>
@@ -1248,126 +1127,13 @@ namespace SimPe
 				} 
 				catch (Exception) {}
 			}
-		}		
-		#endregion
+		}
 
-		#region Censor Patch
 		/// <summary>
 		/// Returns true if the Game will start in Debug Mode
 		/// </summary>
 		public bool BlurNudity 
 		{
-			get 
-			{
-				if (this.EPInstalled<=1) return BlurNudityPreEP2;
-				else if (this.EPInstalled==2) return BlurNudityEP2;
-				else return false;
-			}
-			set 
-			{
-				if (this.EPInstalled<=1) 
-				{
-					BlurNudityEP2 = false;
-					BlurNudityPreEP2 = value;
-				}
-				else if (this.EPInstalled==2) 
-				{
-					BlurNudityEP2 = value;
-				}
-				else 
-				{
-					BlurNudityEP2 = false;
-					BlurNudityPreEP2 = false;
-				}
-			}
-		}
-
-		protected string[] CensorFiles
-		{
-			get 
-			{
-				return new string[]{				    
-				    System.IO.Path.Combine(this.SimSavegameFolder, @"Config\quaxi_nl_censor_v1.package"),
-					System.IO.Path.Combine(this.SimSavegameFolder, @"Downloads\quaxi_nl_censor_v1.package"),										
-					System.IO.Path.Combine(this.SimSavegameFolder, @"Downloads\quaxi_nl_censor.package")
-								   };
-			}
-		}
-
-		protected bool BlurNudityEP2 
-		{
-			get 
-			{
-				string[] fls = CensorFiles;
-				foreach (string fl in fls)
-					if (System.IO.File.Exists(fl)) return false;
-
-				return true;
-			}
-			set 
-			{
-				string[] fls = CensorFiles;
-				if (!value) 
-				{					
-					string fl = fls[0];
-					string folder = System.IO.Path.GetDirectoryName(fl);
-
-					if (System.IO.File.Exists(fl)) return;
-
-					if (System.Windows.Forms.MessageBox.Show(SimPe.Localization.GetString("Censor_Install_Warn").Replace("{filename}", fl), SimPe.Localization.GetString("Warning"), System.Windows.Forms.MessageBoxButtons.YesNo)==System.Windows.Forms.DialogResult.No)
-						return;
-
-					try 
-					{
-						if (!System.IO.Directory.Exists(folder))
-							System.IO.Directory.CreateDirectory(folder);
-
-						System.IO.Stream s = typeof(Helper).Assembly.GetManifestResourceStream("SimPe.quaxi_nl_censor_v1.package");
-						System.IO.BinaryReader br = new BinaryReader(s);
-						try 
-						{
-							System.IO.BinaryWriter bw = new BinaryWriter(System.IO.File.Create(fl));
-							try 
-							{
-
-								bw.Write(br.ReadBytes((int)br.BaseStream.Length));
-							} 
-							finally 
-							{
-								bw.Close();
-							}
-						} 
-						finally 
-						{
-							br.Close();
-						}
-					}
-					catch (Exception ex) 
-					{
-						Helper.ExceptionMessage(ex);
-					}
-				} 
-				else 
-				{					
-					foreach (string fl in fls)
-						if (System.IO.File.Exists(fl)) 
-						{
-							try 
-							{
-								if (System.Windows.Forms.MessageBox.Show(SimPe.Localization.GetString("Censor_UnInstall_Warn").Replace("{filename}", fl), SimPe.Localization.GetString("Warning"), System.Windows.Forms.MessageBoxButtons.YesNo)==System.Windows.Forms.DialogResult.No)
-									return;
-								System.IO.File.Delete(fl);
-							} 
-							catch (Exception ex) 
-							{
-								Helper.ExceptionMessage(ex);
-							}
-						}
-				}
-			}
-		}
-
-		protected bool BlurNudityPreEP2 {
 			get 
 			{
 				if (!System.IO.File.Exists(this.StartupCheatFile)) return true;
@@ -1496,35 +1262,6 @@ namespace SimPe
 		}
 
 		/// <summary>
-		/// Returns the Real Instalation Folder
-		/// </summary>
-		public string RealEP2GamePath 
-		{
-			get 
-			{
-#if MAC
-				return "";
-#else
-				if (this.EPInstalled>=2) 
-				{
-					try 
-					{
-						RegistryKey rk = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("Software\\EA Games\\The Sims 2 Nightlife");
-						object o = rk.GetValue("Install Dir");
-						if (o==null) return "";
-						else return o.ToString();
-					} 
-					catch (Exception) 
-					{
-						return "";
-					}
-				}
-				return "";
-#endif
-			}
-		}
-
-		/// <summary>
 		/// Returns the highest number of installed EPs
 		/// </summary>
 		public int EPInstalled
@@ -1537,20 +1274,14 @@ namespace SimPe
 					return 0;
 #else
 					RegistryKey rk = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("Software\\EA Games\\The Sims 2");
-					if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\EA GAMES\The Sims 2 Nightlife", false)!=null) return 2;
-					if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\EA GAMES\The Sims 2 University", false)!=null) return 1;
-					return 0;
-					/*object o = rk.GetValue("EPsInstalled");
+					object o = rk.GetValue("EPsInstalled");
 					if (o==null) return 0;
-
-					string name = o.ToString().ToLower();
-					if (name.IndexOf("sims2ep2.exe")>=0) return 2;
-					else return 1; //Sims2EP1.exe*/
+					else return 1; //Sims2EP1.exe
 #endif
 				} 
 				catch (Exception) 
 				{
-					return 2;
+					return 1;
 				}
 			}
 		}

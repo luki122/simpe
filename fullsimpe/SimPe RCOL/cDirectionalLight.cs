@@ -79,25 +79,25 @@ namespace SimPe.Plugin
 			set { unknown4 = value; }
 		}
 
-		float red;
-		public float Red 
+		float unknown5;
+		public float Val3 
 		{
-			get { return red; }
-			set { red = value; }
+			get { return unknown5; }
+			set { unknown5 = value; }
 		}
 
-		float green;
-		public float Green 
+		float unknown6;
+		public float Val4 
 		{
-			get { return green; }
-			set { green = value; }
+			get { return unknown6; }
+			set { unknown6 = value; }
 		}
 
-		float blue;
-		public float Blue 
+		float unknown7;
+		public float Val5 
 		{
-			get { return blue; }
-			set { blue = value; }
+			get { return unknown7; }
+			set { unknown7 = value; }
 		}
 
 
@@ -154,9 +154,9 @@ namespace SimPe.Plugin
 			unknown2 = reader.ReadString();
 			unknown3 = reader.ReadSingle();
 			unknown4 = reader.ReadSingle();
-			red = reader.ReadSingle();
-			green = reader.ReadSingle();
-			blue = reader.ReadSingle();
+			unknown5 = reader.ReadSingle();
+			unknown6 = reader.ReadSingle();
+			unknown7 = reader.ReadSingle();
 		}
 
 		/// <summary>
@@ -194,9 +194,9 @@ namespace SimPe.Plugin
 			writer.Write(unknown2);
 			writer.Write(unknown3);
 			writer.Write(unknown4);
-			writer.Write(red);
-			writer.Write(green);
-			writer.Write(blue);
+			writer.Write(unknown5);
+			writer.Write(unknown6);
+			writer.Write(unknown7);
 		}
 
 		protected fShapeRefNode form = null;
@@ -221,9 +221,9 @@ namespace SimPe.Plugin
 
 			form.tb_l_1.Text = unknown3.ToString();
 			form.tb_l_2.Text = unknown4.ToString();
-			form.tb_l_3.Text = red.ToString();
-			form.tb_l_4.Text = green.ToString();
-			form.tb_l_5.Text = blue.ToString();
+			form.tb_l_3.Text = unknown5.ToString();
+			form.tb_l_4.Text = unknown6.ToString();
+			form.tb_l_5.Text = unknown7.ToString();
 
 			form.label39.Visible = false;
 			form.label44.Visible = false;

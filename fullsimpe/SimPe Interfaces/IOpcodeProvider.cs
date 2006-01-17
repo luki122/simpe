@@ -88,7 +88,7 @@ namespace SimPe.Interfaces.Providers
 		/// </summary>
 		/// <param name="opcode">the Opcode of the BHAV</param>
 		/// <returns>The Descriptor for the Bhav File in the BasePackage</returns>
-		SimPe.Interfaces.Scenegraph.IScenegraphFileIndexItem LoadGlobalBHAV(ushort opcode);
+		IPackedFileDescriptor LoadGlobalBHAV(ushort opcode);
 
 		/// <summary>
 		/// Returns the Bhav for a Semi Global Opcode
@@ -96,7 +96,7 @@ namespace SimPe.Interfaces.Providers
 		/// <param name="opcode">The Opcode</param>
 		/// <param name="group">The group of the SemiGlobal</param>
 		/// <returns>The Descriptor of the Bhaf File in the Base Packagee or null</returns>
-		SimPe.Interfaces.Scenegraph.IScenegraphFileIndexItem LoadSemiGlobalBHAV(ushort opcode, uint group);
+		IPackedFileDescriptor LoadSemiGlobalBHAV(ushort opcode, uint group);
 
 		/// <summary>
 		/// Returns the the name of all Fileds in an Objd File

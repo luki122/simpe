@@ -187,7 +187,6 @@ namespace SimPe.Plugin
 			this.linkLabel1.TabIndex = 22;
 			this.linkLabel1.TabStop = true;
 			this.linkLabel1.Text = "assign Hash";
-			this.linkLabel1.Visible = false;
 			this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.BuildFilename);
 			// 
 			// tblevel

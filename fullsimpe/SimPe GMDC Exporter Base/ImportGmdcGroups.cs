@@ -701,10 +701,11 @@ namespace SimPe.Plugin.Gmdc
 			int ct = 0;
 			foreach (ImportedBone a in joints)
 			{
-				a.Action = GmdcImporterAction.Update;
-				if (ct<gmdc.Joints.Length && a.TargetIndex==-1) 				
-					a.TargetIndex = ct;					
-				
+				if (ct<gmdc.Joints.Length && a.TargetIndex==-1) 
+				{
+					a.TargetIndex = ct;
+					a.Action = GmdcImporterAction.Update;
+				}
 				ct++;
 
 				ListViewItem lvi = new ListViewItem("(Bone) "+a.ImportedName);

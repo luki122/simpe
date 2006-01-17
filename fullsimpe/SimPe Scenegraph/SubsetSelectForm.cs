@@ -96,7 +96,6 @@ namespace SimPe.Plugin
 			// 
 			// cbauto
 			// 
-			this.cbauto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.cbauto.Checked = true;
 			this.cbauto.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.cbauto.FlatStyle = System.Windows.Forms.FlatStyle.System;
@@ -182,7 +181,6 @@ namespace SimPe.Plugin
 			cb.Width = pn.Width;
 			cb.Text = subset;
 			cb.Anchor = pn.Anchor;
-			cb.FlatStyle = FlatStyle.System;
 			cb.CheckedChanged += new EventHandler(CheckedChanged);
 
 			ListView lv = new ListView();

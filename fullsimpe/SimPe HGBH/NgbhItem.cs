@@ -59,13 +59,6 @@ namespace SimPe.Plugin
 		NgbhItemFlags flags;
 		ushort[] data;
 
-		uint unknown;
-		public uint Unknown
-		{
-			get {return unknown; }
-			set { unknown = value; }
-		}
-
 		protected SimPe.PackedFiles.Wrapper.ExtObjd objd = null;
 
 		/// <summary>
@@ -234,7 +227,6 @@ namespace SimPe.Plugin
 		{
 			guid = reader.ReadUInt32();
 			flags = new NgbhItemFlags(reader.ReadUInt16());
-			if ((uint)parent.Version>=(uint)NgbhVersion.Nightlife) unknown = reader.ReadUInt32();
 			data = new ushort[reader.ReadInt32()];
 			for (int i=0; i<data.Length; i++) 
 			{
@@ -254,7 +246,6 @@ namespace SimPe.Plugin
 		{
 			writer.Write(guid);
 			writer.Write(flags.Value); 
-			if ((uint)parent.Version>=(uint)NgbhVersion.Nightlife) writer.Write(unknown);
 			writer.Write((int)data.Length);
 			for (int i=0; i<data.Length; i++) 
 			{

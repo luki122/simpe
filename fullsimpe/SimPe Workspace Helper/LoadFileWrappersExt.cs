@@ -345,34 +345,16 @@ namespace SimPe
 			
 			foreach (ITool tool in tools)
 			{
-				string name = tool.ToString().Trim();
-				if (name=="") continue;
-
+				string name = tool.ToString();
 				string[] parts = name.Split("\\".ToCharArray());
 				name = SimPe.Localization.GetString(parts[parts.Length-1]);
 				ToolMenuItemExt item = new ToolMenuItemExt(name, tool, chghandler);
-				
+
 				AddMenuItem(ref ev, mi.Items, item, parts);
 			}
 
-			
-
 			BuildToolBar(tb, mi.Items, new ArrayList());
 			//EnableMenuItems(null);
-		}
-
-		/// <summary>
-		/// Link all Listeners with the GUI Control
-		/// </summary>
-		/// <param name="ev"></param>
-		public void AddListeners(ref SimPe.Events.ChangedResourceEvent ev)
-		{
-			//load Listeners
-			foreach (IListener item in  FileTable.ToolRegistry.Listeners)
-			{
-				ev += new SimPe.Events.ChangedResourceEvent(item.SelectionChangedHandler);
-				item.SelectionChangedHandler(item, new SimPe.Events.ResourceEventArgs(null));
-			}
 		}
 
 		/*/// <summary>

@@ -29,10 +29,7 @@ namespace SimPe
 		string details;
 		public string Details 
 		{
-			get { 
-				if (details==null) return "";
-				return details; 
-			}
+			get { return details; }
 		}
 
 		public Warning(string message, string details) : base(message)

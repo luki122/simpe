@@ -89,8 +89,6 @@ namespace SimPe
 		static WSEvent nextevent = new WSEvent();
 		static TimeSpan ts = new TimeSpan(0, 0, 0, 0, 100);
 
-        static object mylock = new object();
-
 		/// <summary>
 		/// True if the WaitingScreen is available at the Moment
 		/// </summary>
@@ -114,32 +112,29 @@ namespace SimPe
 		{
 			if (!Helper.WindowsRegistry.WaitingScreen) return;
 
-            lock (mylock)
-            {
-                if (!Running)
-                {
-                    //Wait until the WaitingScreen is inactive
-                    if (state != WSState.Inactive)
-                    {
-                        Monitor.Exit(mylock);
-                        while (true)
-                        {
-                            Monitor.Enter(mylock);
-                            if (state == WSState.Inactive) break;
-                            Monitor.Exit(mylock);
-                        }
+			Monitor.Enter(state);
+			if (!Running) 
+			{
+				//Wait until the WaitingScreen is inactive
+				if (state!=WSState.Inactive) 
+				{
+					Monitor.Exit(state);
+					while (true) 
+					{
+						Monitor.Enter(state);
+						if (state==WSState.Inactive) break;
+						Monitor.Exit(state);
+					}
+				}
 
-                        Monitor.Enter(mylock);
-                    }
-
-                    state = WSState.Initializing;
-
-                    thread = new Thread(new ThreadStart(Start));
-                    thread.IsBackground = true;
-                    thread.ApartmentState = ApartmentState.STA;
-                    thread.Start();
-                }
-            }
+				state = WSState.Initializing;
+				
+				thread = new Thread(new ThreadStart(Start));
+				thread.IsBackground = true;
+				thread.ApartmentState = ApartmentState.STA;
+				thread.Start();		
+			}
+			Monitor.Exit(state);
 		}
 
 		/// <summary>
@@ -160,57 +155,54 @@ namespace SimPe
 			Application.DoEvents();
 			while ((state!=WSState.Finalized) && (state!=WSState.Inactive))
 			{
-                lock (mylock)
-                {
-                    state = WSState.WaitFinalizing;
-                }
+				Monitor.Enter(state);
+				state = WSState.WaitFinalizing;
+				Monitor.Exit(state);
 				Thread.CurrentThread.Join(ts);
 			}
 
-            lock (mylock)
-            {
-                thread = null;
-                state = WSState.Inactive;
-
-            }		
+			Monitor.Enter(state);			
+			thread = null;
+			state = WSState.Inactive;
+			
+			Monitor.Exit(state);			
 		}
 		
 		/// <summary>
 		/// Internal Method to start the Thread
 		/// </summary>
 		internal static void Start()
-		{
-            lock (mylock)
-            {
+		{					
+			Monitor.Enter(state);
+			if (state==WSState.Initializing) 
+			{
+				state = WSState.Running;	
+				WaitingForm wf = new WaitingForm();							
+				wf.timer1.Enabled = true;
 
-                if (state == WSState.Initializing)
-                {
-                    state = WSState.Running;
-                    WaitingForm wf = new WaitingForm();
-                    wf.timer1.Enabled = true;
+				nextevent.Message = "";
+				nextevent.Image = wf.pbsimpe.Image;
+				nextevent.Kind = WSUpdate.Both;
+								
+				wf.Visible = true;						
+				wf.Update();	
+				System.Windows.Forms.Application.DoEvents();
+				Monitor.Exit(state);
+										
+				StartUpdates(wf);
 
-                    nextevent.Message = "";
-                    nextevent.Image = wf.pbsimpe.Image;
-                    nextevent.Kind = WSUpdate.Both;
-
-                    wf.Visible = true;
-                    wf.Update();
-                    System.Windows.Forms.Application.DoEvents();
-                    Monitor.Exit(mylock);
-
-                    StartUpdates(wf);
-
-                    Monitor.Enter(mylock);
-                    state = WSState.Finalized;
-                    if (wf != null) wf.Visible = false;
-                    wf = null;
-                }
-                else
-                {
-                    state = WSState.Finalized;
-                    return;
-                }
-            }
+				Monitor.Enter(state);									
+				state = WSState.Finalized;
+				if (wf!=null)wf.Visible = false;
+				wf = null;
+				Monitor.Exit(state);
+			} 
+			else 
+			{			
+				state = WSState.Finalized;
+				Monitor.Exit(state);
+				return;
+			}
 		}
 
 		/// <summary>
@@ -220,16 +212,15 @@ namespace SimPe
 		{
 			while (true) 
 			{
-                lock (mylock)
-                {
-                    if (state != WSState.Running)
-                    {
-//                        Monitor.Exit(mylock);
-                        return;
-                    }
+				Monitor.Enter(state);
+				if (state != WSState.Running) 
+				{
+					Monitor.Exit(state);
+					return;
+				}
 
-                    state = WSState.Updating;
-                }
+				state = WSState.Updating;
+				Monitor.Exit(state);
 
 				Monitor.Enter(nextevent);
 				if (((byte)nextevent.Kind & (byte)WSUpdate.Image) != 0) wf.ChangeImage(nextevent.Image);
@@ -238,17 +229,16 @@ namespace SimPe
 				Monitor.Exit(nextevent);
 
 				wf.Update();
-				System.Windows.Forms.Application.DoEvents();
+				System.Windows.Forms.Application.DoEvents();								
 
-                lock (mylock)
-                {
-                    if (state == WSState.Updating) state = WSState.Running;
-                    else
-                    {
-//                        Monitor.Exit(mylock);
-                        return;
-                    }
-                }	
+				Monitor.Enter(state);
+				if (state == WSState.Updating) state = WSState.Running;
+				else 
+				{
+					Monitor.Exit(state);
+					return;
+				}
+				Monitor.Exit(state);	
 				thread.Join(ts);
 			}
 		}

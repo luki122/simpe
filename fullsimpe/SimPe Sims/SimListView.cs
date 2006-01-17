@@ -6,7 +6,7 @@ using System.Data;
 using System.Windows.Forms;
 
 namespace SimPe.PackedFiles.Wrapper
-{	
+{
 	/// <summary>
 	/// Zusammenfassung für SimListView.
 	/// </summary>
@@ -20,13 +20,12 @@ namespace SimPe.PackedFiles.Wrapper
 		SimPe.ColumnsSorter s;
 		public SimListView()
 		{
-			SetStyle(ControlStyles.UserMouse, true);
 			// Dieser Aufruf ist für den Windows Form-Designer erforderlich.
 			InitializeComponent();
 
 			this.HideSelection = false;
 			this.FullRowSelect = true;
-			this.MultiSelect = false;			
+			this.MultiSelect = false;
 
 			this.LargeImageList = new ImageList();
 
@@ -99,7 +98,6 @@ namespace SimPe.PackedFiles.Wrapper
 			
 			this.Items.Add(lvi);
 			return lvi;
-		}				
-
+		}
 	}
 }

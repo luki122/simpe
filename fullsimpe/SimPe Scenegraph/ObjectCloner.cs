@@ -274,13 +274,11 @@ namespace SimPe.Plugin
 				SimPe.Plugin.MmatWrapper mmat = new MmatWrapper();
 				mmat.ProcessData(pfd, package);
 
-				
-				//this seems to cause problems with slave Objects
-				/*if (!guids.Contains(mmat.ObjectGUID)) 
-				{					
-					mmat.ObjectGUID = primary;
+				if (!guids.Contains(mmat.GetSaveItem("objectGUID").UIntegerValue)) 
+				{
+					mmat.GetSaveItem("objectGUID").UIntegerValue = primary;
 					mmat.SynchronizeUserData();
-				}*/
+				}
 			}
 		}
 
@@ -374,7 +372,7 @@ namespace SimPe.Plugin
 			}
 			if ((Setup.BaseResource & CloneSettings.BaseResourceType.Xml) == CloneSettings.BaseResourceType.Xml) 
 			{
-				WaitingScreen.UpdateMessage("Reading XObject Definition");
+				WaitingScreen.UpdateMessage("Reading 3IDR References");
 				sg.AddFromXml(package);
 			}
 			if (Setup.IncludeWallmask) 

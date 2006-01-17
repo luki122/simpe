@@ -122,26 +122,6 @@
                     TreatWarningsAsErrors = "false"
                     WarningLevel = "4"
                 />
-                <Config
-                    Name = "Release (QA)"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = ""
-                    DocumentationFile = ""
-                    DebugSymbols = "true"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "false"
-                    OutputPath = "bin\Release\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
-                />
             </Settings>
             <References>
                 <Reference
@@ -170,6 +150,16 @@
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Windows.Forms.dll"
                 />
                 <Reference
+                    Name = "xpcommoncontrols"
+                    AssemblyName = "XPCommonControls"
+                    HintPath = "..\..\..\xpcommoncontrols\xpcommoncontrols.dll"
+                />
+                <Reference
+                    Name = "Microsoft.VisualBasic"
+                    AssemblyName = "Microsoft.VisualBasic"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\Microsoft.VisualBasic.dll"
+                />
+                <Reference
                     Name = "System.Drawing.Design"
                     AssemblyName = "System.Drawing.Design"
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Drawing.Design.dll"
@@ -185,11 +175,6 @@
             <Include>
                 <File
                     RelPath = "Alias.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ASerializeFormater.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -230,11 +215,6 @@
                 />
                 <File
                     RelPath = "CRCStandard.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "DescriptiveSerializer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -299,22 +279,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "IPackedFileDescriptorBasic.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "IPackedFileName.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "IPropertyClass.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ISerializeFormater.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -379,21 +344,12 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "quaxi_nl_censor_v1.package"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "Registry.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "SemiGlobalAlias.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Serializer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -429,11 +385,6 @@
                 />
                 <File
                     RelPath = "WaitingForm.de.resx"
-                    DependentUpon = "WaitingForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "WaitingForm.es.resx"
                     DependentUpon = "WaitingForm.cs"
                     BuildAction = "EmbeddedResource"
                 />

@@ -215,7 +215,7 @@ namespace SimPe.PackedFiles.UserInterface
 			if (wnl==null) 
 			{
 				FileTable.FileIndex.Load();
-				wnl = new SimPe.Plugin.WantNameLoader(version);
+				wnl = new SimPe.Plugin.WantNameLoader();
 			}
 		}
 
@@ -244,17 +244,13 @@ namespace SimPe.PackedFiles.UserInterface
 			names = new Hashtable();
 			ArrayList ns = wnl.GetNames(SimPe.Plugin.WantType.Undefined);
 
-			
-			
 			int max = 0;
 			foreach (SimPe.Interfaces.IAlias a in ns) 
 			{
 				max = (int)Math.Max(a.Id, max);
 				names[(int)a.Id] = a.Name;			
-				
 			}
-			
-			
+
 			Hashtable ht = new Hashtable();
 			for (int i=0; i<Math.Min(max, shortdata.Length); i++)
 			{

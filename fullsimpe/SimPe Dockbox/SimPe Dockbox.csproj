@@ -82,26 +82,6 @@
                     TreatWarningsAsErrors = "false"
                     WarningLevel = "4"
                 />
-                <Config
-                    Name = "Release (QA)"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = ""
-                    DocumentationFile = ""
-                    DebugSymbols = "true"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "false"
-                    OutputPath = "bin\Release\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
-                />
             </Settings>
             <References>
                 <Reference
@@ -185,6 +165,11 @@
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
+                    Name = "SandDock"
+                    AssemblyName = "SandDock"
+                    HintPath = "..\..\..\httpwww.divil.co.uknet\SandDock.dll"
+                />
+                <Reference
                     Name = "NewHexEdit"
                     AssemblyName = "NewHexEdit"
                     HintPath = "..\HexEdit\bin\Release\NewHexEdit.dll"
@@ -204,35 +189,10 @@
                     Project = "{5DD89FD7-1E89-49D4-B48D-CC605D767C3B}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
-                <Reference
-                    Name = "SimPe FileHandlers"
-                    Project = "{97551C0A-6295-4E32-8E15-A4FF456E65A6}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "SandDock"
-                    AssemblyName = "SandDock"
-                    HintPath = "..\..\..\DivElements\SandDock\SandDock.dll"
-                />
-                <Reference
-                    Name = "SimPe Sims2CommunityPack"
-                    Project = "{2EF93119-5C98-4167-B1AF-966E6A45AB79}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "SimPe Extended Filehandlers"
-                    Project = "{7EF7C30C-2968-46E8-AA74-79EDB0FE8F2A}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
             </References>
         </Build>
         <Files>
             <Include>
-                <File
-                    RelPath = "ActionBuildPhpGUIDList.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
                 <File
                     RelPath = "ActionCheckFiletable.cs"
                     SubType = "Code"
@@ -264,11 +224,6 @@
                 />
                 <File
                     RelPath = "CreateListFromSelectionTool.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "CSVSerializer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -309,11 +264,6 @@
                 />
                 <File
                     RelPath = "HexDockTool.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "LoadSims2PackTool.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -372,11 +322,6 @@
                 />
                 <File
                     RelPath = "ResourceDockTool.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SaveSims2PackTool.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

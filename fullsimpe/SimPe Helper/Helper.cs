@@ -19,8 +19,6 @@
  ***************************************************************************/
 using System;
 using System.IO;
-using System.Text;
-using System.Runtime.InteropServices;
 
 namespace SimPe
 {
@@ -52,15 +50,6 @@ namespace SimPe
 		/// Characters allowd in a Filepath
 		/// </summary>
 		public const string PATH_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzﬂ0123456789.-_ ";
-
-		/// <summary>
-		/// Character used to Seperate Folders in a Path
-		/// </summary>
-#if MAC
-		public const string PATH_SEP = "/";
-#else
-		public const string PATH_SEP = "\\";
-#endif
 
 		/// <summary>
 		/// Contains a Link to the Registry Object
@@ -572,7 +561,7 @@ namespace SimPe
 		/// Returns the passed String as a Byte Array of the given Length
 		/// </summary>
 		/// <param name="str">The String to Convert</param>
-		/// <param name="len">Length of the Array (the returned Array will have this exact Length)</param>
+		/// <param name="len">Length of the Array</param>
 		/// <returns>A Byte Array of the given Length (filled with 0)</returns>
 		public static byte[] ToBytes(string str, int len) 
 		{
@@ -877,12 +866,10 @@ namespace SimPe
 		public static bool IsNeighborhoodFile(string filename) 
 		{
 			if (filename==null) return false;
-			filename = System.IO.Path.GetFileName(filename);
 			filename = filename.Trim().ToLower();
 
 			if (filename.EndsWith("neighborhood.package")) return true;
-			if ((filename.IndexOf("_university")!=-1) && filename.EndsWith(".package") && filename.StartsWith("n")) return true;
-			if ((filename.IndexOf("_downtown")!=-1) && filename.EndsWith(".package") && filename.StartsWith("n")) return true;
+			if ((filename.IndexOf("_university")!=-1) && filename.EndsWith(".package")) return true;
 
 			return false;
 		}
@@ -918,58 +905,5 @@ namespace SimPe
 				return tgiload;
 			}
 		}
-
-		/// <summary>
-		/// Returns a Save FileName
-		/// </summary>
-		/// <param name="flname"></param>
-		/// <returns></returns>
-		public static string SaveFileName(string flname)
-		{
-			if (flname==null) flname="";
-			flname = flname.Replace("\\", "_");
-			flname = flname.Replace("/", "_");
-			flname = flname.Replace(":", "_");			
-			return flname;
-		}
-
-		#region Folders
-#if MAC
-		public static string ToLongPathName(string shortName)
-		{
-			return shortName;
-		}
-		
-#else
-		[DllImport("kernel32.dll", SetLastError=true, CharSet=CharSet.Auto)]
-		static extern uint GetLongPathName(
-			string lpszShortPath,
-			[Out] System.Text.StringBuilder lpszLongPath,
-			uint cchBuffer);
-
-		/// <summary>
-		/// The ToShortPathNameToLongPathName function retrieves the long path form of a specified short input path
-		/// </summary>
-		/// <param name="shortName">The short name path</param>
-		/// <returns>A long name path string</returns>
-		public static string ToLongPathName(string shortName)
-		{
-			StringBuilder longNameBuffer = new StringBuilder(256);
-			uint bufferSize = (uint)longNameBuffer.Capacity;
-
-			GetLongPathName(shortName, longNameBuffer, bufferSize);
-
-			return longNameBuffer.ToString();
-		}
-#endif
-
-		public static string ToLongFileName(string shortName)
-		{			
-			return System.IO.Path.Combine(
-				ToLongPathName(System.IO.Path.GetDirectoryName(shortName)),
-				System.IO.Path.GetFileName(shortName));
-		}
-
-		#endregion
 	}
 }

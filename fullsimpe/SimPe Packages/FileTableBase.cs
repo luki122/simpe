@@ -14,8 +14,7 @@ namespace SimPe
 		SaveGameFolder = 0x3,
 		SimPEFolder = 0x4,
 		SimPEDataFolder = 0x5,
-		SimPEPluginFolder = 0x6,
-		EP2GameFolder = 0x7
+		SimPEPluginFolder = 0x6
 	}
 	/// <summary>
 	/// The type and location of a Folder/file
@@ -24,8 +23,7 @@ namespace SimPe
 	{
 		bool recursive;
 		bool file;
-		bool ignore;
-		int ver;
+		bool use;
 		string relpath;
 		string path;
 		FileTableItemType type;
@@ -47,33 +45,19 @@ namespace SimPe
 
 			this.path = path;
 			this.relpath = path;
-			this.ver = -1;
+			this.use = true;
 			this.type = FileTableItemType.Absolute;
-			this.ignore = false;
 		}
 
-		public bool Ignore
+		public FileTableItem( string relpath, bool rec, bool fl, bool use) 
 		{
-			get {return ignore;}
-			set {ignore = value;}
-		}
-
-		public FileTableItem( string relpath, bool rec, bool fl) : this (relpath, rec, fl, -1, false)
-		{
-		}
-		public FileTableItem( string relpath, bool rec, bool fl, int ver) : this (relpath, rec, fl, ver, false)
-		{
-		}
-
-		public FileTableItem( string relpath, bool rec, bool fl, int ver, bool ign) 
-		{						
+			this.relpath = relpath;
+			this.path = "";
 			this.recursive = rec;
 			this.file = fl;
-			this.ver = ver;
+			this.use = use;
 			this.type = FileTableItemType.Absolute;
-			this.SetName(relpath);
-			this.ignore = ign;
-		}		
+		}
 
 		internal void SetRecursive(bool state) 
 		{
@@ -85,83 +69,9 @@ namespace SimPe
 			this.file = state;
 		}
 
-		public static string GetRoot(FileTableItemType type)
-		{
-			string ret = null;
-			if (type==FileTableItemType.EP1GameFolder) ret = Helper.WindowsRegistry.SimsEP1Path;
-			else if (type==FileTableItemType.EP2GameFolder) ret = Helper.WindowsRegistry.SimsEP2Path;
-			else if (type==FileTableItemType.GameFolder) ret = Helper.WindowsRegistry.SimsPath;
-			else if (type==FileTableItemType.SaveGameFolder) ret = Helper.WindowsRegistry.SimSavegameFolder;
-			else if (type==FileTableItemType.SimPEDataFolder) ret = Helper.SimPeDataPath;
-			else if (type==FileTableItemType.SimPEFolder) ret = Helper.SimPePath;
-			else if (type==FileTableItemType.SimPEPluginFolder) ret = Helper.SimPePluginPath;
-
-			if (ret!=null)
-				if (!ret.EndsWith(Helper.PATH_SEP)) ret+=Helper.PATH_SEP;
-
-			if (ret==Helper.PATH_SEP) ret=null;
-			return ret;
-		}
-
-		public static int GetEPVersion(FileTableItemType type)
-		{
-			if (type==FileTableItemType.EP1GameFolder) return 1;
-			else if (type==FileTableItemType.EP2GameFolder) return 2;
-			else if (type==FileTableItemType.GameFolder) return 0;
-			
-			return -1;
-		}
-
-		bool CutName(string name, FileTableItemType type)
-		{
-			try 
-			{
-				if (System.IO.Directory.Exists(name)) 
-					if (!System.IO.Path.IsPathRooted(name)) return false;
-			} 
-#if DEBUG
-			catch (Exception ex)
-			{
-				Helper.ExceptionMessage(ex);
-			}
-
-#else
-			catch {}
-#endif
-
-			string root = GetRoot(type);
-			if (root==null || root=="" || root==Helper.PATH_SEP) return false;
-
-			root = Helper.ToLongPathName(root).Trim().ToLower();
-			if (!root.EndsWith(Helper.PATH_SEP)) root+=Helper.PATH_SEP;
-
-			string ename = name.Trim().ToLower();
-			if (!ename.EndsWith(Helper.PATH_SEP)) ename+=Helper.PATH_SEP;
-
-			if (ename.StartsWith(root))
-			{
-
-				this.path = name.Replace(root, "");
-				if (this.path.StartsWith(Helper.PATH_SEP)) path = path.Substring(1);
-				this.Type = type;				
-				return true;
-			} 
-
-			return false;
-		}
-
 		internal void SetName(string name) 
 		{
-			string n = Helper.ToLongPathName(name).Trim().ToLower();
-			if (CutName(n, FileTableItemType.GameFolder)) return;
-			if (CutName(n, FileTableItemType.EP1GameFolder)) return;
-			if (CutName(n, FileTableItemType.EP2GameFolder)) return;
-			if (CutName(n, FileTableItemType.SaveGameFolder)) return;
-			if (CutName(n, FileTableItemType.SimPEDataFolder)) return;
-			if (CutName(n, FileTableItemType.SimPEFolder)) return;
-			if (CutName(n, FileTableItemType.SimPEPluginFolder)) return;
-						
-			this.path = name;	
+			this.path = name;
 		}
 
 		public FileTableItemType Type 
@@ -173,24 +83,17 @@ namespace SimPe
 		public bool IsRecursive 
 		{
 			get { return recursive; }
-			set { recursive = value; }
 		}
 
 		public bool IsFile
 		{
 			get { return file; }
-			set { file = value; }
 		}
 
 		public bool IsUseable
 		{
-			get { return ver==-1 || ver==Helper.WindowsRegistry.EPInstalled; }			
-		}
-
-		public int EpVersion
-		{
-			get {return ver;}
-			set {ver = value;}
+			get { return use; }
+			set { use = value; }
 		}
 
 		public bool IsAvail
@@ -199,30 +102,20 @@ namespace SimPe
 			{
 				if (!IsUseable) return false;
 
-				if (IsFile) return System.IO.File.Exists(Name);
-				else return System.IO.Directory.Exists(Name);
+				if (IsFile) return System.IO.File.Exists(path);
+				else return System.IO.Directory.Exists(path);
 			}
 		}
 
 		public string Name 
 		{
-			get { 
-				string r = GetRoot(this.type);
-
-				if (r==null) return path; 
-				
-				string p = path.Trim();
-				if (p.StartsWith(Helper.PATH_SEP)) p = path.Substring(1);
-				string ret = System.IO.Path.Combine(r, p);
-
-				return ret;
-			}
+			get { return path; }
 			set { SetName(value); }
 		}
 
 		public string RelativePath 
 		{
-			get { return path; }
+			get { return relpath; }
 		}
 
 		public string[] GetFiles()
@@ -236,13 +129,12 @@ namespace SimPe
 			else if (IsFile) 
 			{
 				files = new string[1];
-				files[0] = this.Name;
+				files[0] = path;
 			} 
 			else 
 			{
-				string n = this.Name;
-				if (System.IO.Directory.Exists(n))
-					files = System.IO.Directory.GetFiles(n, "*.package");
+				if (System.IO.Directory.Exists(path))
+					files = System.IO.Directory.GetFiles(path, "*.package");
 				else files = new string[0];
 			}
 
@@ -257,11 +149,8 @@ namespace SimPe
 			else n += "Folder: ";
 
 			if (!IsUseable) n = "(Unused) "+n;
-			else if (!IsAvail) n = "(Missing) "+n;
-			n += "{"+type.ToString()+"}"+path;
-
-			if (ver!=-1) n+= " (Only when GameVersion="+ver.ToString()+")";
-			return n;
+			else if (!IsAvail) n = "(Missing in "+type.ToString()+") "+n;
+			return n + path;
 		}
 
 	}
@@ -310,9 +199,7 @@ namespace SimPe
 
 					//seek Root Node
 					XmlNodeList XMLData = xmlfile.GetElementsByTagName("folders");					
-#if MAC
-					Console.WriteLine("Reading Folders from \""+FolderFile+"\".");
-#endif
+
 					//Process all Root Node Entries
 					for (int i=0; i<XMLData.Count; i++)
 					{
@@ -326,7 +213,7 @@ namespace SimPe
 									if (foldernode.Name != "path" && foldernode.Name != "file") continue;									
 									string name = foldernode.InnerText.Trim();		
 							
-									FileTableItem fti = new FileTableItem(name, false, false);
+									FileTableItem fti = new FileTableItem(name, false, false, true);
 									
 									
 									#region add Path Root if needed
@@ -337,19 +224,15 @@ namespace SimPe
 											if (a.Value != "0") fti.SetRecursive(true);
 										}
 
-										if (a.Name=="ignore") 
-										{
-											fti.Ignore = (a.Value != "0");
-										}
-
 										if (a.Name=="epversion") 
 										{
 											try 
 											{
 												int ver = Convert.ToInt32(a.Value);
-												fti.EpVersion = ver;
+												if (Helper.WindowsRegistry.EPInstalled!=ver) fti.IsUseable = false;
 											} 
-											catch {}																				
+											catch {}
+											if (a.Value != "0") fti.SetRecursive(true);											
 										}
 
 										if (a.Name=="root") 
@@ -367,12 +250,6 @@ namespace SimPe
 												{
 													root = Helper.WindowsRegistry.SimsEP1Path;
 													fti.Type = FileTableItemType.EP1GameFolder;
-													break;
-												}
-												case "ep2":
-												{
-													root = Helper.WindowsRegistry.SimsEP2Path;
-													fti.Type = FileTableItemType.EP2GameFolder;
 													break;
 												}
 												case "save":
@@ -407,10 +284,6 @@ namespace SimPe
 
 									fti.SetName(name);
 									if (foldernode.Name == "file") fti.SetFile(true);
-
-#if MAC
-									Console.WriteLine("    -> "+fti.Name);
-#endif
 									#endregion
 
 									folders.Add(fti);
@@ -433,7 +306,7 @@ namespace SimPe
 		/// <summary>
 		/// Creates a default Folder xml
 		/// </summary>
-		public static void BuildFolderXml()
+		protected static void BuildFolderXml()
 		{
 			try 
 			{
@@ -444,33 +317,21 @@ namespace SimPe
 					tw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 					tw.WriteLine("<folders>");
 					tw.WriteLine("  <filetable>");
-					tw.WriteLine("    <file root=\"save\">Downloads"+Helper.PATH_SEP+"_EnableColorOptionsGMND.package</file>");
-					tw.WriteLine("    <file root=\"game\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Sims3D"+Helper.PATH_SEP+"_EnableColorOptionsMMAT.package</file>");
-					tw.WriteLine("    <path root=\"ep2\" epversion=\"2\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Objects</path>");					
-					tw.WriteLine("    <path root=\"ep2\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"3D</path>");
-					tw.WriteLine("    <path root=\"ep2\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Catalog"+Helper.PATH_SEP+"Materials</path>");
-					tw.WriteLine("    <path root=\"ep2\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Catalog"+Helper.PATH_SEP+"Skins</path>");
-					tw.WriteLine("    <path root=\"ep2\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Catalog"+Helper.PATH_SEP+"Patterns</path>");
-					tw.WriteLine("    <path root=\"ep2\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Catalog"+Helper.PATH_SEP+"CANHObjects</path>");
-					tw.WriteLine("    <path root=\"ep2\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Wants</path>");
-					tw.WriteLine("    <path root=\"ep2\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"UI</path>");
-					tw.WriteLine("    <path root=\"ep1\" epversion=\"1\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Objects</path>");					
-					tw.WriteLine("    <path root=\"ep1\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"3D</path>");
-					tw.WriteLine("    <path root=\"ep1\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Catalog"+Helper.PATH_SEP+"Materials</path>");
-					tw.WriteLine("    <path root=\"ep1\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Catalog"+Helper.PATH_SEP+"Skins</path>");
-					tw.WriteLine("    <path root=\"ep1\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Catalog"+Helper.PATH_SEP+"Patterns</path>");
-					tw.WriteLine("    <path root=\"ep1\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Catalog"+Helper.PATH_SEP+"CANHObjects</path>");
-					tw.WriteLine("    <path root=\"ep1\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Wants</path>");
-					tw.WriteLine("    <path root=\"ep1\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"UI</path>");
-					tw.WriteLine("    <path root=\"game\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Catalog"+Helper.PATH_SEP+"Bins</path>");
-					tw.WriteLine("    <path root=\"game\" epversion=\"0\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Objects</path>");
-					tw.WriteLine("    <path root=\"game\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Sims3D</path>");										
-					tw.WriteLine("    <path root=\"game\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Catalog"+Helper.PATH_SEP+"Materials</path>");
-					tw.WriteLine("    <path root=\"game\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Catalog"+Helper.PATH_SEP+"Skins</path>");
-					tw.WriteLine("    <path root=\"game\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Catalog"+Helper.PATH_SEP+"Patterns</path>");
-					tw.WriteLine("    <path root=\"game\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Catalog"+Helper.PATH_SEP+"CANHObjects</path>");
-					tw.WriteLine("    <path root=\"game\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Wants</path>");					
-					tw.WriteLine("    <path root=\"game\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"UI</path>");
+					tw.WriteLine("    <file root=\"save\">Downloads\\_EnableColorOptionsGMND.package</file>");
+					tw.WriteLine("    <path root=\"ep1\">TSData\\Res\\Objects</path>");					
+					tw.WriteLine("    <path root=\"ep1\">TSData\\Res\\3D</path>");
+					tw.WriteLine("    <path root=\"ep1\">TSData\\Res\\Catalog\\Materials</path>");
+					tw.WriteLine("    <path root=\"ep1\">TSData\\Res\\Catalog\\Skins</path>");
+					tw.WriteLine("    <path root=\"ep1\">TSData\\Res\\Catalog\\Patterns</path>");
+					tw.WriteLine("    <path root=\"ep1\">TSData\\Res\\Wants</path>");
+					tw.WriteLine("    <path root=\"ep1\">TSData\\Res\\UI</path>");
+					tw.WriteLine("    <path root=\"game\">TSData\\Res\\Objects</path>");
+					tw.WriteLine("    <path root=\"game\">TSData\\Res\\Sims3D</path>");
+					tw.WriteLine("    <path root=\"game\">TSData\\Res\\Catalog\\Materials</path>");
+					tw.WriteLine("    <path root=\"game\">TSData\\Res\\Catalog\\Skins</path>");
+					tw.WriteLine("    <path root=\"game\">TSData\\Res\\Catalog\\Patterns</path>");
+					tw.WriteLine("    <path root=\"game\">TSData\\Res\\Wants</path>");					
+					tw.WriteLine("    <path root=\"game\">TSData\\Res\\UI</path>");
 					tw.WriteLine("  </filetable>");
 					tw.WriteLine("</folders>");
 

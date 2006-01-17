@@ -89,8 +89,7 @@ namespace SimPe.PackedFiles.Wrapper
 			get 
 			{
 				uint[] Types = {
-								 0x00000000, //UI Data 
-							     0xCD7FE87A  //Material Shaders
+								 0x00000000 //UI Data  
 							   };
 				return Types;
 			}

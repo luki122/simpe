@@ -271,24 +271,15 @@ namespace SimPe.Packages
 		/// <returns>the new Package File</returns>
 		public Interfaces.Files.IPackageFile Clone()
 		{
-			File fl = (File)NewCloneBase();
+			Interfaces.Files.IPackageFile fl = NewCloneBase();
 			foreach (Interfaces.Files.IPackedFileDescriptor pfd in this.Index) 
 			{
 				Interfaces.Files.IPackedFileDescriptor npfd = (Interfaces.Files.IPackedFileDescriptor)pfd.Clone();
 				npfd.UserData = Read(pfd).UncompressedData;
-				
 				fl.Add(npfd);
 			}
 
-			fl.header = (HeaderData)this.Header.Clone();
-			fl.lcs = this.lcs;
-			if (this.filelist!=null) 
-			{
-				fl.filelist = (SimPe.Packages.PackedFileDescriptor)fl.FindFile(this.filelist);
-				fl.filelistfile = new SimPe.PackedFiles.Wrapper.CompressedFileList(fl.Header.IndexType);
-			}
-
-			return (Interfaces.Files.IPackageFile)fl;
+			return fl;
 		}
 		
 
@@ -551,7 +542,6 @@ namespace SimPe.Packages
 		{
 			get 
 			{
-				if (fileindex==null) fileindex = new IPackedFileDescriptor[0];
 				return fileindex;
 			}
 			set 
@@ -636,7 +626,7 @@ namespace SimPe.Packages
 		public void LoadCompressedState()
 		{
 			//Load the File Index File
-			if (fileindex != null) 
+			if (FileList != null) 
 			{
 				this.BeginUpdate();
 
@@ -1042,10 +1032,6 @@ namespace SimPe.Packages
 						if (pfd!=null) pfd.MarkInvalid();	
 				}				
 			}
-
-			if (SimPe.Packages.PackageMaintainer.Maintainer.FileIndex!=null)
-				if (SimPe.Packages.PackageMaintainer.Maintainer.FileIndex.Contains(this.SaveFileName))
-					SimPe.Packages.PackageMaintainer.Maintainer.FileIndex.Clear();
 		}
 
 		/// <summary>
@@ -1163,10 +1149,6 @@ namespace SimPe.Packages
 		{			
 			FireIndexEvent(new System.EventArgs());
 		}
-		protected void FireSavedIndexEvent() 
-		{			
-			if (this.SavedIndex!=null) SavedIndex(this, new System.EventArgs());
-		}
 
 		protected void FireIndexEvent(System.EventArgs e)
 		{
@@ -1222,11 +1204,6 @@ namespace SimPe.Packages
 		/// Triggered whenever the Content of the Package was changed
 		/// </summary>
 		public event System.EventHandler IndexChanged;
-
-		/// <summary>
-		/// Triggered whenever the Complete ResourceList should get reloaded
-		/// </summary>
-		public event System.EventHandler SavedIndex;
 
 		/// <summary>
 		/// Triggered whenever a new Resource was added

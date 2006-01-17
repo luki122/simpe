@@ -37,11 +37,7 @@ namespace SimPe.Geometry
 		/// </summary>
 		public double X 
 		{
-			get { 
-				if (double.IsNaN(x)) 
-					return 0;
-				return x; 
-			}
+			get { return x; }
 			set { x = value; }
 		}
 		/// <summary>
@@ -49,11 +45,7 @@ namespace SimPe.Geometry
 		/// </summary>
 		public double Y 
 		{
-			get 
-			{ 
-				if (double.IsNaN(y)) return 0;
-				return y; 
-			}
+			get { return y; }
 			set { y = value; }
 		}
 
@@ -133,11 +125,7 @@ namespace SimPe.Geometry
 		/// </summary>
 		public double Z 
 		{
-			get 
-			{ 
-				if (double.IsNaN(z)) return 0;
-				return z; 
-			}
+			get { return z; }
 			set { z = value; }
 		}
 
@@ -194,34 +182,17 @@ namespace SimPe.Geometry
 		}
 
 		/// <summary>
-		/// Returns the UnitVector for this Vector
-		/// </summary>
-		public Vector3f UnitVector 
-		{
-			get 
-			{
-				Vector3f uv = new Vector3f();
-
-				double l = Length;
-				if (l!=0) 
-				{
-					uv.X = X/l;
-					uv.Y = Y/l;
-					uv.Z = Z/l;
-				}
-				return uv;
-			}
-		}
-
-		/// <summary>
 		/// Makes sure this Vector is a Unit Vector (Length=1)
 		/// </summary>
 		public void MakeUnitVector()
 		{
-			Vector3f uv = UnitVector;
-			X = uv.X;
-			Y = uv.Y;
-			Z = uv.Z;			
+			double l = Length;
+			if (l!=0) 
+			{
+				X = X/l;
+				Y = Y/l;
+				Z = Z/l;
+			}
 		}
 
 		/// <summary>
@@ -250,20 +221,21 @@ namespace SimPe.Geometry
 		/// <summary>
 		/// Create the Inverse of a Vector
 		/// </summary>
-		public Vector3f GetInverse()
-		{
-			return !this;
-		}
-
-		/// <summary>
-		/// Create the Inverse of a Vector
-		/// </summary>
 		/// <param name="v">The Vector you want to Invert</param>
 		/// <returns>The inverted Vector</returns>
 		public static Vector3f operator !(Vector3f v)
 		{
-            return v * (double)(-1.0);
-		}		
+			return v.GetInverse();
+		}
+
+		/// <summary>
+		/// Returns the Inverse Vector
+		/// </summary>
+		/// <returns>The Inverse of this Vector</returns>
+		public Vector3f GetInverse()
+		{
+			return this * (double)(-1.0);
+		}
 
 		/// <summary>
 		/// Vector addition
@@ -558,11 +530,7 @@ namespace SimPe.Geometry
 		/// </summary>
 		public double W
 		{
-			get 
-			{ 
-				if (double.IsNaN(w)) return 0;
-				return w; 
-			}
+			get { return w; }
 			set { w = value; }
 		}
 
@@ -572,16 +540,6 @@ namespace SimPe.Geometry
 		public Vector4f () : base()
 		{
 			w = 0;
-		}
-
-		/// <summary>
-		/// Creates new Vector Instance
-		/// </summary>
-		/// <param name="x">X-Coordinate</param>
-		/// <param name="y">Y-Coordinate</param>
-		/// <param name="z">Z-Coordinate</param>
-		public Vector4f (double x, double y, double z) : this(x, y, z, 0)
-		{			
 		}
 
 		/// <summary>

@@ -33,7 +33,7 @@ namespace SimPe
 		/// <summary>
 		/// All Generator Functions (=Functions that build a TreeView) must implement this delegate
 		/// </summary>
-		public delegate void GenerateView(TreeView tv, bool autoselect);
+		public delegate void GenerateView(TreeView tv);
 		TreeView tv;
 		GenerateView fkt;
 
@@ -60,9 +60,9 @@ namespace SimPe
 		/// <summary>
 		/// Build the TreeView
 		/// </summary>
-		public void Generate(bool autoselect)
+		public void Generate()
 		{
-			fkt(tv, autoselect);
+			fkt(tv);
 		}
 	}
 
@@ -88,7 +88,7 @@ namespace SimPe
 				}
 
 			lv.Items.Clear();
-			//lv.ListViewItemSorter = null; This is now done in the ResourceLister
+			lv.ListViewItemSorter = null;
 		}
 
 		/// <summary>
@@ -146,10 +146,9 @@ namespace SimPe
 		/// Build a TreeView based on the Instance Values
 		/// </summary>
 		/// <param name="tv"></param>
-		public void InstanceView(TreeView tv, bool autoselect)
+		public void InstanceView(TreeView tv)
 		{
 			InstanceTreeBuilder instb = new InstanceTreeBuilder(pkg, filter, tv);
-			instb.AutoSelect = autoselect;
 			instb.Finished += new EventHandler(typetb_Finished);
 			TreeBuilderBase.Start(instb);		
 		}
@@ -158,10 +157,9 @@ namespace SimPe
 		/// Build a TreeView based on the Group Values
 		/// </summary>
 		/// <param name="tv"></param>
-		public void GroupView(TreeView tv, bool autoselect)
+		public void GroupView(TreeView tv)
 		{
 			GroupTreeBuilder grptb = new GroupTreeBuilder(pkg, filter, tv);
-			grptb.AutoSelect = autoselect;
 			grptb.Finished += new EventHandler(typetb_Finished);
 			TreeBuilderBase.Start(grptb);				
 		}
@@ -175,10 +173,9 @@ namespace SimPe
 		/// Build a TreeView based on the Group Values
 		/// </summary>
 		/// <param name="tv"></param>
-		public void TypeView(TreeView tv, bool autoselect)
+		public void TypeView(TreeView tv)
 		{
 			TypeTreeBuilder typetb = new TypeTreeBuilder(pkg, filter, tv);
-			typetb.AutoSelect = autoselect;
 			typetb.Finished += new EventHandler(typetb_Finished);
 			TreeBuilderBase.Start(typetb);			
 		}

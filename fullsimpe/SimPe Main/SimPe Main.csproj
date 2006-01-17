@@ -16,8 +16,8 @@
                 DefaultTargetSchema = "IE50"
                 DelaySign = "false"
                 OutputType = "WinExe"
-                PreBuildEvent = 'copy "$(ProjectDir)\..\..\..\DivElements\SandBar\sandbar.dll" "$(TargetDir)"&#xd;&#xa;copy "$(ProjectDir)\..\..\..\DivElements\SandDock\sanddock.dll" "$(TargetDir)"'
-                PostBuildEvent = 'copy "$(TargetDir)\*.dll" "$(ProjectDir)\..\SimPe\$(OutDir)"&#xd;&#xa;copy "$(TargetDir)\*.pdb" "$(ProjectDir)\..\SimPe\$(OutDir)"&#xd;&#xa;copy "$(TargetPath)" "$(ProjectDir)\..\SimPe\$(OutDir)\$(TargetFileName)"&#xd;&#xa;copy "$(TargetDir)\de\*.dll" "$(ProjectDir)\..\SimPe\$(OutDir)\de\"&#xd;&#xa;copy "$(TargetDir)\pl\*.dll" "$(ProjectDir)\..\SimPe\$(OutDir)\pl\"&#xd;&#xa;copy "$(TargetDir)\es\*.dll" "$(ProjectDir)\..\SimPe\$(OutDir)\es\"'
+                PreBuildEvent = 'copy G:\vs.net\DivElements\SandBar\sandbar.dll "$(TargetDir)"&#xd;&#xa;copy G:\vs.net\DivElements\SandDock\sanddock.dll "$(TargetDir)"'
+                PostBuildEvent = 'copy "$(TargetDir)\*.dll" "$(ProjectDir)\..\SimPe\$(OutDir)"&#xd;&#xa;copy "$(TargetDir)\*.pdb" "$(ProjectDir)\..\SimPe\$(OutDir)"&#xd;&#xa;copy "$(TargetPath)" "$(ProjectDir)\..\SimPe\$(OutDir)\$(TargetFileName)"&#xd;&#xa;copy "$(TargetDir)\de\*.dll" "$(ProjectDir)\..\SimPe\$(OutDir)\de\"&#xd;&#xa;copy "$(TargetDir)\pl\*.dll" "$(ProjectDir)\..\SimPe\$(OutDir)\pl\"'
                 RootNamespace = "SimPe"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -76,26 +76,6 @@
                     NoStdLib = "false"
                     NoWarn = ""
                     Optimize = "true"
-                    OutputPath = "bin\Release\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
-                />
-                <Config
-                    Name = "Release (QA)"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = ""
-                    DocumentationFile = ""
-                    DebugSymbols = "true"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "false"
                     OutputPath = "bin\Release\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
@@ -284,11 +264,6 @@
                     Project = "{8A2A1FCD-F166-4AE8-A87A-7424215C93AF}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
-                <Reference
-                    Name = "SimPe Sims2CommunityPack"
-                    Project = "{2EF93119-5C98-4167-B1AF-966E6A45AB79}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
             </References>
         </Build>
         <Files>
@@ -429,21 +404,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "FileTableItemForm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "FileTableItemForm.de.resx"
-                    DependentUpon = "FileTableItemForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "FileTableItemForm.resx"
-                    DependentUpon = "FileTableItemForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "Hidden.cs"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -484,11 +444,6 @@
                 />
                 <File
                     RelPath = "OptionForm.de.resx"
-                    DependentUpon = "OptionForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "OptionForm.es.resx"
                     DependentUpon = "OptionForm.cs"
                     BuildAction = "EmbeddedResource"
                 />

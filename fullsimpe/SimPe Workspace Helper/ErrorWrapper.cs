@@ -162,15 +162,7 @@ namespace SimPe.PackedFiles.Wrapper
 		{
 			get
 			{
-				return "Error Object";
-			}
-		}
-
-		public string DescriptionHeader
-		{
-			get
-			{
-				return "Error";
+				return null;
 			}
 		}
 

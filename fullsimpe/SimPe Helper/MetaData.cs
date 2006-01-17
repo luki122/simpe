@@ -138,8 +138,7 @@ namespace SimPe.Data
 		Floor_Wood = 0x0240,
 		Floor_Other = 0x0200,
 
-		Fence_Rail = 0x0400,
-		Fence_Halfwall = 0x0401,
+		Fence = 0x0400,
 
 		Wall_Brick = 0x0501,
 		Wall_Masonry = 0x0502,
@@ -151,14 +150,7 @@ namespace SimPe.Data
 		Wall_Wallpaper = 0x0580,
 		Wall_Other = 0x0500,
 
-		Terrain = 0x0600,
-
-		Hood_Landmark = 0x0701,
-		Hood_Flora = 0x0702,
-		Hood_Effects = 0x0703,
-		Hood_Misc = 0x0704,
-		Hood_Stone = 0x0705,
-		Hood_Other = 0x0700
+		Terrain = 0x0600
 	}
 
 	/// <summary>
@@ -187,7 +179,7 @@ namespace SimPe.Data
 
 		Decorative_Wall = 0x2001,
 		Decorative_Sculpture = 0x2002,
-		Decorative_Rugs = 0x2004,
+		Decorative_UnknownA = 0x2004,
 		Decorative_Plants = 0x2008,
 		Decorative_Mirror = 0x2010,
 		Decorative_Curtain = 0x2020,
@@ -244,7 +236,7 @@ namespace SimPe.Data
 		General_UnknownB = 0x4004,
 		General_Party = 0x4008,
 		General_Child = 0x4010,
-		General_Car = 0x4020,
+		General_UnknownC = 0x4020,
 		General_UnknownD = 0x4040,
 		General_Misc = 0x4080,
 				
@@ -285,8 +277,7 @@ namespace SimPe.Data
 		Vehicle = 0x000D,
 		Outfit = 0x000E,
 		Memory = 0x000F,
-		Template = 0x0010,
-		Tiles = 0x0013
+		Template = 0x0010
 	}
 
 	/// <summary>
@@ -303,11 +294,6 @@ namespace SimPe.Data
 		/// Color of a Sim that is unlinked
 		/// </summary>
 		public static Color UnlinkedSim = Color.FromArgb(0xEF, Color.SteelBlue);
-
-		/// <summary>
-		/// Color of a NPC Sim
-		/// </summary>
-		public static Color NPCSim = Color.FromArgb(0xEF, Color.YellowGreen);
 
 		/// <summary>
 		/// Color of a Sim that has no Character Data
@@ -392,10 +378,7 @@ namespace SimPe.Data
 		public const UInt32 NAME_MAP = 0x4E6D6150;
 
 		
-		/// <summary>
-		/// Sim DNA
-		/// </summary>
-		public const uint SDNA = 0xEBFEE33F;
+
 
 		/// <summary>
 		/// Signature identifying a compressed PackedFile
@@ -427,7 +410,6 @@ namespace SimPe.Data
 		public const uint XROF = 0xACA8EA06;
 		public const uint XFLR = 0x4DCADB7E;
 		public const uint XFNC = 0x2CB230B8;
-		public const uint XNGB = 0x6D619378;
 
 		public static string GMND_PACKAGE = System.IO.Path.Combine(Helper.WindowsRegistry.SimSavegameFolder, "Downloads\\_EnableColorOptionsGMND.package");
 		public static string MMAT_PACKAGE = System.IO.Path.Combine(Helper.WindowsRegistry.SimsPath, "TSData\\Res\\Sims3D\\_EnableColorOptionsMMAT.package");
@@ -539,9 +521,7 @@ namespace SimPe.Data
 			Fortune = 0x04,
 			Reputation = 0x10,
 			Knowledge = 0x20,
-			Growup = 0x40,
-			Fun = 0x80,
-			Chees = 0x100
+			Growup = 0x40
 		}
 
 		/// <summary>
@@ -603,8 +583,8 @@ namespace SimPe.Data
 			Sibling = 0x03,
 			Gradparent = 0x04,
 			Grandchild = 0x05,
-			Nice_Nephew = 0x07,
-			Aunt = 0x06,
+			Nice_Nephew = 0x06,
+			Aunt = 0x07,
 			Cousin = 0x08,
 			Spouses = 0x09
 		}

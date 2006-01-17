@@ -62,26 +62,6 @@
                     TreatWarningsAsErrors = "false"
                     WarningLevel = "4"
                 />
-                <Config
-                    Name = "Release (QA)"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = ""
-                    DocumentationFile = ""
-                    DebugSymbols = "true"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "false"
-                    OutputPath = "bin\Release\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
-                />
             </Settings>
             <References>
                 <Reference
@@ -269,10 +249,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "dna.png"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "ExtFamilyTiesUI.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -366,28 +342,13 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "SimDNA.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimDNAUI.cs"
-                    SubType = "UserControl"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimDNAUI.resx"
-                    DependentUpon = "SimDNAUI.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "SimFactory.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "SimListView.cs"
-                    SubType = "Code"
+                    SubType = "Component"
                     BuildAction = "Compile"
                 />
                 <File
@@ -397,13 +358,8 @@
                 />
                 <File
                     RelPath = "SimPoolControl.cs"
-                    SubType = "UserControl"
+                    SubType = "Component"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimPoolControl.de.resx"
-                    DependentUpon = "SimPoolControl.cs"
-                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "SimPoolControl.resx"

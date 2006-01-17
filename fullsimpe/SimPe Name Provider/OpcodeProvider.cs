@@ -229,25 +229,19 @@ namespace SimPe.Providers
 			names = new ArrayList();
 			if (BasePackage==null) return;
 
-			//IPackedFileDescriptor pfd = BasePackage.FindFile(Data.MetaData.STRING_FILE, 0x00000000, 0x7FE59FD0, 0x0000008B);
-			FileTable.FileIndex.Load();
-			SimPe.Interfaces.Scenegraph.IScenegraphFileIndexItem[] items = SimPe.FileTable.FileIndex.FindFile(Data.MetaData.STRING_FILE, 0x7FE59FD0, 0x000000000000008B, null);
+			IPackedFileDescriptor pfd = BasePackage.FindFile(Data.MetaData.STRING_FILE, 0x00000000, 0x7FE59FD0, 0x0000008B);
 			SimPe.PackedFiles.Wrapper.Str str = new SimPe.PackedFiles.Wrapper.Str();
-
-			foreach (SimPe.Interfaces.Scenegraph.IScenegraphFileIndexItem item in items) 
-			{
-				str.ProcessData(item.FileDescriptor, BasePackage);
+			str.ProcessData(pfd, BasePackage);
 			
-				for (ushort i=0; i<str.Items.Length; i++) 
-				{						
-					SimPe.PackedFiles.Wrapper.StrItem si = str.Items[i];
+			for (ushort i=0; i<str.Items.Length; i++) 
+			{						
+				SimPe.PackedFiles.Wrapper.StrItem si = str.Items[i];
 
-					if (si.Language.Id==1) 
-					{
-						names.Add(si.Title);
-					}				
-				}	//for		
-			}
+				if (si.Language.Id==1) 
+				{
+					names.Add(si.Title);
+				}				
+			}	//for		
 		}
 
 		/// <summary>
@@ -283,24 +277,20 @@ namespace SimPe.Providers
 			if (opcode>=0x0100) 
 			{
 				if (BasePackage==null) return "Unknown Global";
-				//IPackedFileDescriptor pfd = BasePackage.FindFile(Data.MetaData.BHAV_FILE, 0x0, 0x7FD46CD0, opcode);
-				FileTable.FileIndex.Load();
-				SimPe.Interfaces.Scenegraph.IScenegraphFileIndexItem[] items = FileTable.FileIndex.FindFile(Data.MetaData.BHAV_FILE, 0x7FD46CD0, (ulong)opcode, null);
-
-				foreach (SimPe.Interfaces.Scenegraph.IScenegraphFileIndexItem item in items) 
+				IPackedFileDescriptor pfd = BasePackage.FindFile(Data.MetaData.BHAV_FILE, 0x0, 0x7FD46CD0, opcode);
+				if (pfd==null) 
 				{
-					if (item.FileDescriptor!=null) 
-					{
-						byte[] data = new byte[0];
-						IPackedFile pf = item.Package.Read(item.FileDescriptor);
-						if (pf.IsCompressed) data = pf.Decompress(0x40);
-						else data = pf.Data;
+					return "Unknown Global";
+				} 
+				else 
+				{
+					byte[] data = new byte[0];
+					IPackedFile pf = BasePackage.Read(pfd);
+					if (pf.IsCompressed) data = pf.Decompress(0x40);
+					else data = pf.Data;
 
-						return Helper.ToString(data);
-					}
+					return Helper.ToString(data);
 				}
-
-				return "Unknown Global";
 			}
 
 			if (names==null) LoadOpcodes();
@@ -479,7 +469,7 @@ namespace SimPe.Providers
 		/// </summary>
 		/// <param name="opcode">the Opcode of the BHAV</param>
 		/// <returns>The Descriptor for the Bhav File in the BasePackage or null</returns>
-		public SimPe.Interfaces.Scenegraph.IScenegraphFileIndexItem LoadGlobalBHAV(ushort opcode)
+		public IPackedFileDescriptor LoadGlobalBHAV(ushort opcode)
 		{
 			return  LoadSemiGlobalBHAV(opcode, 0x7FD46CD0);
 		}
@@ -490,14 +480,11 @@ namespace SimPe.Providers
 		/// <param name="opcode">The Opcode</param>
 		/// <param name="group">The group of the SemiGlobal</param>
 		/// <returns>The Descriptor of the Bhaf File in the Base Packagee or null</returns>
-		public SimPe.Interfaces.Scenegraph.IScenegraphFileIndexItem LoadSemiGlobalBHAV(ushort opcode, uint group)
+		public IPackedFileDescriptor LoadSemiGlobalBHAV(ushort opcode, uint group)
 		{
-			//LoadPackage();
-			//if (BasePackage==null) return null;
-			FileTable.FileIndex.Load();
-			SimPe.Interfaces.Scenegraph.IScenegraphFileIndexItem[] items = FileTable.FileIndex.FindFile(Data.MetaData.BHAV_FILE, group, opcode, null);
-			if (items.Length>0) return items[0];
-			return null;
+			LoadPackage();
+			if (BasePackage==null) return null;
+			return BasePackage.FindFile(Data.MetaData.BHAV_FILE, 0x0, group, opcode);
 		}
 
 

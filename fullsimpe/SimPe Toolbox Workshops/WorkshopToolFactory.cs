@@ -31,7 +31,6 @@ namespace SimPe.Plugin
 	/// </remarks>
 	public class WorkshopToolFactory : SimPe.Interfaces.Plugin.AbstractWrapperFactory, SimPe.Interfaces.Plugin.IToolFactory
 	{
-		internal static IToolPlugin[] Last;
 		public WorkshopToolFactory()
 		{
 			
@@ -62,24 +61,11 @@ namespace SimPe.Plugin
 		{
 			get
 			{
-				if (Helper.WindowsRegistry.HiddenMode) 
-				{
-					Last = new IToolPlugin[]{
-											  new SimPe.Plugin.Tool.Dockable.ObectWorkshopDockTool(),
-											  new SimPe.Plugin.Tool.Dockable.PackageDetailDockTool(),
-											  new SimPe.Plugin.Tool.Action.ActionEnableFenceInOriginalGame(),
-											  new SimPe.Plugin.Tool.ObjectsTool()
-										  };
-				} 
-				else 
-				{
-					Last =  new IToolPlugin[]{
-												  new SimPe.Plugin.Tool.Dockable.ObectWorkshopDockTool(),
-												  new SimPe.Plugin.Tool.Dockable.PackageDetailDockTool(),
-												  new SimPe.Plugin.Tool.ObjectsTool()
-										  };
-				}
-				return Last;
+				IToolPlugin[] tools = {
+										  new SimPe.Plugin.Tool.Dockable.ObectWorkshopDockTool(),
+										  new SimPe.Plugin.Tool.Dockable.PackageDetailDockTool()
+									  };
+				return tools;
 			}
 		}
 		#endregion

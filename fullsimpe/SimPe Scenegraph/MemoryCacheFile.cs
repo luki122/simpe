@@ -50,7 +50,7 @@ namespace SimPe.Cache
 			bool added = false;
 			foreach (SimPe.Interfaces.Scenegraph.IScenegraphFileIndexItem item in items) 
 			{
-				Interfaces.Scenegraph.IScenegraphFileIndexItem[] citems = cachefile.FileIndex.FindFile(item.FileDescriptor, null);
+				Interfaces.Scenegraph.IScenegraphFileIndexItem[] citems = cachefile.FileIndex.FindFile(item.FileDescriptor, item.Package);
 				if (citems.Length==0) 
 				{
 					WaitingScreen.UpdateMessage("Updating Cache");

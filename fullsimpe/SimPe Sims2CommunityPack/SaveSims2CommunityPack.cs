@@ -610,10 +610,10 @@ namespace SimPe.Packages
 
 			if (ok) 
 			{
-				S2CPDescriptor[] fls = new S2CPDescriptor[lblist.SelectedItems.Count];
+				S2CPDescriptor[] fls = new S2CPDescriptor[lblist.Items.Count];
 				for (int i=0; i<fls.Length; i++) 
 				{
-					fls[i] = (S2CPDescriptor)lblist.SelectedItems[i];
+					fls[i] = (S2CPDescriptor)lblist.Items[i];
 				}
 
 				return fls;

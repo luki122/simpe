@@ -164,40 +164,10 @@ namespace SimPe.PackedFiles.Wrapper
 				"CPF Wrapper",
 				"Quaxi",
 				"This File is a structured Text File (like an .ini or .xml File), that contains Key Value Pairs.",
-				8,
+				7,
 				System.Drawing.Image.FromStream(this.GetType().Assembly.GetManifestResourceStream("SimPe.PackedFiles.Handlers.cpf.png"))				
 				);   
 		}
-
-		protected override string GetResourceName(SimPe.Data.TypeAlias ta)
-		{
-			if (!this.Processed) ProcessData(FileDescriptor, Package);
-			CpfItem item = this.GetItem("name");
-			if (item == null) return base.GetResourceName (ta);
-			else return item.StringValue;
-		}
-
-#if DEBUG
-		public override string Description
-		{
-			get
-			{
-				string s="";
-
-				s += this.GetSaveItem("name").StringValue+"; ";
-				s += this.GetSaveItem("age").StringValue+"; ";
-				s += this.GetSaveItem("gender").StringValue+"; ";
-				s += this.GetSaveItem("fitness").StringValue+"; ";
-				s += this.GetSaveItem("override0subset").StringValue+"; ";
-				s += this.GetSaveItem("category").StringValue+"; ";
-				s += this.GetSaveItem("outfit").StringValue+"; ";
-				s += this.GetSaveItem("flags").StringValue+"; ";
-				return s;
-			}
-		}
-#endif
-
-
 
 		/// <summary>
 		/// Unserializes a BinaryStream into the Attributes of this Instance
@@ -246,7 +216,7 @@ namespace SimPe.PackedFiles.Wrapper
 					else if (subnode.LocalName.Trim().ToLower() == "anyfloat32") 
 					{
 						item.Datatype = Data.MetaData.DataTypes.dtSingle;
-						item.SingleValue = Convert.ToSingle(subnode.InnerText, System.Globalization.CultureInfo.InvariantCulture);
+						item.SingleValue = Convert.ToSingle(subnode.InnerText);
 					}
 					else if (subnode.LocalName.Trim().ToLower() == "anyboolean") 
 					{
@@ -293,11 +263,10 @@ namespace SimPe.PackedFiles.Wrapper
 		protected override void Unserialize(System.IO.BinaryReader reader)
 		{
 			id = reader.ReadBytes(0x06);
-			if (id[0]!=SIGNATURE[0]) 
+			if (id[0]!=0xE0) 
 			{
-				id = SIGNATURE;
+				id = this.FileSignature;
 				this.UnserializeXml(reader);
-				
 				return;
 			}
 			items = new CpfItem[reader.ReadUInt32()];
@@ -319,7 +288,6 @@ namespace SimPe.PackedFiles.Wrapper
 		/// </remarks>
 		protected override void Serialize(System.IO.BinaryWriter writer)
 		{			
-			if (id.Length!=0x06) id = SIGNATURE;
 			writer.Write(id);
 			writer.Write((uint)items.Length);
 
@@ -335,22 +303,23 @@ namespace SimPe.PackedFiles.Wrapper
 		#endregion
 
 		#region IFileWrapper Member
-		protected static byte [] SIGNATURE = new byte[]{
-														  0xE0,
-														  0x50,
-														  0xE7,
-														  0xCB,
-														  0x02,
-														  0x00
-													  };
+
 		/// <summary>
 		/// Returns the Signature that can be used to identify Files processable with this Plugin
 		/// </summary>
-		public virtual byte[] FileSignature
+		public byte[] FileSignature
 		{
 			get
-			{				
-				return SIGNATURE;
+			{
+				Byte[] sig = {
+								 0xE0,
+								 0x50,
+								 0xE7,
+								 0xCB,
+								 0x02,
+								 0x00
+							 };
+				return sig;
 			}
 		}
 
@@ -385,8 +354,7 @@ namespace SimPe.PackedFiles.Wrapper
 								   0x8C93E35C, //Face Arch
 								   Data.MetaData.XROF, //Roofs
 								   Data.MetaData.XFLR, //Floors
-								   Data.MetaData.XFNC, // Fences
-								   Data.MetaData.XNGB  // Hood Objects
+								   Data.MetaData.XFNC // Fences
 							   };
 			
 				return types;

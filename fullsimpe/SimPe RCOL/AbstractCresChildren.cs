@@ -29,16 +29,12 @@ namespace SimPe.Plugin
 	/// <summary>
 	/// Implemented common Methods of the ICresChildren Interface
 	/// </summary>
-	public abstract class AbstractCresChildren : AbstractRcolBlock, ICresChildren, System.Collections.IEnumerable, System.Collections.IEnumerator
+	public abstract class AbstractCresChildren : AbstractRcolBlock, ICresChildren
 	{
-		public abstract string GetName();
 		/// <summary>
 		/// Constructor
 		/// </summary>
-		public AbstractCresChildren(Rcol parent) : base(parent) 
-		{
-			this.Reset();
-		}
+		public AbstractCresChildren(Rcol parent) : base(parent) {}
 
 		/// <summary>
 		/// Returns the Child Block with the given Index from the Parent Rcol
@@ -227,38 +223,5 @@ namespace SimPe.Plugin
 
 			return v;
 		}
-		#region IEnumerable Member
-
-		public IEnumerator GetEnumerator()
-		{
-			return this;
-		}
-
-		#endregion
-
-		#region IEnumerator Member
-
-		int pos;
-		public void Reset()
-		{
-			pos = -1;
-		}
-
-		public object Current
-		{
-			get
-			{
-				if (pos<this.ChildBlocks.Count && pos>=0) return this.GetBlock(this.ChildBlocks[pos]);
-				return null;
-			}
-		}
-
-		public bool MoveNext()
-		{
-			pos++;
-			return  (pos<this.ChildBlocks.Count);
-		}
-
-		#endregion
 	}
 }

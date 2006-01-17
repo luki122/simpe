@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = 'copy "$(TargetPath)" "$(ProjectDir)\..\SimPe\$(OutDir)Plugins\$(TargetFileName)"&#xd;&#xa;copy "$(TargetDir)\de\*.dll" "$(ProjectDir)\..\SimPe\$(OutDir)\de\"&#xd;&#xa;copy "$(TargetDir)\pl\*.dll" "$(ProjectDir)\..\SimPe\$(OutDir)\pl\"&#xd;&#xa;copy "$(TargetDir)\es\*.dll" "$(ProjectDir)\..\SimPe\$(OutDir)\es\"'
+                PostBuildEvent = 'copy "$(TargetPath)" "$(ProjectDir)\..\SimPe\$(OutDir)Plugins\$(TargetFileName)"&#xd;&#xa;copy "$(TargetDir)\de\*.dll" "$(ProjectDir)\..\SimPe\$(OutDir)\de\"&#xd;&#xa;copy "$(TargetDir)\pl\*.dll" "$(ProjectDir)\..\SimPe\$(OutDir)\pl\"'
                 RootNamespace = "SimPe.Plugin"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -116,26 +116,6 @@
                     NoStdLib = "false"
                     NoWarn = ""
                     Optimize = "true"
-                    OutputPath = "bin\Release\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
-                />
-                <Config
-                    Name = "Release (QA)"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = ""
-                    DocumentationFile = ""
-                    DebugSymbols = "true"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "false"
                     OutputPath = "bin\Release\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
@@ -252,11 +232,6 @@
                 <Reference
                     Name = "SimPe HGBH"
                     Project = "{2A67C9C3-9577-4922-991F-291EAA6B4F2D}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "SimPe Sims"
-                    Project = "{9877B092-C8C0-4B84-B5A0-F9A68AA1C0E4}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
@@ -386,11 +361,6 @@
                 />
                 <File
                     RelPath = "NgbBackup.de.resx"
-                    DependentUpon = "NgbBackup.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "NgbBackup.es.resx"
                     DependentUpon = "NgbBackup.cs"
                     BuildAction = "EmbeddedResource"
                 />
@@ -527,11 +497,6 @@
                 />
                 <File
                     RelPath = "Surgery.de.resx"
-                    DependentUpon = "Surgery.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Surgery.es.resx"
                     DependentUpon = "Surgery.cs"
                     BuildAction = "EmbeddedResource"
                 />

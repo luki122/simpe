@@ -772,9 +772,6 @@ namespace SimPe.Plugin
 
 			modelname =modelname.Trim().ToLower();
 			if (modelname.EndsWith("_cres")) modelname = modelname.Substring(0, modelname.Length-5);
-
-			//no Modelname => no Wallmask
-			if (modelname=="") return txmt;
 				
 			//this applies to all found NameMaps for TXTR Files
 			ArrayList foundnames = new ArrayList();
@@ -872,7 +869,8 @@ namespace SimPe.Plugin
 				}
 			}			
 		}
-		#endregion		
+		#endregion
+		
 
 		#region 3IDR
 		/// <summary>
@@ -927,10 +925,6 @@ namespace SimPe.Plugin
 
 				//xobj
 				AddFromXml(cpf.GetItem("material"), "_txmt", Data.MetaData.TXMT);
-
-				//hood object
-				if (pfd.Type == Data.MetaData.XNGB) 
-					AddFromXml(cpf.GetItem("modelname"), "_cres", Data.MetaData.CRES);
 
 				//fences
 				AddFromXml(cpf.GetItem("diagrail"), "_cres", Data.MetaData.CRES);

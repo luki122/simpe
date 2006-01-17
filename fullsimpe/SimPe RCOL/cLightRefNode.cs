@@ -81,11 +81,6 @@ namespace SimPe.Plugin
 		}
 
 		#region AbstractCresChildren Member
-		public override string GetName()
-		{
-			return tn.ObjectGraphNode.FileName;
-		}
-
 		/// <summary>
 		/// Returns a List of all Child Blocks referenced by this Element
 		/// </summary>

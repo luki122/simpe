@@ -99,7 +99,7 @@ namespace SimPe.PackedFiles.Wrapper
 					case MetaData.DataTypes.dtInteger: 
 					case Data.MetaData.DataTypes.dtUInteger:
 					{
-						return "0x"+Helper.HexString(AsInteger());
+						return AsInteger().ToString();
 					}
 					case MetaData.DataTypes.dtString:
 					{

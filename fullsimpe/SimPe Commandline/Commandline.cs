@@ -16,12 +16,10 @@ namespace SimPe
 		/// <param name="args">Commandline Arguments</param>
 		/// <returns>true if simpe should stop now</returns>
 		public static bool Start(string[] args)
-		{		
+		{
 			if (args.Length<1) return false;
 
 			if (Help(args)) return true;
-			if (MakeClassic(args)) return true;
-			if (MakeModern(args)) return true;
 			if (BuildPackage(args)) return true;
 			if (BuildTxtr(args)) return true;
 			if (FixPackage(args)) return true;
@@ -35,89 +33,10 @@ namespace SimPe
 			Console.WriteLine("SimPE Commandline Parameters:");
 			Console.WriteLine("-----------------------------");
 			Console.WriteLine();
-			Console.WriteLine("  -classicpreset");
-			Console.WriteLine("  -modernpreset");
 			Console.WriteLine("  -build -desc [packag.xml] -out [output].package");
 			Console.WriteLine("  -txtr -image [imgfile] -out [output].package -name [textureNam] -format [dxt1|dxt3|dxt5|raw8|raw24|raw32] -levels [nr] -width [max. Width] -height [max. Height]");
 			return true;
 		}
-
-		#region Theme Presets
-		static bool MakeClassic(string[] args) 
-		{
-			if (args[0]!="-classicpreset") return false;			
-			
-			Overridelayout("classic_layout.xreg");
-
-			Helper.WindowsRegistry.Layout.SelectedTheme = 0;
-			Helper.WindowsRegistry.AsynchronLoad = false;
-			Helper.WindowsRegistry.DecodeFilenamesState = false;
-			Helper.WindowsRegistry.DeepSimScan = false;
-			Helper.WindowsRegistry.DeepSimTemplateScan = false;
-
-			Helper.WindowsRegistry.SimpleResourceSelect = true;
-			Helper.WindowsRegistry.MultipleFiles = false;
-			Helper.WindowsRegistry.FirefoxTabbing = false;
-
-			Helper.WindowsRegistry.LockDocks = true;
-
-			if (Message.Show(SimPe.Localization.GetString("PresetChanged").Replace("{name}", SimPe.Localization.GetString("PresetClassic")), SimPe.Localization.GetString("Information"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
-				return false;
-			return true;
-		}
-
-		static bool MakeModern(string[] args) 
-		{
-			if (args!=null)
-				if (args[0]!="-modernpreset") return false;			
-			
-			Overridelayout("modern_layout.xreg");
-
-			Helper.WindowsRegistry.Layout.SelectedTheme = 2;
-			Helper.WindowsRegistry.AsynchronLoad = false;
-			Helper.WindowsRegistry.DecodeFilenamesState = true;
-			Helper.WindowsRegistry.DeepSimScan = true;
-			Helper.WindowsRegistry.DeepSimTemplateScan = false;
-
-			Helper.WindowsRegistry.SimpleResourceSelect = true;
-			Helper.WindowsRegistry.MultipleFiles = true;
-			Helper.WindowsRegistry.FirefoxTabbing = true;
-
-			Helper.WindowsRegistry.LockDocks = false;
-
-			if (Message.Show(SimPe.Localization.GetString("PresetChanged").Replace("{name}", SimPe.Localization.GetString("PresetModern")), SimPe.Localization.GetString("Information"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
-				return false;
-			return true;
-		}
-
-		static void Overridelayout(string name)
-		{
-			System.IO.Stream s = typeof(Commandline).Assembly.GetManifestResourceStream("SimPe."+name);
-			if (s!=null) 
-			{
-				try 
-				{
-					System.IO.StreamWriter sw = System.IO.File.CreateText(System.IO.Path.Combine(Helper.SimPeDataPath, "layout.xreg"));
-					try 
-					{
-						System.IO.StreamReader sr = new System.IO.StreamReader(s);
-						sw.Write(sr.ReadToEnd());
-						sw.Flush();
-					} 
-					finally 
-					{
-						sw.Close();
-					}
-
-					Helper.WindowsRegistry.ReloadLayout();
-				} 
-				catch (Exception ex) 
-				{
-					Helper.ExceptionMessage(ex);
-				}
-			}					
-		}
-		#endregion
 
 		#region Fix
 		public static void FixPackage(string flname, string modelname, FixVersion ver)
@@ -286,17 +205,8 @@ namespace SimPe
 
 					if ((wd==hg) && (wd==1))
 					{
-						if (id.TextureSize.Width>id.TextureSize.Height) 
-						{
-							wd = id.TextureSize.Width/id.TextureSize.Height;
-							hg = 1;
-						}
-						else 
-						{
-							hg = id.TextureSize.Height/id.TextureSize.Width;
-							wd = 1;
-						}
-							
+						wd = id.TextureSize.Width/id.TextureSize.Height;
+						hg = 1;
 
 						if ((wd==hg) && (wd==1)) 
 						{
@@ -542,16 +452,12 @@ namespace SimPe
 		#region Import Data
 		public static void ConvertData()
 		{
-			string layoutname = System.IO.Path.Combine(Helper.SimPeDataPath, "layout.xreg");
-			if (!System.IO.File.Exists(layoutname)) 
-				Commandline.MakeModern(null);
-
-			if (Helper.WindowsRegistry.PreviousVersion<=219184142520) 
+			if (Helper.WindowsRegistry.PreviousVersion<=201999584204) 
 			{
 				string name = System.IO.Path.Combine(Helper.SimPeDataPath, "folders.xreg");
 				if (System.IO.File.Exists(name)) 
 				{
-					if (Message.Show("In order to support the new Expansion \"Christmas Objects\", SimPE need to reset your FileTable.\nThis means, that SimPe will delete the File \""+name+"\".\n\nDo you want SimPe to reset your FileTable?", "Update", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+					if (Message.Show("The new ObjectWorkshop does now have support for Fences, Roofs, Terrains, Walls and Floors. For the new Feature to work, SimPE needs to reset your FileTable.\nThis means, that SimPe will delete the File \""+name+"\".\n\nDo you want SimPe to reset your FileTable?", "Update", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
 					{
 						try 
 						{						

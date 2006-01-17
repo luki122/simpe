@@ -16,7 +16,7 @@ namespace SimPe.Plugin.Tool.Dockable
 		uint[] xtypes;		
 		public ObjectPreview() : base()
 		{
-			xtypes = new uint[] { Data.MetaData.XFLR, Data.MetaData.XFNC, Data.MetaData.XROF, Data.MetaData.XOBJ, Data.MetaData.XNGB };			
+			xtypes = new uint[] { Data.MetaData.XFLR, Data.MetaData.XFNC, Data.MetaData.XROF, Data.MetaData.XOBJ };			
 		}
 
 		public override bool Loaded
@@ -38,7 +38,7 @@ namespace SimPe.Plugin.Tool.Dockable
 				if (cpf!=value)
 				{
 					cpf = value;
-					UpdateXObjScreen();
+					UpdateScreen();
 				}
 			}
 		}	
@@ -139,13 +139,8 @@ namespace SimPe.Plugin.Tool.Dockable
 				if (strs.Count>0) this.lbName.Text = strs[0].Title;
 				if (strs.Count>1) this.lbAbout.Text = strs[1].Title;
 			} 
-			else 
-			{
-				this.lbName.Text = cpf.GetSaveItem("name").StringValue;
-				this.lbAbout.Text = cpf.GetSaveItem("description").StringValue;
-			}
+			else this.lbName.Text = objd.FileName;
 						
-			
 			this.lbPrice.Text = cpf.GetSaveItem("cost").UIntegerValue.ToString()+" $";
 
 			if (pb.Image == null) pb.Image = defimg;		
@@ -174,17 +169,6 @@ namespace SimPe.Plugin.Tool.Dockable
 			string type = cpf.GetSaveItem("type").StringValue.Trim().ToLower();
 			switch (type) 
 			{
-				case "" :
-				case "canh" : 
-				{
-					string stype = cpf.GetSaveItem("sort").StringValue.Trim().ToLower();
-					if (stype=="landmark") return Data.XObjFunctionSubSort.Hood_Landmark;
-					else if (stype=="flora") return Data.XObjFunctionSubSort.Hood_Flora;					
-					else if (stype=="effects") return Data.XObjFunctionSubSort.Hood_Effects;
-					else if (stype=="misc") return Data.XObjFunctionSubSort.Hood_Misc;
-					else if (stype=="stone") return Data.XObjFunctionSubSort.Hood_Stone;
-					else return Data.XObjFunctionSubSort.Hood_Other;
-				}
 				case "wall" : 
 				{
 					string stype = cpf.GetSaveItem("subsort").StringValue.Trim().ToLower();
@@ -220,8 +204,7 @@ namespace SimPe.Plugin.Tool.Dockable
 				}					
 				case "fence" : 
 				{
-					if (cpf.GetSaveItem("ishalfwall").UIntegerValue == 1) return Data.XObjFunctionSubSort.Fence_Halfwall;
-					return Data.XObjFunctionSubSort.Fence_Rail;
+					return Data.XObjFunctionSubSort.Fence;
 				}
 				default :
 				{
@@ -231,44 +214,27 @@ namespace SimPe.Plugin.Tool.Dockable
 		}
 
 		#region Thumbnails
-		static SimPe.Packages.File xthumbs, nthumbs;
+		static SimPe.Packages.File xthumbs;
 		public static Image GetXThumbnail(SimPe.PackedFiles.Wrapper.Cpf cpf)
 		{
-			if (xthumbs==null) xthumbs =  SimPe.Packages.File.LoadFromFile(System.IO.Path.Combine(Helper.WindowsRegistry.SimSavegameFolder, "Thumbnails\\BuildModeThumbnails.package"));			
-
-			SimPe.Packages.File tmbs = xthumbs;
+			if (xthumbs==null) xthumbs =  SimPe.Packages.File.LoadFromFile(System.IO.Path.Combine(Helper.WindowsRegistry.SimSavegameFolder, "Thumbnails\\BuildModeThumbnails.package"));
 			Data.XObjFunctionSubSort fss = ObjectPreview.GetFunctionSort(cpf);
-
 			uint inst = cpf.GetSaveItem("guid").UIntegerValue;
-			uint grp = cpf.FileDescriptor.Group;
-			if (cpf.GetItem("thumbnailinstanceid")!=null)
-			{
-				inst = cpf.GetSaveItem("thumbnailinstanceid").UIntegerValue;
-				grp = cpf.GetSaveItem("thumbnailgroupid").UIntegerValue;
-			}
-			
 
 			//get Thumbnail Type
 			uint[] types = new uint[] {0x8C311262, 0x8C31125E}; //floors, walls
 			if (fss == Data.XObjFunctionSubSort.Roof) types = new uint[] {0xCC489E46};
-			else if (fss == Data.XObjFunctionSubSort.Fence_Rail || fss == Data.XObjFunctionSubSort.Fence_Halfwall) types = new uint[] {0xCC30CDF8};
+			else if (fss == Data.XObjFunctionSubSort.Fence) types = new uint[] {0xCC30CDF8};
 			else if (fss == Data.XObjFunctionSubSort.Roof) types = new uint[] {0xCC489E46};
 			else if (fss == Data.XObjFunctionSubSort.Terrain) 
 			{
 				types = new uint[] {0xEC3126C4};
 				if (cpf.GetItem("texturetname")!=null)
 					inst = Hashes.GetCrc32(Hashes.StripHashFromName(cpf.GetItem("texturetname").StringValue.Trim().ToLower()));
-			} 
-			else if (cpf.FileDescriptor.Type==Data.MetaData.XNGB) 
-			{
-				types = new uint[] {0x4D533EDD};
-				if (nthumbs==null) nthumbs =  SimPe.Packages.File.LoadFromFile(System.IO.Path.Combine(Helper.WindowsRegistry.SimSavegameFolder, "Thumbnails\\CANHObjectsThumbnails.package"));
-				tmbs = nthumbs;
 			}
 			
 			
-			return GetThumbnail(cpf.GetSaveItem("name").StringValue, types, grp, inst, tmbs);
-			tmbs = null;
+			return GetThumbnail(cpf.GetSaveItem("name").StringValue, types, inst, xthumbs);
 			/*ArrayList types = new ArrayList();			
 			types.Add(0xEC3126C4); // Terrain
 			types.Add(0xCC30CDF8); //fences

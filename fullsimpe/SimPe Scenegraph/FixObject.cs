@@ -87,16 +87,12 @@ namespace SimPe.Plugin
 		{
 			name = name.Trim();
 			name = RenameForm.ReplaceOldUnique(name, "", false);
-			
-			if (name.ToLower().EndsWith("_txmt") ) 
-				name = name.Substring(0, name.Length-5);
-			
+
+			if (name.ToLower().EndsWith("_txmt") ) name = name.Substring(0, name.Length-5);
 
 			string[] parts = name.Split("_".ToCharArray());
-			if (parts.Length>0) 
+			if (parts.Length>1) 
 			{
-				//oild method used to assigne the additional Name to the subset Part, now we assign it to the ModelName-Part
-				/*
 				subsetname = subsetname.Trim().ToLower();
 				name = "";
 				bool foundsubset = false;
@@ -115,20 +111,7 @@ namespace SimPe.Plugin
 					if (parts[i].ToLower()==subsetname) foundsubset=true;
 					
 				}
-				if (!addedunique) name += unique;				*/
-
-				name = "";
-				bool first = true;
-				foreach (string s in parts)
-				{
-					if (!first) name += "_";
-					name += s;
-					if (first) 
-					{
-						first = false;
-						name += "-"+unique;
-					} 
-				}	
+				if (!addedunique) name += unique;				
 			} 
 			else 
 			{
@@ -426,7 +409,7 @@ namespace SimPe.Plugin
 			}
 
 			//is this a Fence package? If so, do special FenceFixes
-			if (package.FindFiles(Data.MetaData.XFNC).Length>0 /*|| package.FindFiles(Data.MetaData.XNGB).Length>0*/)
+			if (package.FindFiles(Data.MetaData.XFNC).Length>0)
 				this.FixFence();
 		}
 
@@ -552,15 +535,63 @@ namespace SimPe.Plugin
 			FixXObject(map, completerefmap, grouphash);
 			FixSkin(map, completerefmap, grouphash);
 
-			//Make sure MMATs get fixed
-			FixMMAT(map, uniquefamily, grouphash);
+			//Now Fix the MMAT
+			WaitingScreen.UpdateMessage("Udating Material Overrides");
+			Interfaces.Files.IPackedFileDescriptor[] mpfds = package.FindFiles(Data.MetaData.MMAT);	//MMAT
+			Hashtable familymap = new Hashtable();
+			uint mininst = 0x5000;
+			foreach (Interfaces.Files.IPackedFileDescriptor pfd in mpfds) 
+			{
+				SimPe.PackedFiles.Wrapper.Cpf mmat = new SimPe.PackedFiles.Wrapper.Cpf();
+				mmat.ProcessData(pfd, package);
+				//make the MMAT Instance number unique
+				pfd.Instance = mininst++;
 
-			//Make sure OBJd's get fixed too
-			FixOBJd();
+				//get unique family value
+				if (uniquefamily) 
+				{
+					string family = mmat.GetSaveItem("family").StringValue;
+					string nfamily = (string)familymap[family];
+
+					if (nfamily==null) 
+					{
+						nfamily = System.Guid.NewGuid().ToString();
+						familymap[family] = nfamily;
+					}
+
+					mmat.GetSaveItem("family").StringValue = nfamily;
+				}
+
+
+				string newref = (string)map[Hashes.StripHashFromName(mmat.GetSaveItem("name").StringValue.Trim().ToLower())+"_txmt"];
+				if (newref!=null) 
+				{
+					newref = Hashes.StripHashFromName(newref);
+					newref = newref.Substring(0, newref.Length-5); 
+					mmat.GetSaveItem("name").StringValue = grouphash + newref;
+				} 
+				else 
+				{
+					mmat.GetSaveItem("name").StringValue = grouphash + Hashes.StripHashFromName(mmat.GetSaveItem("name").StringValue);
+				}
+
+				newref = (string)map[Hashes.StripHashFromName(mmat.GetSaveItem("modelName").StringValue.Trim().ToLower())];
+				if (newref!=null) 
+				{
+					newref = Hashes.StripHashFromName(newref);
+					mmat.GetSaveItem("modelName").StringValue = newref; 
+				}
+				else mmat.GetSaveItem("modelName").StringValue = Hashes.StripHashFromName(mmat.GetSaveItem("modelName").StringValue);
+
+				if (ver == FixVersion.UniversityReady)  mmat.GetSaveItem("modelName").StringValue = "##0x"+Helper.HexString(Data.MetaData.CUSTOM_GROUP)+"!"+mmat.GetSaveItem("modelName").StringValue;
+
+				//mmat.FileDescriptor.Group = Data.MetaData.LOCAL_GROUP;
+				mmat.SynchronizeUserData();
+			}
 
 			//And finally the Root String
 			WaitingScreen.UpdateMessage("Udating Root");
-			SimPe.Interfaces.Files.IPackedFileDescriptor[] mpfds = package.FindFiles(Data.MetaData.STRING_FILE);	
+			mpfds = package.FindFiles(Data.MetaData.STRING_FILE);	
 			string modelname = null;
 			foreach (Interfaces.Files.IPackedFileDescriptor pfd in mpfds) 
 			{
@@ -629,122 +660,6 @@ namespace SimPe.Plugin
 
 					nref.SynchronizeUserData();
 				}
-			}
-		}
-
-		/// <summary>
-		/// Make sure the fixes for OBJd Resources are considered
-		/// </summary>
-		/// <remarks>
-		/// Currently this implements the Fixes needed for Rugs
-		/// </remarks>
-		void FixOBJd()
-		{
-			WaitingScreen.UpdateMessage("Udating Object Descriuptions");
-			Interfaces.Files.IPackedFileDescriptor[] pfds = package.FindFiles(Data.MetaData.OBJD_FILE);	//OBJd
-
-			bool updaterugs = false;
-			foreach (Interfaces.Files.IPackedFileDescriptor pfd in pfds) 
-			{
-				SimPe.PackedFiles.Wrapper.ExtObjd objd = new SimPe.PackedFiles.Wrapper.ExtObjd(null);
-				objd.ProcessData(pfd, package);
-
-				//is one of the objd's a rug?
-				if (objd.FunctionSubSort == SimPe.Data.ObjFunctionSubSort.Decorative_Rugs) 
-				{
-					updaterugs = true;				
-					break;
-				}
-			}
-
-			//found at least one OBJd describing a Rug
-			if (updaterugs) 
-			{
-				foreach (Interfaces.Files.IPackedFileDescriptor pfd in pfds) 
-				{
-					SimPe.PackedFiles.Wrapper.ExtObjd objd = new SimPe.PackedFiles.Wrapper.ExtObjd(null);
-					objd.ProcessData(pfd, package);
-
-					//make sure the Type of a Rug is not a Tile, but Normal
-					if (objd.Type == SimPe.Data.ObjectTypes.Tiles)
-					{
-						objd.Type = SimPe.Data.ObjectTypes.Normal;
-						objd.SynchronizeUserData(true, true);
-					}
-				}
-			}
-		}
-
-		/// <summary>
-		/// This takes care of the MMAT Resources
-		/// </summary>
-		/// <param name="map"></param>
-		/// <param name="uniquefamily"></param>
-		/// <param name="grouphash"></param>
-		void FixMMAT(Hashtable map, bool uniquefamily, string grouphash)
-		{
-			
-			WaitingScreen.UpdateMessage("Udating Material Overrides");
-			Interfaces.Files.IPackedFileDescriptor[] mpfds = package.FindFiles(Data.MetaData.MMAT);	//MMAT
-			Hashtable familymap = new Hashtable();
-			uint mininst = 0x5000;
-			foreach (Interfaces.Files.IPackedFileDescriptor pfd in mpfds) 
-			{
-				SimPe.Plugin.MmatWrapper mmat = new SimPe.Plugin.MmatWrapper();
-				mmat.ProcessData(pfd, package);
-				//make the MMAT Instance number unique
-				pfd.Instance = mininst++;
-
-				//get unique family value
-				if (uniquefamily) 
-				{
-					string family = mmat.GetSaveItem("family").StringValue;
-					string nfamily = (string)familymap[family];
-
-					if (nfamily==null) 
-					{
-						nfamily = System.Guid.NewGuid().ToString();
-						familymap[family] = nfamily;
-					}
-
-					mmat.Family = nfamily;					
-				}
-
-
-				string newref = (string)map[Hashes.StripHashFromName(mmat.GetSaveItem("name").StringValue.Trim().ToLower())+"_txmt"];
-				if (newref!=null) 
-				{
-					newref = Hashes.StripHashFromName(newref);
-					newref = newref.Substring(0, newref.Length-5); 
-					mmat.Name =  grouphash + newref;
-				} 
-				else 
-				{
-					mmat.Name = grouphash + Hashes.StripHashFromName(mmat.GetSaveItem("name").StringValue);
-				}
-
-				newref = (string)map[Hashes.StripHashFromName(mmat.ModelName.Trim().ToLower())];
-				if (newref!=null) 
-				{
-					newref = Hashes.StripHashFromName(newref);
-					mmat.ModelName = newref; 
-				}
-				else mmat.ModelName = Hashes.StripHashFromName(mmat.ModelName);
-
-				if (ver == FixVersion.UniversityReady)  
-				{
-					SimPe.Interfaces.Scenegraph.IScenegraphFileIndexItem item = FileTable.FileIndex.FindFileByName(mmat.ModelName, Data.MetaData.CRES, Data.MetaData.GLOBAL_GROUP, true);
-					
-					bool addfl = true;
-					if (item!=null)						
-						if (item.FileDescriptor.Group==Data.MetaData.GLOBAL_GROUP) addfl=false;					
-
-					if (addfl)	
-						mmat.ModelName = "##0x"+Helper.HexString(Data.MetaData.CUSTOM_GROUP)+"!"+mmat.ModelName;
-				}
-
-				//mmat.FileDescriptor.Group = Data.MetaData.LOCAL_GROUP;
-				mmat.SynchronizeUserData();
 			}
 		}
 
@@ -873,13 +788,11 @@ namespace SimPe.Plugin
 			Random rnd = new Random();
 
 			//set list of critical types
-			uint[] types = new uint[]{Data.MetaData.XOBJ, Data.MetaData.XFLR, Data.MetaData.XFNC, Data.MetaData.XROF, Data.MetaData.XNGB};
+			uint[] types = new uint[]{Data.MetaData.XOBJ, Data.MetaData.XFLR, Data.MetaData.XFNC, Data.MetaData.XROF};
 			string[] txtr_props = new string[] {"textureedges", "texturetop", "texturetopbump", "texturetrim", "textureunder", "texturetname", "texturetname" };
 			string[] txmt_props = new string[] {"material", "diagrail", "post", "rail"};
 			string[] cres_props = new string[] {"diagrail", "post", "rail"};
-			string[] cres_props_ngb = new string[] {"modelname"};
-			string[] groups = new string[] {"stringsetgroupid", "resourcegroupid"};	
-			string[] set_to_guid = new string[] {}; //"thumbnailinstanceid"
+			string[] groups = new string[] {"stringsetgroupid", "resourcegroupid"};			
 
 			//now fix the texture References in those Resources
 			foreach (uint t in types)
@@ -889,23 +802,19 @@ namespace SimPe.Plugin
 				foreach (SimPe.Interfaces.Files.IPackedFileDescriptor pfd in pfds)
 				{
 					cpf.ProcessData(pfd, package);
-					uint guid = (uint)rnd.Next();
 
 					string pfx = grphash; if (t==Data.MetaData.XFNC) pfx = "";
 
 					FixCpfProperties(cpf, txtr_props, namemap, pfx, "_txtr");
 					FixCpfProperties(cpf, txmt_props, namemap, pfx, "_txmt");
 					FixCpfProperties(cpf, cres_props, namemap, pfx, "_cres");
-					if (pfd.Type == Data.MetaData.XNGB) 
-						FixCpfProperties(cpf, cres_props_ngb, namemap, pfx, "_cres");
 
 					FixCpfProperties(cpf, groups, Data.MetaData.LOCAL_GROUP);
-					FixCpfProperties(cpf, set_to_guid, guid);
 #if DEBUG
-					FixCpfProperties(cpf, "guid", (uint)((guid & 0x00fffffe) | 0xfb000001));
+					FixCpfProperties(cpf, "guid", (uint)(((uint)rnd.Next() & 0x00fffffe) | 0xfb000001));
 #else
 					
-					FixCpfProperties(cpf, "guid", (uint)((guid & 0xfffffffe) | 0x00000001));
+					FixCpfProperties(cpf, "guid", (uint)(((uint)rnd.Next() & 0xfffffffe) | 0x00000001));
 #endif
 					
 					cpf.SynchronizeUserData();

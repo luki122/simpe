@@ -28,20 +28,9 @@ namespace SimPe.Plugin
 	/// </summary>
 	public class NgbhSlotList
 	{
-		uint version;
-		public NgbhVersion Version
-		{
-			get {return (NgbhVersion)version; }
-			set { version = (uint)value; }
-		}
-
 		Ngbh parent;
 		public NgbhSlotList(Ngbh parent)
 		{
-			if (parent!=null) 
-				this.Version = parent.Version;
-			else 
-				this.Version = NgbhVersion.University;
 			this.parent = parent;
 			itemsa = new NgbhItem[0];
 			itemsb = new NgbhItem[0];
@@ -130,15 +119,12 @@ namespace SimPe.Plugin
 		/// <param name="reader">The Stream that contains the FileData</param>
 		internal virtual void Unserialize(System.IO.BinaryReader reader)
 		{
-			if ((uint)parent.Version>=(uint)NgbhVersion.Nightlife) version = reader.ReadUInt32();
-			itemsa = new NgbhItem[reader.ReadUInt32()];			
+			itemsa = new NgbhItem[reader.ReadUInt32()];
 			for (int j=0; j<itemsa.Length; j++) 
 			{
 				itemsa[j] = new NgbhItem(parent, this);
 				itemsa[j].Unserialize(reader);
 			}
-
-			
 
 			itemsb = new NgbhItem[reader.ReadUInt32()];
 			for (int j=0; j<itemsb.Length; j++) 
@@ -158,8 +144,6 @@ namespace SimPe.Plugin
 		/// </remarks>
 		internal virtual void Serialize(System.IO.BinaryWriter writer)
 		{
-			if ((uint)parent.Version>=(uint)NgbhVersion.Nightlife) writer.Write(version);
-
 			writer.Write((uint)itemsa.Length);
 			for (int j=0; j<itemsa.Length; j++) itemsa[j].Serialize(writer);
 			
@@ -184,7 +168,6 @@ namespace SimPe.Plugin
 		internal override void Unserialize(System.IO.BinaryReader reader)
 		{
 			this.SlotID = reader.ReadUInt32();
-			
 
 			base.Unserialize(reader);
 		}

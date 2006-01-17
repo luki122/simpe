@@ -47,8 +47,7 @@ namespace SimPe.Plugin
 										  new Plugin.Want(this.LinkedProvider),
 										  new Plugin.XWant(),
 										  new Plugin.Idno(),
-									      new Plugin.RoadTexture(),
-										  new Plugin.Tatt()
+									      new Plugin.RoadTexture()
 									  };
 				return wrappers;
 			}
@@ -63,18 +62,14 @@ namespace SimPe.Plugin
 		{
 			get
 			{
-				System.Collections.ArrayList tools = new System.Collections.ArrayList();				
-				if (Helper.WindowsRegistry.HiddenMode) 
-				{
-					tools.Add(new Plugin.FixUidTool());
-					tools.Add(new ActionIntriguedNeighborhood());
-				}
+				IToolPlugin[] tools = {
+										 new Plugin.FixUidTool(),
+										 new ActionIntriguedNeighborhood()
+									 };
+				if (Helper.WindowsRegistry.HiddenMode) return tools;
 
-				if (Helper.QARelease) tools.Add(new ActionDeleteSim());
-				
-				IToolPlugin[] ret = new IToolPlugin[tools.Count];
-				tools.CopyTo(ret);
-				return ret;
+				tools = new ITool[0];
+				return tools;
 			}
 		}		
 

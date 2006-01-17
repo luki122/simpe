@@ -72,55 +72,6 @@ namespace SimPe.Plugin
 		}
 
 		/// <summary>
-		/// Load and return the referenced CRES File (null if none was available)
-		/// </summary>
-		/// <remarks>
-		/// You should store this value in a temp var if you need it multiple times, 
-		/// as the File is reloaded with each call
-		/// </remarks>
-		public GenericRcol LocalCRES 
-		{
-			get 
-			{
-				Hashtable refs = this.ReferenceChains;
-				ArrayList cress = (ArrayList)refs["CRES"];
-				if (cress!=null) 
-				{
-					if (cress.Count>0) 
-					{
-						Interfaces.Files.IPackedFileDescriptor pfd = package.FindFile((Interfaces.Files.IPackedFileDescriptor)cress[0]);
-						if (pfd==null) //fallback code
-						{
-							Interfaces.Files.IPackedFileDescriptor[] pfds = package.FindFile(((Interfaces.Files.IPackedFileDescriptor)cress[0]).Filename, Data.MetaData.CRES);
-							if (pfds.Length>0) pfd = pfds[0];
-						}
-
-						if (pfd!=null) 
-						{
-							GenericRcol cres = new GenericRcol(null, false);
-							cres.ProcessData(pfd, package);
-
-							return cres;
-						}
-
-						/*if (pfd==null) //FileTable fallback code
-						{
-							Interfaces.Scenegraph.IScenegraphFileIndexItem[] items = FileTable.FileIndex.FindFile((Interfaces.Files.IPackedFileDescriptor)cress[0], null);
-							if (items.Length>0) 
-							{
-								GenericRcol cres = new GenericRcol(null, false);
-								cres.ProcessData(items[0].FileDescriptor, items[0].Package);
-
-								return cres;
-							}
-						}*/
-					}
-				}
-				return null;
-			}
-		}
-
-		/// <summary>
 		/// Load and return the referenced TXMT File (null if none was available)
 		/// </summary>
 		/// <remarks>
@@ -235,7 +186,7 @@ namespace SimPe.Plugin
 		{
 			get
 			{
-				string str = "objectGUID=0x"+Helper.HexString(this.ObjectGUID)+"; subset="+this.SubsetName+"; references=";
+				string str = "references=";
 				Hashtable map = this.ReferenceChains;
 				foreach (string s in map.Keys) 
 				{

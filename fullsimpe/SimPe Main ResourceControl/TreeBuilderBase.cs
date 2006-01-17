@@ -78,8 +78,6 @@ namespace SimPe
 			}
 		}
 
-		internal bool AutoSelect;
-
 		protected delegate void AddNodeDelegate(TreeNodeCollection nodes, TreeNode node);
 		protected void AddNode(TreeNodeCollection nodes, TreeNode node)
 		{
@@ -103,10 +101,10 @@ namespace SimPe
 			return node;
 		}
 
-		protected virtual void OnFinish(TreeNode root, int ct, bool autoselect)
+		protected virtual void OnFinish(TreeNode root, int ct)
 		{
 			root.Expand();
-			if ((Helper.WindowsRegistry.AsynchronLoad || ct<Helper.WindowsRegistry.BigPackageResourceCount) && autoselect)
+			if (Helper.WindowsRegistry.AsynchronLoad || ct<Helper.WindowsRegistry.BigPackageResourceCount) 
 				tv.SelectedNode = root;
 			
 			nodemap.Clear();
@@ -130,7 +128,6 @@ namespace SimPe
 
 		internal TreeBuilderBase(LoadedPackage pkg, ViewFilter filter, TreeView tv)
 		{
-			this.AutoSelect = true;
 			this.tv = tv;
 			this.pkg = pkg;
 			this.filter = filter;
@@ -179,7 +176,7 @@ namespace SimPe
 				} 
 				finally 
 				{
-					OnFinish(root, ct, this.AutoSelect);
+					OnFinish(root, ct);
 				}
 			} 
 			finally 

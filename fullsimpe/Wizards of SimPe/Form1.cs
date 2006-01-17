@@ -57,10 +57,6 @@ namespace SimPe.Wizards
 			// Erforderlich für die Windows Form-Designerunterstützung
 			//
 			InitializeComponent();
-#if MAC
-#else
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-#endif
 			this.lbstep.ForeColor = Color.FromArgb(0x40, this.lbstep.ForeColor);
 			this.lbmsg.ForeColor = Color.FromArgb(0xb0, this.lbmsg.ForeColor);
 
@@ -68,18 +64,13 @@ namespace SimPe.Wizards
 			prevsteps.Push(step1);
 			ShowStep(step1, true);
 
-#if MAC
-#else
 			if ((!Option.HaveObjects) || (!Option.HaveSavefolder))
 			{
-				MessageBox.Show("Your Path settings are invalid. Wizards of SimPE will direct you to the Options Page.\n\nYou can just click on the 'Suggest' Buttons there, to get the default Paths. If the 'Suggest' Button disapears, your Path is set correct.", "Warning", MessageBoxButtons.OK);
+				MessageBox.Show("Your Path settings are invalid. Wizards of SimPE will direct you to the Options Page.\n\nYou can just click on the 'Suggest' Buttons there, to get the default Paths. If the 'Suggest' Button disapears, your Path is set correct.", "Warning");
 				this.ShowOptions(null, null);
 			}
-#endif
 
-			Wait.Bar = new SimPe.Wizards.WaitBarControl(this);	
-			if (SimPe.FileTable.FileIndex==null) SimPe.FileTable.FileIndex = new SimPe.Plugin.FileIndex();
-			SimPe.Packages.PackageMaintainer.Maintainer.FileIndex = SimPe.FileTable.FileIndex;
+			Wait.Bar = new SimPe.Wizards.WaitBarControl(this);			
 		}
 
 		/// <summary>
@@ -312,11 +303,9 @@ namespace SimPe.Wizards
 			this.MaximumSize = new System.Drawing.Size(618, 800);
 			this.MinimumSize = new System.Drawing.Size(618, 216);
 			this.Name = "Form1";
-
-
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Wizards of SimPE";
 			this.Closing += new System.ComponentModel.CancelEventHandler(this.Close);
-			this.Load += new System.EventHandler(this.Form1_Load);
 			this.pndrop.ResumeLayout(false);
 			this.pnP.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -334,33 +323,13 @@ namespace SimPe.Wizards
 		{
 			try 
 			{
-				bool adv = SimPe.Helper.WindowsRegistry.HiddenMode;
-				bool asy = SimPe.Helper.WindowsRegistry.AsynchronLoad;
-
-				SimPe.Helper.WindowsRegistry.HiddenMode = false;
-				SimPe.Helper.WindowsRegistry.AsynchronLoad = false;
-				SimPe.Plugin.ScenegraphWrapperFactory.InitRcolBlocks();
-
-#if MAC
-				Console.WriteLine("GameDir: "+Helper.WindowsRegistry.SimsPath);
-				Console.WriteLine("SaveDir: "+Helper.WindowsRegistry.SimSavegameFolder);
-#endif
+				SimPe.Plugin.WrapperFactory.InitRcolBlocks();
 				form1 = new Form1();
 				Application.Run(form1);
-
-				SimPe.Helper.WindowsRegistry.HiddenMode = adv;
-				SimPe.Helper.WindowsRegistry.AsynchronLoad = asy;
-
-				SimPe.Helper.WindowsRegistry.Flush();
 			} 
 			catch (Exception ex)
 			{
 				MessageBox.Show("WOS will Shutdown due to an unhandled Exception. \n\nMessage:"+ex.Message);
-#if MAC
-				Console.WriteLine(ex.Message);
-				Console.WriteLine("Source: "+ex.Source);
-				Console.WriteLine("Stack: "+ex.StackTrace);
-#endif
 			}
 		}
 
@@ -429,28 +398,17 @@ namespace SimPe.Wizards
 			}
 		}
 
-		private void Form1_Load(object sender, System.EventArgs e)
-		{
-
-		}
-
 		Option op = new Option();
 		private void ShowOptions(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
 		{						
 			op.form1 = this;
 			op.Location = pndrop.Location;
 			op.Size = pndrop.Size;
-			this.Controls.Add(op.pnopt);
 			op.pnopt.Parent = this;
-
-#if MAC
-			Console.WriteLine(pndrop.Location);
-			Console.WriteLine(pndrop.Size);
-#else
+			
 			op.tbsims.Text = Helper.WindowsRegistry.SimsPath;
 			op.tbsave.Text = Helper.WindowsRegistry.SimSavegameFolder;
 			op.tbdds.Text = Helper.WindowsRegistry.NvidiaDDSPath;
-#endif
 
 			op.pnopt.Visible = true;
 			pndrop.Visible = false;
@@ -459,7 +417,8 @@ namespace SimPe.Wizards
 		internal void HideOptions(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
 		{						
 			pndrop.Visible = true;
-			op.pnopt.Visible = false;			
+			op.pnopt.Visible = false;
+			
 		}
 
 		private void Close(object sender, System.ComponentModel.CancelEventArgs e)
