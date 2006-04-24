@@ -72,15 +72,9 @@ namespace SimPe
 		}
 
 		Color clight, c, cdark;
-        System.Windows.Forms.ToolStripRenderer whidbey;
-        System.Windows.Forms.ToolStripRenderer whidbeysquare;
-        System.Windows.Forms.ToolStripRenderer square;
+        
 		public ThemeManager(GuiTheme t) 
-		{           
-            whidbey = new System.Windows.Forms.ToolStripProfessionalRenderer(new ToolStripColorTable());
-            whidbeysquare = new ToolStripProfessionalSquareRenderer(new ToolStripColorTable());
-            square = new ToolStripProfessionalSquareRenderer();
-
+		{                   
 			ctheme = t;
 			parent = null;
 			ctrls = new System.Collections.ArrayList();
@@ -113,21 +107,7 @@ namespace SimPe
 		#endregion
 
 		#region Apply Themes
-        void SetTheme(System.Windows.Forms.ToolStrip sdm)
-        {
-            if (sdm.Parent is System.Windows.Forms.ToolStripContainer)
-            {
-                if (ctheme == GuiTheme.Everett) sdm.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-                else if (ctheme == GuiTheme.Office2003) sdm.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-                else sdm.Renderer = whidbey;
-            }
-            else
-            {
-                if (ctheme == GuiTheme.Everett) sdm.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-                else if (ctheme == GuiTheme.Office2003) sdm.Renderer = square;
-                else sdm.Renderer = whidbeysquare;
-            }
-        }
+        
 		void SetTheme(TD.SandDock.SandDockManager sdm) 
 		{
 			if (ctheme == GuiTheme.Everett) sdm.Renderer = new TD.SandDock.Rendering.EverettRenderer();
@@ -205,8 +185,7 @@ namespace SimPe
 			else if (o is SteepValley.Windows.Forms.XPGradientPanel) SetTheme((SteepValley.Windows.Forms.XPGradientPanel)o);
 			else if (o is SimPe.Windows.Forms.WrapperBaseControl) SetTheme((SimPe.Windows.Forms.WrapperBaseControl)o);
 			else if (o is System.Windows.Forms.Splitter) SetTheme((System.Windows.Forms.Splitter)o);
-			else if (o is Ambertation.Windows.Forms.XPTaskBoxSimple) SetTheme((Ambertation.Windows.Forms.XPTaskBoxSimple)o);
-            else if (o is System.Windows.Forms.ToolStrip) SetTheme((System.Windows.Forms.ToolStrip)o);
+			else if (o is Ambertation.Windows.Forms.XPTaskBoxSimple) SetTheme((Ambertation.Windows.Forms.XPTaskBoxSimple)o);            
 			else if (o is System.Windows.Forms.Control) SetTheme((System.Windows.Forms.Control)o);			
 		}
 		#endregion
