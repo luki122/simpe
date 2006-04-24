@@ -28,7 +28,7 @@ using System.Runtime.CompilerServices;
 //      Revision
 //
 // Sie können alle Werte oder die standardmäßige Revision und Buildnummer 
-// mit '*' angeben:
+// mit '*' angeben :
 
 [assembly: AssemblyVersion("1.0.*")]
 
