@@ -128,7 +128,13 @@ namespace SimPe
 													 root = Helper.WindowsRegistry.SimsSP1Path;
 													 ftitype = FileTableItemType.SP1GameFolder;
 													 break;
-												 }
+												}
+												case "sp2":
+												{
+													root = Helper.WindowsRegistry.SimsSP2Path;
+													ftitype = FileTableItemType.SP2GameFolder;
+													break;
+												}
 												case "save":
 												{
 													root = Helper.WindowsRegistry.SimSavegameFolder;
@@ -202,6 +208,14 @@ namespace SimPe
 					tw.WriteLine("  <filetable>");
 					tw.WriteLine("    <file root=\"save\">Downloads"+Helper.PATH_SEP+"_EnableColorOptionsGMND.package</file>");
 					tw.WriteLine("    <file root=\"game\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Sims3D"+Helper.PATH_SEP+"_EnableColorOptionsMMAT.package</file>");
+					tw.WriteLine("    <path root=\"sp2\" version=\"5\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Objects</path>");					
+					tw.WriteLine("    <path root=\"sp2\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"3D</path>");
+					tw.WriteLine("    <path root=\"sp2\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Catalog"+Helper.PATH_SEP+"Materials</path>");
+					tw.WriteLine("    <path root=\"sp2\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Catalog"+Helper.PATH_SEP+"Skins</path>");
+					tw.WriteLine("    <path root=\"sp2\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Catalog"+Helper.PATH_SEP+"Patterns</path>");
+					tw.WriteLine("    <path root=\"sp2\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Catalog"+Helper.PATH_SEP+"CANHObjects</path>");
+					tw.WriteLine("    <path root=\"sp2\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Wants</path>");
+					tw.WriteLine("    <path root=\"sp2\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"UI</path>");
 					tw.WriteLine("    <path root=\"sp1\" version=\"4\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Objects</path>");					
 					tw.WriteLine("    <path root=\"sp1\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"3D</path>");
 					tw.WriteLine("    <path root=\"sp1\">TSData"+Helper.PATH_SEP+"Res"+Helper.PATH_SEP+"Catalog"+Helper.PATH_SEP+"Materials</path>");

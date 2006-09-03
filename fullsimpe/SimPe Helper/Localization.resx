@@ -899,9 +899,18 @@ If this is empty, SimPE will use the default Folder.</value>
 	</data>
 	<data name="[Property:SP1Path]">
 		<value>1: Family Fun Accessoires</value>
-	</data>
+	</data>	
 	<data name="[Description:SP1Path]">
 		<value>This should contain the installation directory of "The Sims 2 - Family Fun Accessoires". 
+The given Folder must contain a subfolder called "TSData".
+
+If this is empty, SimPE will use the default Folder.</value>
+	</data>
+	<data name="[Property:SP2Path]">
+		<value>2: Glamour Accessoires</value>
+	</data>
+	<data name="[Description:SP2Path]">
+		<value>This should contain the installation directory of "The Sims 2 - Glamour Accessoires". 
 The given Folder must contain a subfolder called "TSData".
 
 If this is empty, SimPE will use the default Folder.</value>

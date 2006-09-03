@@ -248,6 +248,8 @@ namespace SimPe
 			return CheckUpdate(ref version, ref qaversion);
 		}
 
+		
+
 		/// <summary>
 		/// Install the Photostudio Templates
 		/// </summary>

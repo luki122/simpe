@@ -153,6 +153,7 @@ namespace SimPe
 		private System.Windows.Forms.ComboBox cbCustom;
 		private System.Windows.Forms.PropertyGrid pgcustom;
 		private System.Windows.Forms.CheckBox cbIncFF;
+		private System.Windows.Forms.CheckBox cbIncGA;
 		private System.ComponentModel.IContainer components;		
 
 		public OptionForm()
@@ -279,6 +280,7 @@ namespace SimPe
 			this.hcTools = new TD.Eyefinder.HeaderControl();
 			this.hcFileTable = new TD.Eyefinder.HeaderControl();
 			this.groupBox8 = new System.Windows.Forms.GroupBox();
+			this.cbIncGA = new System.Windows.Forms.CheckBox();
 			this.cbIncFF = new System.Windows.Forms.CheckBox();
 			this.cbIncBusi = new System.Windows.Forms.CheckBox();
 			this.cbIncNightlife = new System.Windows.Forms.CheckBox();
@@ -321,7 +323,6 @@ namespace SimPe
 			this.tbUsername = new System.Windows.Forms.TextBox();
 			this.label11 = new System.Windows.Forms.Label();
 			this.hcCheck = new TD.Eyefinder.HeaderControl();
-			this.checkControl1 = new SimPe.CheckControl();
 			this.hcCustom = new TD.Eyefinder.HeaderControl();
 			this.pgcustom = new System.Windows.Forms.PropertyGrid();
 			this.cbCustom = new System.Windows.Forms.ComboBox();
@@ -344,7 +345,6 @@ namespace SimPe
 			this.groupBox7.SuspendLayout();
 			this.hcPlugins.SuspendLayout();
 			this.hcIdent.SuspendLayout();
-			this.hcCheck.SuspendLayout();
 			this.hcCustom.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -2167,6 +2167,7 @@ namespace SimPe
 			this.groupBox8.AccessibleName = resources.GetString("groupBox8.AccessibleName");
 			this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("groupBox8.Anchor")));
 			this.groupBox8.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("groupBox8.BackgroundImage")));
+			this.groupBox8.Controls.Add(this.cbIncGA);
 			this.groupBox8.Controls.Add(this.cbIncFF);
 			this.groupBox8.Controls.Add(this.cbIncBusi);
 			this.groupBox8.Controls.Add(this.cbIncNightlife);
@@ -2187,6 +2188,33 @@ namespace SimPe
 			this.groupBox8.Text = resources.GetString("groupBox8.Text");
 			this.toolTip1.SetToolTip(this.groupBox8, resources.GetString("groupBox8.ToolTip"));
 			this.groupBox8.Visible = ((bool)(resources.GetObject("groupBox8.Visible")));
+			// 
+			// cbIncGA
+			// 
+			this.cbIncGA.AccessibleDescription = resources.GetString("cbIncGA.AccessibleDescription");
+			this.cbIncGA.AccessibleName = resources.GetString("cbIncGA.AccessibleName");
+			this.cbIncGA.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("cbIncGA.Anchor")));
+			this.cbIncGA.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("cbIncGA.Appearance")));
+			this.cbIncGA.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("cbIncGA.BackgroundImage")));
+			this.cbIncGA.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("cbIncGA.CheckAlign")));
+			this.cbIncGA.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("cbIncGA.Dock")));
+			this.cbIncGA.Enabled = ((bool)(resources.GetObject("cbIncGA.Enabled")));
+			this.cbIncGA.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("cbIncGA.FlatStyle")));
+			this.cbIncGA.Font = ((System.Drawing.Font)(resources.GetObject("cbIncGA.Font")));
+			this.cbIncGA.Image = ((System.Drawing.Image)(resources.GetObject("cbIncGA.Image")));
+			this.cbIncGA.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("cbIncGA.ImageAlign")));
+			this.cbIncGA.ImageIndex = ((int)(resources.GetObject("cbIncGA.ImageIndex")));
+			this.cbIncGA.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("cbIncGA.ImeMode")));
+			this.cbIncGA.Location = ((System.Drawing.Point)(resources.GetObject("cbIncGA.Location")));
+			this.cbIncGA.Name = "cbIncGA";
+			this.cbIncGA.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("cbIncGA.RightToLeft")));
+			this.cbIncGA.Size = ((System.Drawing.Size)(resources.GetObject("cbIncGA.Size")));
+			this.cbIncGA.TabIndex = ((int)(resources.GetObject("cbIncGA.TabIndex")));
+			this.cbIncGA.Text = resources.GetString("cbIncGA.Text");
+			this.cbIncGA.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("cbIncGA.TextAlign")));
+			this.toolTip1.SetToolTip(this.cbIncGA, resources.GetString("cbIncGA.ToolTip"));
+			this.cbIncGA.Visible = ((bool)(resources.GetObject("cbIncGA.Visible")));
+			this.cbIncGA.CheckedChanged += new System.EventHandler(this.cbIncNightlife_CheckedChanged);
 			// 
 			// cbIncFF
 			// 
@@ -3097,7 +3125,6 @@ namespace SimPe
 			this.hcCheck.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("hcCheck.AutoScrollMargin")));
 			this.hcCheck.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("hcCheck.AutoScrollMinSize")));
 			this.hcCheck.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("hcCheck.BackgroundImage")));
-			this.hcCheck.Controls.Add(this.checkControl1);
 			this.hcCheck.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("hcCheck.Dock")));
 			this.hcCheck.Enabled = ((bool)(resources.GetObject("hcCheck.Enabled")));
 			this.hcCheck.Font = ((System.Drawing.Font)(resources.GetObject("hcCheck.Font")));
@@ -3111,28 +3138,6 @@ namespace SimPe
 			this.hcCheck.Text = resources.GetString("hcCheck.Text");
 			this.toolTip1.SetToolTip(this.hcCheck, resources.GetString("hcCheck.ToolTip"));
 			this.hcCheck.Visible = ((bool)(resources.GetObject("hcCheck.Visible")));
-			// 
-			// checkControl1
-			// 
-			this.checkControl1.AccessibleDescription = resources.GetString("checkControl1.AccessibleDescription");
-			this.checkControl1.AccessibleName = resources.GetString("checkControl1.AccessibleName");
-			this.checkControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("checkControl1.Anchor")));
-			this.checkControl1.AutoScroll = ((bool)(resources.GetObject("checkControl1.AutoScroll")));
-			this.checkControl1.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("checkControl1.AutoScrollMargin")));
-			this.checkControl1.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("checkControl1.AutoScrollMinSize")));
-			this.checkControl1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("checkControl1.BackgroundImage")));
-			this.checkControl1.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("checkControl1.Dock")));
-			this.checkControl1.Enabled = ((bool)(resources.GetObject("checkControl1.Enabled")));
-			this.checkControl1.Font = ((System.Drawing.Font)(resources.GetObject("checkControl1.Font")));
-			this.checkControl1.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("checkControl1.ImeMode")));
-			this.checkControl1.Location = ((System.Drawing.Point)(resources.GetObject("checkControl1.Location")));
-			this.checkControl1.Name = "checkControl1";
-			this.checkControl1.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("checkControl1.RightToLeft")));
-			this.checkControl1.Size = ((System.Drawing.Size)(resources.GetObject("checkControl1.Size")));
-			this.checkControl1.TabIndex = ((int)(resources.GetObject("checkControl1.TabIndex")));
-			this.toolTip1.SetToolTip(this.checkControl1, resources.GetString("checkControl1.ToolTip"));
-			this.checkControl1.Visible = ((bool)(resources.GetObject("checkControl1.Visible")));
-			this.checkControl1.FixedFileTable += new System.EventHandler(this.checkControl1_FixedFileTable);
 			// 
 			// hcCustom
 			// 
@@ -3277,7 +3282,6 @@ namespace SimPe
 			this.groupBox7.ResumeLayout(false);
 			this.hcPlugins.ResumeLayout(false);
 			this.hcIdent.ResumeLayout(false);
-			this.hcCheck.ResumeLayout(false);
 			this.hcCustom.ResumeLayout(false);
 			this.ResumeLayout(false);
 
@@ -3576,6 +3580,11 @@ namespace SimPe
 								case FileTableItemType.SP1GameFolder: 
 								{
 									tw.Write(" root=\"sp1\"");
+									break;
+								}
+								case FileTableItemType.SP2GameFolder: 
+								{
+									tw.Write(" root=\"sp2\"");
 									break;
 								}
 								case FileTableItemType.EP3GameFolder: 
@@ -4446,6 +4455,7 @@ namespace SimPe
 			SetupFileTableCheckboxe(this.cbIncNightlife, FileTableItemType.EP2GameFolder, false);
 			SetupFileTableCheckboxe(this.cbIncBusi, FileTableItemType.EP3GameFolder, false);
 			SetupFileTableCheckboxe(this.cbIncFF, FileTableItemType.SP1GameFolder, false);
+			SetupFileTableCheckboxe(this.cbIncGA, FileTableItemType.SP2GameFolder, false);
 			SetupFileTableCheckboxe(this.cbIncCep, FileTableItemType.Absolute, true);			
 		}
 
@@ -4461,6 +4471,7 @@ namespace SimPe
 			else if (cb==this.cbIncNightlife) ChangeFileTable(cb, FileTableItemType.EP2GameFolder, false);
 			else if (cb==this.cbIncBusi) ChangeFileTable(cb, FileTableItemType.EP3GameFolder, false);
 			else if (cb==this.cbIncFF) ChangeFileTable(cb, FileTableItemType.SP1GameFolder, false);
+			else if (cb==this.cbIncGA) ChangeFileTable(cb, FileTableItemType.SP2GameFolder, false);
 		}
 		
 		#endregion

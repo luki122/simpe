@@ -2018,6 +2018,7 @@ namespace SimPe
 
 			try 
 			{
+				SimPe.About.StopUpdateCheck();
 				SimPe.Packages.StreamFactory.UnlockAll();
 				SimPe.Packages.StreamFactory.CloseAll(true);
 				SimPe.Packages.StreamFactory.CleanupTeleport();
