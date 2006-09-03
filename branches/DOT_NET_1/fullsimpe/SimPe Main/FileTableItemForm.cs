@@ -212,7 +212,8 @@ namespace SimPe
 														 resources.GetString("cbEpVer.Items2"),
 														 resources.GetString("cbEpVer.Items3"),
 														 resources.GetString("cbEpVer.Items4"),
-														 resources.GetString("cbEpVer.Items5")});
+														 resources.GetString("cbEpVer.Items5"),
+														 resources.GetString("cbEpVer.Items6")});
 			this.cbEpVer.Location = ((System.Drawing.Point)(resources.GetObject("cbEpVer.Location")));
 			this.cbEpVer.MaxDropDownItems = ((int)(resources.GetObject("cbEpVer.MaxDropDownItems")));
 			this.cbEpVer.MaxLength = ((int)(resources.GetObject("cbEpVer.MaxLength")));

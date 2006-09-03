@@ -76,6 +76,7 @@ namespace SimPe
 			this.tbFolder.Items.Add(new FolderWrapper("Nightlife", SimPe.Helper.WindowsRegistry.RealEP2GamePath));
 			this.tbFolder.Items.Add(new FolderWrapper("Open for Business", SimPe.Helper.WindowsRegistry.RealEP3GamePath));
 			this.tbFolder.Items.Add(new FolderWrapper("Family Fun Accesoires", SimPe.Helper.WindowsRegistry.RealSP1GamePath));
+			this.tbFolder.Items.Add(new FolderWrapper("Glamour Accesoires", SimPe.Helper.WindowsRegistry.RealSP2GamePath));
 			this.tbFolder.Items.Add(new FolderWrapper("Savegame", SimPe.Helper.WindowsRegistry.RealSavegamePath));
 		}
 

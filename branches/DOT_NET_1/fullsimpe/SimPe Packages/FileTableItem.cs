@@ -17,7 +17,8 @@ namespace SimPe
 		SimPEPluginFolder = 0x6,
 		EP2GameFolder = 0x7,
 		EP3GameFolder = 0x8,
-		SP1GameFolder = 0x9
+		SP1GameFolder = 0x9,
+		SP2GameFolder = 0xA
 	}
 	/// <summary>
 	/// The type and location of a Folder/file
@@ -98,6 +99,7 @@ namespace SimPe
 			else if (type==FileTableItemType.EP2GameFolder) ret = Helper.WindowsRegistry.SimsEP2Path;
 			else if (type==FileTableItemType.EP3GameFolder) ret = Helper.WindowsRegistry.SimsEP3Path;
 			else if (type==FileTableItemType.SP1GameFolder) ret = Helper.WindowsRegistry.SimsSP1Path;
+			else if (type==FileTableItemType.SP2GameFolder) ret = Helper.WindowsRegistry.SimsSP2Path;
 			else if (type==FileTableItemType.GameFolder) ret = Helper.WindowsRegistry.SimsPath;
 			else if (type==FileTableItemType.SaveGameFolder) ret = Helper.WindowsRegistry.SimSavegameFolder;
 			else if (type==FileTableItemType.SimPEDataFolder) ret = Helper.SimPeDataPath;
@@ -117,6 +119,7 @@ namespace SimPe
 			else if (type==FileTableItemType.EP2GameFolder) return 2;
 			else if (type==FileTableItemType.EP3GameFolder) return 3;
 			else if (type==FileTableItemType.SP1GameFolder) return 4;
+			else if (type==FileTableItemType.SP2GameFolder) return 5;
 			else if (type==FileTableItemType.GameFolder) return 0;
 			
 			return -1;
@@ -177,6 +180,7 @@ namespace SimPe
 			if (CutName(n, FileTableItemType.EP2GameFolder)) return;
 			if (CutName(n, FileTableItemType.EP3GameFolder)) return;
 			if (CutName(n, FileTableItemType.SP1GameFolder)) return;
+			if (CutName(n, FileTableItemType.SP2GameFolder)) return;
 			if (CutName(n, FileTableItemType.SaveGameFolder)) return;
 			if (CutName(n, FileTableItemType.SimPEDataFolder)) return;
 			if (CutName(n, FileTableItemType.SimPEFolder)) return;
