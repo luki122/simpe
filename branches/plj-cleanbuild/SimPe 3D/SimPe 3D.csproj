@@ -108,30 +108,6 @@
     <Reference Include="Microsoft.VisualBasic">
       <Name>Microsoft.VisualBasic</Name>
     </Reference>
-    <Reference Include="simpe.commonhandler, Version=1.0.2305.28389, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\__Release\simpe.commonhandler.dll</HintPath>
-    </Reference>
-    <Reference Include="simpe.gmdc.exporter.base, Version=1.0.2305.28393, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\__Release\simpe.gmdc.exporter.base.dll</HintPath>
-    </Reference>
-    <Reference Include="simpe.interfaces, Version=1.0.2305.27921, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\__Release\simpe.interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="simpe.package, Version=1.0.2305.28390, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\__Release\simpe.package.dll</HintPath>
-    </Reference>
-    <Reference Include="simpe.rcol, Version=1.0.2305.28391, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\__Release\simpe.rcol.dll</HintPath>
-    </Reference>
-    <Reference Include="simpe.workspace, Version=1.0.2305.28391, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\__Release\simpe.workspace.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -162,10 +138,34 @@
       <Project>{60367A6D-8FF1-4289-B546-C68A2C395843}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
+    <ProjectReference Include="..\SimPe GMDC Exporter Base\SimPe GMDC Exporter Base.csproj">
+      <Project>{76D6A8B3-10DF-4948-9028-C63A416AB00E}</Project>
+      <Name>SimPe GMDC Exporter Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimPe HandlerCommon\SimPe HandlerCommon.csproj">
+      <Project>{A4CC48FD-9574-4F0B-B721-9E8C1B1E6A8A}</Project>
+      <Name>SimPe HandlerCommon</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SimPe Helper\SimPe Helper.csproj">
       <Name>SimPe Helper</Name>
       <Project>{59E3C353-1350-42D8-A045-CBBAD232F228}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\SimPe Interfaces\SimPe Interfaces.csproj">
+      <Project>{74FCBBEC-105A-4006-A1FC-8EF4F80FD2D7}</Project>
+      <Name>SimPe Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimPe Packages\SimPe Packages.csproj">
+      <Project>{1C6C45BF-FE19-4C23-B327-01F45B0F269C}</Project>
+      <Name>SimPe Packages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimPe RCOL\SimPe RCOL.csproj">
+      <Project>{74517907-2236-4C45-80ED-E188D5E5CE0E}</Project>
+      <Name>SimPe RCOL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimPe Workspace Helper\SimPe Workspace Helper.csproj">
+      <Project>{45021667-BAD2-4ECA-8423-F4734F914CBB}</Project>
+      <Name>SimPe Workspace Helper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +204,7 @@ copy "$(TargetPath)" "$(SolutionDir)..\__Release\Plugins\$(TargetFileName)"
 copy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)..\__Release\Plugins\"
 copy "$(TargetDir)de\*.dll" "$(SolutionDir)..\__Release\de\"
 copy "$(TargetDir)pl\*.dll" "$(SolutionDir)..\__Release\pl\"
-copy "$(TargetDir)es\*.dll" "$(SolutionDir)..\__Release\es\"</PostBuildEvent>
+copy "$(TargetDir)es\*.dll" "$(SolutionDir)..\__Release\es\"
+exit 0</PostBuildEvent>
   </PropertyGroup>
 </Project>
