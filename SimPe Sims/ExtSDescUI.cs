@@ -645,7 +645,7 @@ namespace SimPe.PackedFiles.UserInterface
 			else if(this.pnChar.Visible) 
 			{
 				intern = true;
-				foreach (Control c in pnChar.Controls)
+                foreach (Control c in pnHumanChar.Controls)
 					if (c is LabeledProgressBar)
 						((LabeledProgressBar)c).Value = rnd.Next(((LabeledProgressBar)c).Maximum);
 				intern = false;	this.ChangedSkill(null, null);
@@ -653,9 +653,12 @@ namespace SimPe.PackedFiles.UserInterface
 			else if(this.pnInt.Visible) 
 			{
 				intern = true;
-				foreach (Control c in pnInt.Controls)
+                foreach (Control c in pnPetInt.Controls)
 					if (c is LabeledProgressBar)
 						((LabeledProgressBar)c).Value = rnd.Next(((LabeledProgressBar)c).Maximum);
+                foreach (Control c in pnSimInt.Controls)
+                    if (c is LabeledProgressBar)
+                        ((LabeledProgressBar)c).Value = rnd.Next(((LabeledProgressBar)c).Maximum);
 				intern = false;	this.ChangedSkill(null, null);
 			}
 			else if (this.pnRel.Visible)
@@ -1517,8 +1520,8 @@ namespace SimPe.PackedFiles.UserInterface
         {
             this.ptGifted.SetTraitLevel(0, 1, sdesc.Pets.PetTraits);
             this.ptHyper.SetTraitLevel(2, 3, sdesc.Pets.PetTraits);
-            this.ptIndep.SetTraitLevel(4, 7, sdesc.Pets.PetTraits);
-            this.ptAggres.SetTraitLevel(6, 5, sdesc.Pets.PetTraits);
+            this.ptIndep.SetTraitLevel(4, 5, sdesc.Pets.PetTraits);
+            this.ptAggres.SetTraitLevel(6, 7, sdesc.Pets.PetTraits);
             this.ptPigpen.SetTraitLevel(8, 9, sdesc.Pets.PetTraits);        
         }
 		
@@ -1594,8 +1597,8 @@ namespace SimPe.PackedFiles.UserInterface
                 {
                     this.ptGifted.UpdateTraits(0, 1, Sdesc.Pets.PetTraits);
                     this.ptHyper.UpdateTraits(2, 3, Sdesc.Pets.PetTraits);
-                    this.ptIndep.UpdateTraits(4, 7, Sdesc.Pets.PetTraits);
-                    this.ptAggres.UpdateTraits(6, 5, Sdesc.Pets.PetTraits);
+                    this.ptIndep.UpdateTraits(4, 5, Sdesc.Pets.PetTraits);
+                    this.ptAggres.UpdateTraits(6, 7, Sdesc.Pets.PetTraits);
                     this.ptPigpen.UpdateTraits(8, 9, Sdesc.Pets.PetTraits);
                     //Sdesc.Changed = true;
                 }
