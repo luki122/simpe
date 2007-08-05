@@ -16,12 +16,18 @@ namespace SimPe
         Glamour = 0x20,
         Pets = 0x40,
         HappyHoliday = 0x80,
+        Celebrations = 0x200,
+        Seasons = 0x100,
+        Fashion = 0x400,
+        LifeStories = 0x00100000,
+        PetStories = 0x00200000,
         Custom = 0x80000000
     }
 
 
     public class PathProvider : IEnumerable<string>
     {
+        internal const int GROUP_COUNT = 32;
         static ExpansionItem nil = new ExpansionItem(null);
         public static ExpansionItem Nil {
             get { return nil; }
@@ -41,6 +47,9 @@ namespace SimPe
         ExpansionItem latest;
         List<string> censorfiles;
         Expansions lastknown;
+        Dictionary<long, Ambertation.CaseInvariantArrayList> savgamemap;
+
+        long avlgrp;
 
         public static string ExpansionFile
         {
@@ -62,7 +71,9 @@ namespace SimPe
             xrk = reg.CurrentUser.CreateSubKey("Expansions");
             exps = new List<ExpansionItem>();
             map = new Dictionary<Expansions, ExpansionItem>();
+            savgamemap = new Dictionary<long, Ambertation.CaseInvariantArrayList>();
             censorfiles = new List<string>();
+            avlgrp = 0;
 
             Load();
         }
@@ -74,6 +85,7 @@ namespace SimPe
             censorfiles.Add(System.IO.Path.Combine(SimSavegameFolder, @"Downloads\quaxi_nl_censor.package"));
             string[] names = xrk.GetSubKeyNames();
             int ver = -1;
+            avlgrp = 0;
             foreach (string name in names)
             {
                 ExpansionItem i = new ExpansionItem(xrk.OpenSubKey(name, false));
@@ -90,13 +102,20 @@ namespace SimPe
                     ver = i.Version;
                     lastknown = i.Expansion;
                 }
+
+                avlgrp = avlgrp | i.Group;
             }
 
-            spver = GetMaxVersion(true);
-            epver = GetMaxVersion(false);
+            
+
+            spver = GetMaxVersion(ExpansionItem.Classes.StuffPack);
+            epver = GetMaxVersion(ExpansionItem.Classes.ExpansionPack);
+            stver = GetMaxVersion(ExpansionItem.Classes.Story);
             latest = this.GetLatestExpansion();
 
             exps.Sort();
+
+            CreateSaveGameMap();
 
             paths = new List<string>();
             foreach (ExpansionItem ei in exps)
@@ -105,14 +124,35 @@ namespace SimPe
                         paths.Add(ei.InstallFolder);        
         }
 
-        protected int GetMaxVersion(bool sp)
+        private void CreateSaveGameMap()
+        {
+            foreach (ExpansionItem ei in exps)
+            {
+                foreach (long grp in ei.Groups)
+                {
+                    Ambertation.CaseInvariantArrayList list;
+                    if (savgamemap.ContainsKey(grp)) list = savgamemap[grp];
+                    else
+                    {
+                        list = new Ambertation.CaseInvariantArrayList();
+                        savgamemap[grp] = list;
+                    }
+
+                    ei.AddSaveGamePaths(list);
+                }
+            }
+        }
+
+
+
+        protected int GetMaxVersion(ExpansionItem.Classes sp)
         {
             int ret = 0;
             foreach (ExpansionItem i in exps)
             {
                 if (i.Exists)
                 {
-                    if ((sp && i.Flag.Class == ExpansionItem.Classes.StuffPack) || (!sp && i.Flag.Class == ExpansionItem.Classes.ExpansionPack))
+                    if (sp ==i.Flag.Class && i.Flag.FullObjectsPackage)
                     {
                         if (i.Version > ret) ret = i.Version;
                     }
@@ -147,7 +187,14 @@ namespace SimPe
         /// </summary>
         public string SimsApplication
         {
-            get { return Latest.ApplicationPath; }
+            get {
+                if (Latest.Version != Latest.PreferedRuntimeVersion)
+                {
+                    ExpansionItem ei = GetHighestAvailableExpansion(Latest.PreferedRuntimeVersion, Latest.Version);
+                    return ei.ApplicationPath;
+                }
+                return Latest.ApplicationPath; 
+            }
 
         }
 
@@ -188,6 +235,29 @@ namespace SimPe
         }
 
         /// <summary>
+        /// Returns the object describing the highest Expansion in the interval [minver, maxver[
+        /// </summary>
+        /// <param name="minver"></param>
+        /// <param name="maxver"> not including this version</param>
+        /// <returns>null will be returned, if the passed Expansion is not yet defined. If it is just not installed on
+        /// the users Nil, a valid object will be returned, but the <see cref="ExoansionItem.Exists"/> property 
+        /// returns false.</returns>
+        public ExpansionItem GetHighestAvailableExpansion(int minver, int maxver)
+        {
+            ExpansionItem exp = null;
+            ExpansionItem t = null;
+            int v = minver;
+            while (v < maxver)
+            {
+                t = GetExpansion(v++);
+                if (t != null)
+                    if (t.Exists)
+                        exp = t;
+            }
+            return exp;
+        }
+
+        /// <summary>
         /// Returns the object describing the passed Expansion, or Nil if it is not known
         /// </summary>
         /// <param name="exp"></param>
@@ -207,6 +277,14 @@ namespace SimPe
         public ExpansionItem this[int ver]
         {
             get { return GetExpansion(ver); }
+        }
+
+        /// <summary>
+        /// Returns the number containing all available Game Groups
+        /// </summary>
+        public long AvailableGroup
+        {
+            get { return avlgrp;}
         }
 
         #region Censor Patch
@@ -427,6 +505,40 @@ namespace SimPe
         #endregion
 
         #region Paths 
+        public IList<string> GetSaveGamePathForGroup()
+        {
+            return GetSaveGamePathForGroup(AvailableGroup);
+        }
+
+        public IList<string> GetSaveGamePathForGroup(long grp)
+        {
+            List<string> list = new List<string>();
+
+            foreach (long g in savgamemap.Keys)
+            {
+                Ambertation.CaseInvariantArrayList ps = savgamemap[g];
+                if (ps == null) continue;
+                foreach (string s in ps)
+                    if (!list.Contains(Helper.CompareableFileName(s))) list.Add(Helper.CompareableFileName(s));
+            }
+
+            return list.AsReadOnly();
+        }
+
+        public long SaveGamePathProvidedByGroup(string path)
+        {
+            path = Helper.CompareableFileName(path);
+            foreach (long grp in savgamemap.Keys)
+            {
+                Ambertation.CaseInvariantArrayList ps = savgamemap[grp];
+                foreach (string s in ps)
+                    if (path.StartsWith(Helper.CompareableFileName(s))) return grp;
+            }
+
+            return 0;
+        }
+
+
         public static string RealSavegamePath
         {
             get
@@ -479,6 +591,51 @@ namespace SimPe
         }
 
         /// <summary>
+        /// Returns the DisplayName for a given Expansion
+        /// </summary>
+        /// <param name="ei">Expansion you are looking for</param>
+        /// <returns>DisplayName of the Expoansion</returns>
+        internal static string GetDisplayedNameForExpansion(ExpansionItem ei)
+        {
+            try
+            {
+#if MAC
+					return "The Sims 2";
+#else
+                Microsoft.Win32.RegistryKey rk = ei.Registry;
+                return GetDisplayedNameForExpansion(rk);
+#endif
+            }
+            catch (Exception)
+            {
+                return "The Sims 2";
+            }
+        }
+
+        /// <summary>
+        /// Returns the Display name stored in a RegistryKey.
+        /// </summary>
+        /// <param name="rk">RegistryKey to look in</param>
+        /// <returns>DisplayName found in that Key</returns>
+        protected static string GetDisplayedNameForExpansion(Microsoft.Win32.RegistryKey rk)
+        {
+            try
+            {
+#if MAC
+					return "The Sims 2";
+#else
+                object o = rk.GetValue("DisplayName");
+                if (o == null) return "The Sims 2";
+                else return o.ToString();
+#endif
+            }
+            catch (Exception)
+            {
+                return "The Sims 2";
+            }
+        }
+
+        /// <summary>
         /// Returns the Displayed Sims 2 name
         /// </summary>
         protected static string DisplayedName
@@ -491,9 +648,7 @@ namespace SimPe
 					return "The Sims 2";
 #else
                     Microsoft.Win32.RegistryKey rk = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"Software\EA Games\The Sims 2");
-                    object o = rk.GetValue("DisplayName");
-                    if (o == null) return "The Sims 2";
-                    else return o.ToString();
+                    return GetDisplayedNameForExpansion(rk);
 #endif
                 }
                 catch (Exception)
@@ -506,7 +661,7 @@ namespace SimPe
         /// <summary>
         /// Returns the Location of the Personal Folder
         /// </summary>
-        protected static string PersonalFolder
+        internal static string PersonalFolder
         {
             get
             {
@@ -561,6 +716,17 @@ namespace SimPe
                 return System.IO.Path.Combine(SimSavegameFolder, "Config\\userStartup.cheat");
             }
         }
+
+        /// <summary>
+        /// Looks for the Neighborhoods subfolder in the specified path
+        /// </summary>
+        /// <param name="path">Base Path</param>
+        /// <returns>the suggested neighborhood folder</returns>
+        public static string BuildNeighborhoodFolder(string path)
+        {
+            return System.IO.Path.Combine(path, "Neighborhoods");
+        }
+
         /// <summary>
         /// returns the Fodler where the users Neighborhood is stored
         /// </summary>
@@ -570,7 +736,7 @@ namespace SimPe
             {
                 try
                 {
-                    return System.IO.Path.Combine(SimSavegameFolder, "Neighborhoods");
+                    return BuildNeighborhoodFolder(SimSavegameFolder);
                 }
                 catch (Exception)
                 {

@@ -6,7 +6,7 @@
     <ProjectGuid>{7368AF5F-2C82-4750-A31F-63AA4432758C}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ApplicationIcon>img\simpenew.ico</ApplicationIcon>
+    <ApplicationIcon>simpenew.ico</ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
     <AssemblyName>SimPe</AssemblyName>
@@ -384,6 +384,7 @@
     <EmbeddedResource Include="actionstart.png" />
     <EmbeddedResource Include="AddExtTool.resx">
       <DependentUpon>AddExtTool.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="disabled.png" />
     <EmbeddedResource Include="enabled.png" />
@@ -411,6 +412,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Main.de.resx">
       <DependentUpon>Main.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.fr.resx">
       <DependentUpon>Main.cs</DependentUpon>
@@ -422,6 +424,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Main.pl.resx">
       <DependentUpon>Main.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
@@ -438,6 +441,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OptionForm.es.resx">
       <DependentUpon>OptionForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="OptionForm.fr.resx">
       <DependentUpon>OptionForm.cs</DependentUpon>
@@ -449,6 +453,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OptionForm.pl.resx">
       <DependentUpon>OptionForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="OptionForm.resx">
       <DependentUpon>OptionForm.cs</DependentUpon>
@@ -476,13 +481,28 @@
     <EmbeddedResource Include="7.png" />
     <EmbeddedResource Include="8.png" />
     <Content Include="App.ico" />
+    <Content Include="Simpe2.ico" />
+    <Content Include="simpenew.ico" />
     <EmbeddedResource Include="simpe.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="about-fr.rtf" />
+    <EmbeddedResource Include="about-it.rtf" />
+    <EmbeddedResource Include="about-ru.rtf" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FileTableItemForm.ru.resx">
+      <DependentUpon>FileTableItemForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="welcome-fr.rtf" />
+    <EmbeddedResource Include="welcome-it.rtf" />
+    <EmbeddedResource Include="welcome-ru.rtf" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>if not exist "$(SolutionDir)$(OutDir)Plugins\" mkdir "$(SolutionDir)$(OutDir)Plugins\"
 if not exist "$(SolutionDir)$(OutDir)Data\" mkdir "$(SolutionDir)$(OutDir)Data\"</PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>"$(SolutionDir)ReplaceVistaIcon.exe" "$(TargetPath)" "$(ProjectDir)img\Simpe2.ico" 0</PostBuildEvent>
   </PropertyGroup>
 </Project>

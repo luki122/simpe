@@ -180,19 +180,20 @@ namespace SimPe
                     {
                         ExpansionItem ei = PathProvider.Global.Expansions[i];
                         string s = ei.ShortId.ToLower();
+                        string ign = "";
+                        if ((ei.Group & 1) != 1) ign = " ignore=\"1\" ";
+                        foreach (string folder in ei.PreObjectFileTableFolders)
+                        {
+                            tw.WriteLine("    <path " + ign + " root=\"" + s + "\">"+folder+"</path>");
+                        }
 
-                        if (ei.Flag.Class == ExpansionItem.Classes.BaseGame) tw.WriteLine("    <path root=\""+s+"\">TSData" + Helper.PATH_SEP + "Res" + Helper.PATH_SEP + "Catalog" + Helper.PATH_SEP + "Bins</path>");
-                        tw.WriteLine("    <path root=\""+s+"\" version=\""+ei.Version+"\">TSData" + Helper.PATH_SEP + "Res" + Helper.PATH_SEP + "Objects</path>");
-                        if (ei.Flag.Class == ExpansionItem.Classes.BaseGame) tw.WriteLine("    <path root=\"" + s + "\">TSData" + Helper.PATH_SEP + "Res" + Helper.PATH_SEP + "Sims3D</path>");
-                        else  tw.WriteLine("    <path root=\"" + s + "\">TSData" + Helper.PATH_SEP + "Res" + Helper.PATH_SEP + "3D</path>");
+                        if (ei.Flag.SimStory || !ei.Flag.FullObjectsPackage) tw.WriteLine("    <path " + ign + " root=\"" + s + "\">" + ei.ObjectsSubFolder.Replace("\\\\", "\\") + "</path>");
+                        else tw.WriteLine("    <path " + ign + " root=\"" + s + "\" version=\"" + ei.Version + "\">"+ei.ObjectsSubFolder.Replace("\\\\", "\\")+"</path>");
                         
-                        tw.WriteLine("    <path root=\"" + s + "\">TSData" + Helper.PATH_SEP + "Res" + Helper.PATH_SEP + "Catalog" + Helper.PATH_SEP + "Materials</path>");
-                        tw.WriteLine("    <path root=\"" + s + "\">TSData" + Helper.PATH_SEP + "Res" + Helper.PATH_SEP + "Catalog" + Helper.PATH_SEP + "Skins</path>");
-                        tw.WriteLine("    <path root=\"" + s + "\">TSData" + Helper.PATH_SEP + "Res" + Helper.PATH_SEP + "Catalog" + Helper.PATH_SEP + "Patterns</path>");
-                        tw.WriteLine("    <path root=\"" + s + "\">TSData" + Helper.PATH_SEP + "Res" + Helper.PATH_SEP + "Catalog" + Helper.PATH_SEP + "CANHObjects</path>");
-                        tw.WriteLine("    <path root=\"" + s + "\">TSData" + Helper.PATH_SEP + "Res" + Helper.PATH_SEP + "Wants</path>");
-                        tw.WriteLine("    <path root=\"" + s + "\">TSData" + Helper.PATH_SEP + "Res" + Helper.PATH_SEP + "UI</path>");
-
+                        foreach (string folder in ei.FileTableFolders)
+                        {
+                            tw.WriteLine("    <path " + ign + " root=\"" + s + "\">" + folder + "</path>");
+                        }
                     }
                     /*tw.WriteLine("    <path root=\"sp2\" version=\"5\">TSData" + Helper.PATH_SEP + "Res" + Helper.PATH_SEP + "Objects</path>");
                     tw.WriteLine("    <path root=\"sp2\">TSData" + Helper.PATH_SEP + "Res" + Helper.PATH_SEP + "3D</path>");

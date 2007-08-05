@@ -62,19 +62,26 @@ namespace SimPe.Data
 	}
 
 	/// <summary>
-	/// Categories used for Property Sets (Skins)
+	/// Categories used for Property Sets (Skins) (Updated by Theo
 	/// </summary>
-	public enum SkinCategories:uint
-	{
-		Everyday = 0x07,
-		Swimmwear = 0x08,
-		PJ = 0x10,
-		Formal = 0x20,
-		Undies = 0x40,
-		Skin = 0x80,
-		Pregnant = 0x100,
-		Activewear = 0x200
-	}
+    [Flags]
+    public enum SkinCategories:uint
+    {
+        Casual1 = 0x01,
+        Casual2 = 0x02,
+        Casual3 = 0x04,
+        Everyday = Casual1 | Casual2 | Casual3,
+        Swimmwear = 0x08,
+        PJ = 0x10,
+        Formal = 0x20,
+        Undies = 0x40,
+        Skin = 0x80,
+        Pregnant = 0x100,
+        Activewear = 0x200,
+        TryOn = 0x400,
+        NakedOverlay = 0x800,
+        Outerwear = 0x1000
+    }
 
 	/// <summary>
 	/// 
@@ -673,7 +680,22 @@ namespace SimPe.Data
             Paranormal = 0x2E6FFF87,
             NaturalScientist = 0xEE70001C,
             ShowBiz = 0xAE6FFFB0,
-            Artist = 0x4E6FFFBC
+            Artist = 0x4E6FFFBC,
+            Adventurer = 0x3240CBA5,
+            Education = 0x72428B30,
+            Gamer = 0xF240C306,
+            Journalism = 0x7240D944,
+            Law = 0x12428B19,
+            Music = 0xB2428B0C,
+            TeenElderAdventurer = 0xF240D235,
+            TeenElderEducation = 0xD243BBEC,
+            TeenElderGamer = 0x1240C962,
+            TeenElderJournalism = 0x5240E212,
+            TeenElderLaw = 0x1243BBDE,
+            TeenElderMusic = 0xB243BBD2,
+            PetSecurity = 0xD188A400,
+            PetService = 0xB188A4C1,
+            PetShowBiz = 0xD175CC2D
         }
         #endregion
 

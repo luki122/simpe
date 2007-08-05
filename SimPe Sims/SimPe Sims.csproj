@@ -262,11 +262,21 @@
     <Compile Include="SCOR\AScorItem.Designer.cs">
       <DependentUpon>AScorItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="SCOR\IScorItemToken.cs" />
     <Compile Include="SCOR\LearnedBahaviourComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="SCOR\LearnedBahaviourComboBox.Designer.cs">
       <DependentUpon>LearnedBahaviourComboBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SCOR\ScoreItemBusinessRewards.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SCOR\ScoreItemBusinessRewards.Designer.cs">
+      <DependentUpon>ScoreItemBusinessRewards.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SCOR\ScoreItemBusinessRewards.Element.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="SCOR\ScoreItemDefault.cs">
       <SubType>UserControl</SubType>
@@ -284,6 +294,8 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="SCOR\ScorItem.cs" />
+    <Compile Include="SCOR\ScorItemTokenBusinessRewards.cs" />
+    <Compile Include="SCOR\ScorItemTokenDefault.cs" />
     <Compile Include="SCOR\ScorUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -317,12 +329,15 @@
     </Compile>
     <EmbeddedResource Include="CommonSrelUI.de.resx">
       <DependentUpon>CommonSrelUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CommonSrelUI.pL.resx">
       <DependentUpon>CommonSrelUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CommonSrelUI.resx">
       <DependentUpon>CommonSrelUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="dna.png" />
     <EmbeddedResource Include="ExtSDescUI.de.resx">
@@ -339,19 +354,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ExtSrelUI.de.resx">
       <DependentUpon>ExtSrelUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ExtSrelUI.pl.resx">
       <DependentUpon>ExtSrelUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ExtSrelUI.resx">
       <DependentUpon>ExtSrelUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="familyties.png" />
     <EmbeddedResource Include="FamilyTiesForm.de.resx">
       <DependentUpon>FamilyTiesForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FamilyTiesForm.pl.resx">
       <DependentUpon>FamilyTiesForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FamilyTiesForm.resx">
       <DependentUpon>FamilyTiesForm.cs</DependentUpon>
@@ -361,18 +381,23 @@
     <EmbeddedResource Include="sdsc.png" />
     <EmbeddedResource Include="SimBusinessList.resx">
       <DependentUpon>SimBusinessList.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SimComboBox.resx">
       <DependentUpon>SimComboBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SimDNAUI.resx">
       <DependentUpon>SimDNAUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SimListView.resx">
       <DependentUpon>SimListView.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SimPoolControl.de.resx">
       <DependentUpon>SimPoolControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SimPoolControl.resx">
       <DependentUpon>SimPoolControl.cs</DependentUpon>
@@ -443,6 +468,10 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="related.png" />
+    <EmbeddedResource Include="SCOR\ScoreItemBusinessRewards.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ScoreItemBusinessRewards.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SCOR\ScoreItemDefault.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ScoreItemDefault.cs</DependentUpon>
