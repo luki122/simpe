@@ -45,7 +45,8 @@ namespace SimPe.Plugin
 		Sims2_University = 0x05,
 		Sims2_Nightlife = 0x07,
 		Sims2_Business = 0x08,
-        Sims2_Pets = 0x09
+        Sims2_Pets = 0x09,
+        Sims2_Seasons = 0x0A
 	}
 
 	/// <summary>
@@ -261,7 +262,7 @@ namespace SimPe.Plugin
 		///  </param>
 		static void FindUids(string folder, Hashtable ids, bool scanall)
 		{
-			WaitingScreen.UpdateMessage(folder);
+			Wait.Message = (folder);
 
 			ArrayList names = new ArrayList();
 			if (!scanall) 
@@ -301,10 +302,10 @@ namespace SimPe.Plugin
 		/// </summary>
 		public void MakeUnique() 
 		{
-			bool wr = WaitingScreen.Running;
-			if (!wr) WaitingScreen.Wait();
+
+            Wait.SubStart();
 			Idno.MakeUnique(this, this.Package.FileName, true);
-			if (!wr) WaitingScreen.Stop();
+            Wait.SubStop();
 		}
 
 		/// <summary>
@@ -313,10 +314,9 @@ namespace SimPe.Plugin
 		/// <param name="ids">a Map of all available Group Ids (can be obtained by calling Idno::FindUids())</param>
 		public void MakeUnique(Hashtable ids) 
 		{
-			bool wr = WaitingScreen.Running;
-			if (!wr) WaitingScreen.Wait();
+            Wait.SubStart();
 			Idno.MakeUnique(this, this.Package.FileName, ids);
-			if (!wr) WaitingScreen.Stop();
+            Wait.SubStop();
 		}
 		
 		/// <summary>

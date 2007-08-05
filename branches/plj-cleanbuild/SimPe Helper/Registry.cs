@@ -345,6 +345,24 @@ namespace SimPe
         /// <summary>
         /// true, if the user wants the Pescado Mode
         /// </summary>
+        public bool FileTableSimpleSelectUseGroups
+        {
+            get
+            {
+                XmlRegistryKey rkf = xrk.CreateSubKey("Settings");
+                object o = rkf.GetValue("FileTableSimpleSelectUseGroups", true);
+                return Convert.ToBoolean(o);
+            }
+            set
+            {
+                XmlRegistryKey rkf = xrk.CreateSubKey("Settings");
+                rkf.SetValue("FileTableSimpleSelectUseGroups", value);
+            }
+        }
+
+        /// <summary>
+        /// true, if the user wants the Pescado Mode
+        /// </summary>
         public bool ShowWaitBarPermanent
         {
             get
@@ -623,6 +641,31 @@ namespace SimPe
 				rkf.SetValue("Version", value);
 			}
 		}
+
+        /// <summary>
+        /// Returns the maximum number of search results to show
+        /// </summary>
+        public int MaxSearchResults
+        {
+            get
+            {
+                try
+                {
+                    XmlRegistryKey rkf = xrk.CreateSubKey("Settings");
+                    object o = rkf.GetValue("MaxSearchResults", 2000);
+                    return (int)o;
+                }
+                catch (Exception)
+                {
+                    return 16;
+                }
+            }
+            set
+            {
+                XmlRegistryKey rkf = xrk.CreateSubKey("Settings");
+                rkf.SetValue("MaxSearchResults", value);
+            }
+        }
 
 		/// <summary>
 		/// Returns the Thumbnail Size for Treeview Items in OW

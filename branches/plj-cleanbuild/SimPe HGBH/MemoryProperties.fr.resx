@@ -231,4 +231,7 @@
   <data name="tabPage4.ToolTipText" xml:space="preserve">
     <value>Donnée brut</value>
   </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Inconnu :</value>
+  </data>
 </root>

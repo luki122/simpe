@@ -128,7 +128,7 @@
     <value>283, 216</value>
   </data>
   <data name="$this.CaptionText" xml:space="preserve">
-    <value>Détails du Package</value>
+    <value>Détails de l'Emballage</value>
   </data>
   <data name="$this.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -170,5 +170,11 @@
         nGw9TuYRsv+Oq6sryDPv90IdJQhCVV8v3SIF3WFhYVx3d/fLZNF7X3DY3js5OSU7Ojo++LPmR16CyHQ5
         TPDP3n4BYNyzSge5NMoAAAAASUVORK5CYII=
 </value>
+  </data>
+  <data name="$this.TabText" xml:space="preserve">
+    <value>Détails</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Détails de l'Emballage</value>
   </data>
 </root>

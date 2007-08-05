@@ -144,27 +144,6 @@
   <data name="cbflip.ToolTip" xml:space="preserve">
     <value>Cocher cette case, si vous voulez que SimPE to retourne l'image source.  Avec cette option sélectionnée votre image n'apparaîtra pas inversée dans le jeu.</value>
   </data>
-  <data name="lbsize.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="lbname.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="pb.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="tabPage1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="lv.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="tabPage2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="tabControl1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
     <value>35, 152</value>
@@ -179,9 +158,6 @@ de base :</value>
   <data name="label1.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>TopRight</value>
   </data>
-  <data name="label1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="llcreate.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
     <value>0, 5</value>
@@ -192,9 +168,6 @@ de base :</value>
   <data name="llcreate.Text" xml:space="preserve">
     <value>créer</value>
   </data>
-  <data name="llcreate.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
     <value>43, 312</value>
   </data>
@@ -204,20 +177,14 @@ de base :</value>
   <data name="label2.Text" xml:space="preserve">
     <value>Qualité :</value>
   </data>
-  <data name="label2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="cbprev.Text" xml:space="preserve">
     <value>Aperçu</value>
-  </data>
-  <data name="cbprev.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="ofd.Filter" xml:space="preserve">
     <value>Tous les fichiers image (*.jpg;*.bmp;*.gif;*.png)|*.jpg;*.bmp;*.gif;*.png|Bitmap (*.bmp)|*.bmp|Gif (*.gif)|*.gif|Image JPEG (*.jpg)|*.jpg|Png (*.png)|*.png|Tous les fichiers (*.*)|*.*</value>
   </data>
   <data name="sfd.Filter" xml:space="preserve">
-    <value>Fichier Package (*.package)|*.package|Tous les fichiers (*.*)|*.*</value>
+    <value>Fichier Emballage (Package)|*.package|Tous les fichiers (*.*)|*.*</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -489,8 +456,5 @@ de base :</value>
         AP//gAAAAAAB//+AAAAAAAP//+AAAAAAB///8AAAAAAP///4AAAAAB////wAAAAAP////wAAAAD/////
         wAAAA//////wAAAP//////4AAH///////+AH////
 </value>
-  </data>
-  <data name="$this.ToolTip" xml:space="preserve">
-    <value />
   </data>
 </root>

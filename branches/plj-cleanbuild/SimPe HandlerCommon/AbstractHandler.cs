@@ -432,6 +432,9 @@ namespace SimPe.Interfaces.Plugin
 				{
 					IPackedFile file = package.Read(pfd);
 					return new System.IO.BinaryReader(new System.IO.MemoryStream(file.UncompressedData));
+                    
+                    /*IPackedFile file = package.GetStream(pfd);
+                    return new System.IO.BinaryReader(file.UncompressedStream);*/
 				} 
 				else 
 				{
@@ -447,6 +450,14 @@ namespace SimPe.Interfaces.Plugin
 				return (GetType().GetInterface("SimPe.Interfaces.Plugin.IMultiplePackedFileWrapper", false)==typeof(SimPe.Interfaces.Plugin.IMultiplePackedFileWrapper));
 			}
 		}
+
+        public virtual bool ReferencesResources
+        {
+            get
+            {
+                return (GetType().GetInterface("SimPe.Interfaces.Plugin.IWrapperReferencedResources", false) == typeof(SimPe.Interfaces.Plugin.IWrapperReferencedResources));
+            }
+        }
 		
 
 		public void RefreshUI() 

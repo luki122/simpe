@@ -330,6 +330,94 @@
   <data name="Criminal" xml:space="preserve">
     <value>Krimineller</value>
   </data>
+  <data name="TeenElderAthletic" xml:space="preserve">
+    <value>Teen/Rentner - Sport</value>
+  </data>
+  <data name="TeenElderBusiness" xml:space="preserve">
+    <value>Teen/Rentner - Wirtschaft</value>
+  </data>
+  <data name="TeenElderCriminal" xml:space="preserve">
+    <value>Teen/Rentner - Krimineller</value>
+  </data>
+  <data name="TeenElderCulinary" xml:space="preserve">
+    <value>Teen/Rentner - Koch</value>
+  </data>
+  <data name="TeenElderLawEnforcement" xml:space="preserve">
+    <value>Teen/Rentner - Gesetzeshüter</value>
+  </data>
+  <data name="TeenElderMedical" xml:space="preserve">
+    <value>Teen/Rentner - Medizin</value>
+  </data>
+  <data name="TeenElderMilitary" xml:space="preserve">
+    <value>Teen/Rentner - Militär</value>
+  </data>
+  <data name="TeenElderPolitics" xml:space="preserve">
+    <value>Teen/Rentner - Politik</value>
+  </data>
+  <data name="TeenElderScience" xml:space="preserve">
+    <value>Teen/Rentner - Wissenschaft</value>
+  </data>
+  <data name="TeenElderSlacker" xml:space="preserve">
+    <value>Teen/Rentner - Faulenzer</value>
+  </data>
+  <data name="Paranormal" xml:space="preserve">
+    <value>Paranormales</value>
+  </data>
+  <data name="NaturalScientist" xml:space="preserve">
+    <value>Natur-Wissenschaftler</value>
+  </data>
+  <data name="ShowBiz" xml:space="preserve">
+    <value>Unterhaltungs Industrie</value>
+  </data>
+  <data name="Artist" xml:space="preserve">
+    <value>Künstler</value>
+  </data>
+  <data name="Adventurer" xml:space="preserve">
+    <value>Abentuerer</value>
+  </data>
+  <data name="Education" xml:space="preserve">
+    <value>Lehre</value>
+  </data>
+  <data name="Gamer" xml:space="preserve">
+    <value>Gamer</value>
+  </data>
+  <data name="Journalism" xml:space="preserve">
+    <value>Journalismus</value>
+  </data>
+  <data name="Law" xml:space="preserve">
+    <value>Recht</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Musik</value>
+  </data>
+  <data name="TeenElderAdventurer" xml:space="preserve">
+    <value>Teen/Rentner - Abenteurer</value>
+  </data>
+  <data name="TeenElderEducation" xml:space="preserve">
+    <value>Teen/Rentner - Lehre</value>
+  </data>
+  <data name="TeenElderGamer" xml:space="preserve">
+    <value>Teen/Rentner - Gamer</value>
+  </data>
+  <data name="TeenElderJournalism" xml:space="preserve">
+    <value>Teen/Rentner - Journalismus</value>
+  </data>
+  <data name="TeenElderLaw" xml:space="preserve">
+    <value>Teen/Rentner - Recht</value>
+  </data>
+  <data name="TeenElderMusic" xml:space="preserve">
+    <value>Teen/Rentner - Musik</value>
+  </data>
+  <data name="PetSecurity" xml:space="preserve">
+    <value>Haustier - Sicherheit</value>
+  </data>
+  <data name="PetService" xml:space="preserve">
+    <value>Haustier - Dienstleistung</value>
+  </data>
+  <data name="PetShowBiz" xml:space="preserve">
+    <value>Haustier - Unterhaltungs Industrie</value>
+  </data>
+
   <data name="cantaddtie" xml:space="preserve">
     <value>Dieser Sim kann nicht in die Verwandschaft aufgenommen werden.</value>
   </data>
@@ -1141,7 +1229,7 @@ Package: {filename}</value>
   <data name="Fix_Fence_Warning" xml:space="preserve">
     <value>"Zäune mit dem original Spiel kompatibel zu machen basiert auf einem unschönen Hack, der zu Konflikten im Spiel führen kann. Ich würde nicht Empfehlen, einen derartigen Zaun zu veröffentlichen!
 
-Soll er der Zaun dennoch auch im original Spiel verfügbar sein, sollte er in zwei Versionen angeboten werden. Einmal als Zaun für das original Spiel und einmal in einer Variante ab "Wilde Kampus-Jahre". 
+Soll er der Zaun dennoch auch im original Spiel verfügbar sein, sollte er in zwei Versionen angeboten werden. Einmal als Zaun für das original Spiel und einmal in einer Variante ab "Wilde Campus-Jahre". 
 Die Wahrscheinlichkeit für einen Konflikt, wenn ihr den Zaun nur für euren persönlichen Gebrauch in das Format des orginal Spieles umwandelt ist gering.
 
 Soll der Zaun in das Format des original Spieles umgewandelt werden?"</value>
@@ -1207,10 +1295,10 @@ Das angegebene Verzeichnis muss den Unterordner "TSData" enthalten.
 Wenn kein Verzeichnis angegeben wurde, wird der Standardpfad gesetzt.</value>
   </data>
   <data name="[Property:EP1Path]" xml:space="preserve">
-    <value>1: Wilde Kampus-Jahre</value>
+    <value>1: Wilde Campus-Jahre</value>
   </data>
   <data name="[Description:EP1Path]" xml:space="preserve">
-    <value>Hier sollte das Installationsverzeichnis von "Die Sims 2 - Wilde Kampus-Jahre" stehen. 
+    <value>Hier sollte das Installationsverzeichnis von "Die Sims 2 - Wilde Campus-Jahre" stehen. 
 Das angegebene Verzeichnis muss den Unterordner "TSData" enthalten.
 
 Wenn kein Verzeichnis angegeben wurde, wird der Standardpfad gesetzt.</value>
@@ -1270,6 +1358,50 @@ Wenn kein Verzeichnis angegeben wurde, wird der Standardpfad gesetzt.</value>
   <data name="[Description:SP3Path]" xml:space="preserve">
     <value>
       Hier sollte das Installationsverzeichnis von "Die Sims 2 - Weihnachtszeit-Accessoires" stehen.
+      Das angegebene Verzeichnis muss den Unterordner "TSData" enthalten.
+
+      Wenn kein Verzeichnis angegeben wurde, wird der Standardpfad gesetzt.
+    </value>
+  </data>
+  <data name="[Property:SP4Path]">
+    <value>3: Party-Accessoires</value>
+  </data>
+  <data name="[Description:SP4Path]">
+    <value>
+      This should contain the installation directory of "Die Sims 2 - Party-Accessoires".
+      The given Folder must contain a subfolder called "TSData".
+
+      If this is empty, SimPE will use the default Folder.
+    </value>
+  </data>
+  <data name="[Property:SP5Path]">
+    <value>4: H&amp;M-Fashion-Accessoires</value>
+  </data>
+  <data name="[Description:SP4Path]">
+    <value>
+      This should contain the installation directory of "Die Sims 2 - H&amp;M-Fashion-Accessoires".
+      The given Folder must contain a subfolder called "TSData".
+
+      If this is empty, SimPE will use the default Folder.
+    </value>
+  </data>
+  <data name="[Property:SIMSLSPath]">
+    <value>1: Lebensgeschichten</value>
+  </data>
+  <data name="[Description:SIMSLSPath]">
+    <value>
+      Hier sollte das Installationsverzeichnis von "Die Sims 2 Lebensgeschichten" stehen.
+      Das angegebene Verzeichnis muss den Unterordner "TSData" enthalten.
+
+      Wenn kein Verzeichnis angegeben wurde, wird der Standardpfad gesetzt.
+    </value>
+  </data>
+  <data name="[Property:SIMSPSPath]">
+    <value>2: Tiergeschichten</value>
+  </data>
+  <data name="[Description:SIMSPSPath]">
+    <value>
+      Hier sollte das Installationsverzeichnis von "Die Sims 2 Tiergeschichten" stehen.
       Das angegebene Verzeichnis muss den Unterordner "TSData" enthalten.
 
       Wenn kein Verzeichnis angegeben wurde, wird der Standardpfad gesetzt.
@@ -1436,16 +1568,31 @@ Soll SimPE dennoch gestartet werden?</value>
     <value>Die Sims 2 - Open for Business</value>
   </data>
   <data name="EP NAME 4" xml:space="preserve">
-    <value>The Sims 2 - Family Fun Accessoires</value>
+    <value>Die Sims 2 - Family Fun Accessoires</value>
   </data>
   <data name="EP NAME 5" xml:space="preserve">
-    <value>The Sims 2 - Glamour Accessoires</value>
+    <value>Die Sims 2 - Glamour Accessoires</value>
   </data>
   <data name="EP NAME 6" xml:space="preserve">
-    <value>The Sims 2 - Haustiere</value>
+    <value>Die Sims 2 - Haustiere</value>
   </data>
   <data name="EP NAME 7" xml:space="preserve">
-    <value>The Sims 2 - Weihnachtszeit-Accessoires</value>
+    <value>Die Sims 2 - Weihnachtszeit-Accessoires</value>
+  </data>
+  <data name="EP NAME 8" xml:space="preserve">
+    <value>Die Sims 2 - Vier Jahreszeiten</value>
+  </data>
+  <data name="EP NAME 9" xml:space="preserve">
+    <value>Die Sims 2 - Party-Accessoires</value>
+  </data>
+  <data name="EP NAME 10" xml:space="preserve">
+    <value>Die Sims 2 - H&amp;M-Fashion-Accessoires</value>
+  </data>
+  <data name="EP NAME 20">
+    <value>Die Sims 2 - Lebensgeschichten</value>
+  </data>
+  <data name="EP NAME 21">
+    <value>Die Sims 2 - Tiergeschichten</value>
   </data>
   <data name="EP SNAME 0" xml:space="preserve">
     <value>Original</value>
@@ -1470,6 +1617,21 @@ Soll SimPE dennoch gestartet werden?</value>
   </data>
   <data name="EP SNAME 7" xml:space="preserve">
     <value>Weihnachtszeit</value>
+  </data>
+  <data name="EP SNAME 8" xml:space="preserve">
+    <value>Jahreszeiten</value>
+  </data>
+  <data name="EP SNAME 9" xml:space="preserve">
+    <value>Party</value>
+  </data>
+  <data name="EP SNAME 10" xml:space="preserve">
+    <value>Fashion</value>
+  </data>
+  <data name="EP SNAME 20">
+    <value>Lebensgeschichten</value>
+  </data>
+  <data name="EP SNAME 21">
+    <value>Tiergeschichten</value>
   </data>
   <data name="Check: Folder not found" xml:space="preserve">
     <value>Verzeichnis für "{name}" wurde nicht gefunden.</value>
@@ -1608,5 +1770,8 @@ Dies hat zur Folge, dass SimPE die Joint-Hierarchie nicht aufbauen kann.
     <value>SimPE hat festgestellt, dass auf diesem System .NET {VERSION} installiert ist. 
 
 Damit SimPE korrekt funktioniert muss allerding .NET 2.0 installiert sein.</value>
+  </data>
+  <data name="Searching" xml:space="preserve">
+    <value>Durchsuche</value>
   </data>
 </root>

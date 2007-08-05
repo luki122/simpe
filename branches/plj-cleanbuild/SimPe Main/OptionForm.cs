@@ -1243,8 +1243,15 @@ namespace SimPe
                 }
 
                 fti.Ignore = !lbfolder.GetItemChecked(i);
-
-                if (fti.Exists && !fti.Ignore && (Helper.CompareableFileName(fti.Name).EndsWith("tsdata\\res\\objects") || Helper.CompareableFileName(fti.Name).EndsWith("tsdata\\res\\objects\\")))
+                ExpansionItem ei = null;
+                bool fullobj = true;
+                int thisepver = FileTableItem.GetEPVersion(fti.Type);
+                if (thisepver > 0)
+                {
+                    ei = PathProvider.Global.GetExpansion(thisepver);
+                    fullobj = ei.Flag.FullObjectsPackage;
+                }
+                if (fti.Exists && !fti.Ignore && fullobj && (Helper.CompareableFileName(fti.Name).EndsWith("\\objects") || Helper.CompareableFileName(fti.Name).EndsWith("\\objects\\")))
                 {
                     if (firstobjpkg)
                     {
@@ -1274,7 +1281,8 @@ namespace SimPe
                 if (cb == null) continue;
                 if (cb.Tag == null) continue;
                 ExpansionItem ei = cb.Tag as ExpansionItem;
-                SetupFileTableCheckboxe(cb, ei.Expansion, false);
+                if (ei == null) continue;
+                SetupFileTableCheckboxes(cb, ei.Expansion, false);
                 
             }
             SetupFileTableCheckboxe(this.cbIncCep, FileTablePaths.Absolute, true);
@@ -1290,6 +1298,19 @@ namespace SimPe
             else
             {
                 ExpansionItem ei = cb.Tag as ExpansionItem;
+                if (cb.Checked && Helper.WindowsRegistry.FileTableSimpleSelectUseGroups)
+                {
+                    foreach (Control c in groupBox8.Controls)
+                    {
+                        CheckBox cbs = c as CheckBox;
+                        if (cbs != null)
+                        {
+                            ExpansionItem eis = cbs.Tag as ExpansionItem;
+                            if (eis != null)
+                                if (cbs.Checked && !ei.ShareOneGroup(eis)) cbs.Checked = false;                            
+                        }
+                    } //foreach
+                }
                 ChangeFileTable(cb, ei.Expansion, false);
             } 
         }
