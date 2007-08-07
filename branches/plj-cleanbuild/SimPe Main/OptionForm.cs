@@ -1184,7 +1184,7 @@ namespace SimPe
         }
 
         #region Simple FileTable Settings
-        void SetupFileTableCheckboxe(CheckBox cb, FileTableItemType epver, bool cep)
+        void SetupFileTableCheckboxes(CheckBox cb, FileTableItemType epver, bool cep)
         {
             if (this.cbIncCep.Tag != null) return;
             int found = 0;
@@ -1285,7 +1285,7 @@ namespace SimPe
                 SetupFileTableCheckboxes(cb, ei.Expansion, false);
                 
             }
-            SetupFileTableCheckboxe(this.cbIncCep, FileTablePaths.Absolute, true);
+            SetupFileTableCheckboxes(this.cbIncCep, FileTablePaths.Absolute, true);
         }
 
         private void cbIncNightlife_CheckedChanged(object sender, System.EventArgs e)
@@ -1344,10 +1344,10 @@ namespace SimPe
         {
 
         }
-    }
 
-    class MyPropertyGrid : PropertyGrid
-    {
+        class MyPropertyGrid : PropertyGrid
+        {
 
+        }
     }
 }

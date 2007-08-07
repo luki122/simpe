@@ -113,6 +113,76 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\SandDock.dll</HintPath>
     </Reference>
+    <Reference Include="simpe.3idr, Version=1.0.2305.29253, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.3idr.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="simpe.cache, Version=1.0.2305.29249, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.cache.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="simpe.clst, Version=1.0.2305.29249, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.clst.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="simpe.commonhandler, Version=1.0.2305.29248, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.commonhandler.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="simpe.extfilehandler, Version=1.0.2305.29252, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.extfilehandler.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="simpe.filehandler, Version=1.0.2305.29252, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.filehandler.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="simpe.geometry, Version=1.0.2305.28882, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.geometry.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="simpe.gmdc.exporter.base, Version=1.0.2305.29253, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.gmdc.exporter.base.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="simpe.helper, Version=0.59.0.28882, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.helper.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="simpe.interfaces, Version=1.0.2305.29248, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.interfaces.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="simpe.package, Version=1.0.2305.29249, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.package.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="simpe.rcol, Version=1.0.2305.29251, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.rcol.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="simpe.scenegraph, Version=1.0.2305.29254, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.scenegraph.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="simpe.workspace, Version=1.0.2305.29250, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.workspace.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -138,71 +208,15 @@
       <Name>xpcommoncontrols</Name>
       <HintPath>..\xpcommoncontrols.dll</HintPath>
     </Reference>
-    <ProjectReference Include="..\SimPe 3IDR\SimPe 3IDR.csproj">
-      <Project>{37D97490-DC9F-4DB7-9215-998C6BC06078}</Project>
-      <Name>SimPe 3IDR</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe Cache\SimPe Cache.csproj">
-      <Project>{C949FB46-0C06-4C5D-92AE-5DD7F6E53364}</Project>
-      <Name>SimPe Cache</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe Clst\SimPe Clst.csproj">
-      <Project>{5DD89FD7-1E89-49D4-B48D-CC605D767C3B}</Project>
-      <Name>SimPe Clst</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe Extended Filehandlers\SimPe Extended Filehandlers.csproj">
-      <Project>{7EF7C30C-2968-46E8-AA74-79EDB0FE8F2A}</Project>
-      <Name>SimPe Extended Filehandlers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe FileHandler\SimPe FileHandlers.csproj">
-      <Project>{97551C0A-6295-4E32-8E15-A4FF456E65A6}</Project>
-      <Name>SimPe FileHandlers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe Geometry\SimPe Geometry.csproj">
-      <Project>{60367A6D-8FF1-4289-B546-C68A2C395843}</Project>
-      <Name>SimPe Geometry</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe GMDC Exporter Base\SimPe GMDC Exporter Base.csproj">
-      <Project>{76D6A8B3-10DF-4948-9028-C63A416AB00E}</Project>
-      <Name>SimPe GMDC Exporter Base</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe HandlerCommon\SimPe HandlerCommon.csproj">
-      <Project>{A4CC48FD-9574-4F0B-B721-9E8C1B1E6A8A}</Project>
-      <Name>SimPe HandlerCommon</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe Helper\SimPe Helper.csproj">
-      <Project>{59E3C353-1350-42D8-A045-CBBAD232F228}</Project>
-      <Name>SimPe Helper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe Interfaces\SimPe Interfaces.csproj">
-      <Project>{74FCBBEC-105A-4006-A1FC-8EF4F80FD2D7}</Project>
-      <Name>SimPe Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SimPe Name Provider\SimPe Name Provider.csproj">
       <Name>SimPe Name Provider</Name>
       <Project>{38259F2B-9C90-48BE-A519-E4EEC62C242C}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
-    <ProjectReference Include="..\SimPe Packages\SimPe Packages.csproj">
-      <Project>{1C6C45BF-FE19-4C23-B327-01F45B0F269C}</Project>
-      <Name>SimPe Packages</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe RCOL\SimPe RCOL.csproj">
-      <Project>{74517907-2236-4C45-80ED-E188D5E5CE0E}</Project>
-      <Name>SimPe RCOL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe Scenegraph\SimPe Scenegraph.csproj">
-      <Project>{1151A88B-47AF-41DA-BCDF-DEFED0CC326E}</Project>
-      <Name>SimPe Scenegraph</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SimPe Sims\SimPe Sims.csproj">
       <Name>SimPe Sims</Name>
       <Project>{9877B092-C8C0-4B84-B5A0-F9A68AA1C0E4}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe Workspace Helper\SimPe Workspace Helper.csproj">
-      <Project>{45021667-BAD2-4ECA-8423-F4734F914CBB}</Project>
-      <Name>SimPe Workspace Helper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -391,9 +405,11 @@
     </Compile>
     <EmbeddedResource Include="BnfoCustomerItemsUI.resx">
       <DependentUpon>BnfoCustomerItemsUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BnfoCustomerItemUI.de.resx">
       <DependentUpon>BnfoCustomerItemUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BnfoCustomerItemUI.fr.resx">
       <DependentUpon>BnfoCustomerItemUI.cs</DependentUpon>
@@ -401,6 +417,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BnfoCustomerItemUI.resx">
       <DependentUpon>BnfoCustomerItemUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BnfoCustomerItemUI.ru.resx">
       <DependentUpon>BnfoCustomerItemUI.cs</DependentUpon>
@@ -408,6 +425,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BnfoUI.de.resx">
       <DependentUpon>BnfoUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BnfoUI.fr.resx">
       <DependentUpon>BnfoUI.cs</DependentUpon>
@@ -415,11 +433,13 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BnfoUI.resx">
       <DependentUpon>BnfoUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="bookmark.png" />
     <EmbeddedResource Include="emoticon.png" />
     <EmbeddedResource Include="ExtNgbhUI.de.resx">
       <DependentUpon>ExtNgbhUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ExtNgbhUI.fr.resx">
       <DependentUpon>ExtNgbhUI.cs</DependentUpon>
@@ -431,6 +451,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ExtNgbhUI.resx">
       <DependentUpon>ExtNgbhUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="idno.png" />
     <EmbeddedResource Include="IdnoForm.resx">
@@ -441,9 +462,11 @@
     <EmbeddedResource Include="ltxt.png" />
     <EmbeddedResource Include="LtxtForm.resx">
       <DependentUpon>LtxtForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MemoryProperties.de.resx">
       <DependentUpon>MemoryProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MemoryProperties.fr.resx">
       <DependentUpon>MemoryProperties.cs</DependentUpon>
@@ -451,10 +474,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MemoryProperties.resx">
       <DependentUpon>MemoryProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ngbh.png" />
     <EmbeddedResource Include="NgbhForm.de.resx">
       <DependentUpon>NgbhForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NgbhForm.fr.resx">
       <DependentUpon>NgbhForm.cs</DependentUpon>
@@ -466,12 +491,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NgbhForm.pl.resx">
       <DependentUpon>NgbhForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NgbhForm.resx">
       <DependentUpon>NgbhForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NgbhItemsListView.de.resx">
       <DependentUpon>NgbhItemsListView.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NgbhItemsListView.fr.resx">
       <DependentUpon>NgbhItemsListView.cs</DependentUpon>
@@ -479,9 +507,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NgbhItemsListView.resx">
       <DependentUpon>NgbhItemsListView.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NgbhSkillHelper.de.resx">
       <DependentUpon>NgbhSkillHelper.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NgbhSkillHelper.fr.resx">
       <DependentUpon>NgbhSkillHelper.cs</DependentUpon>
@@ -489,15 +519,19 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NgbhSkillHelper.resx">
       <DependentUpon>NgbhSkillHelper.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NgbhSkillHelperElement.resx">
       <DependentUpon>NgbhSkillHelperElement.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NgbhSlotListView.resx">
       <DependentUpon>NgbhSlotListView.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NgbhSlotSelection.de.resx">
       <DependentUpon>NgbhSlotSelection.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NgbhSlotSelection.fr.resx">
       <DependentUpon>NgbhSlotSelection.cs</DependentUpon>
@@ -505,12 +539,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NgbhSlotSelection.resx">
       <DependentUpon>NgbhSlotSelection.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NgbhValueDescriptorSelection.resx">
       <DependentUpon>NgbhValueDescriptorSelection.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NgbhValueDescriptorUI.de.resx">
       <DependentUpon>NgbhValueDescriptorUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NgbhValueDescriptorUI.fr.resx">
       <DependentUpon>NgbhValueDescriptorUI.cs</DependentUpon>
@@ -518,20 +555,25 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NgbhValueDescriptorUI.resx">
       <DependentUpon>NgbhValueDescriptorUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NhtrUI.resx">
       <DependentUpon>NhtrUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="nothumb.png" />
     <EmbeddedResource Include="RoadTextureControl.resx">
       <DependentUpon>RoadTextureControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SlotUI.resx">
       <DependentUpon>SlotUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="subitems.png" />
     <EmbeddedResource Include="TattUI.resx">
       <DependentUpon>TattUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="WantsForm.resx">
       <DependentUpon>WantsForm.cs</DependentUpon>

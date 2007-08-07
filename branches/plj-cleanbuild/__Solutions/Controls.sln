@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual C# Express 2005
+# Visual Studio 2005
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnumComboBox", "..\EnumComboBox\EnumComboBox.csproj", "{5C663721-B4E3-43F7-A39F-9E6060FA5433}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphControl", "..\GraphControl\GraphControl.csproj", "{7D2EE6ED-78C1-4738-9AE1-E3C165A81E3D}"
@@ -11,12 +11,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimsGUID", "..\SimsGUID\SimsGUID.csproj", "{8A2A1FCD-F166-4AE8-A87A-7424215C93AF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlsTest", "..\ControlsTest\ControlsTest.csproj", "{8C01AB4A-A8B5-4D02-AC5A-59875FE0E46C}"
-	ProjectSection(ProjectDependencies) = postProject
-		{320E7C5E-60E6-4069-9852-D296DB688F5D} = {320E7C5E-60E6-4069-9852-D296DB688F5D}
-		{57FB03C0-014D-4347-BF66-16E62ECA1EFF} = {57FB03C0-014D-4347-BF66-16E62ECA1EFF}
-		{8A2A1FCD-F166-4AE8-A87A-7424215C93AF} = {8A2A1FCD-F166-4AE8-A87A-7424215C93AF}
-		{7D2EE6ED-78C1-4738-9AE1-E3C165A81E3D} = {7D2EE6ED-78C1-4738-9AE1-E3C165A81E3D}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
