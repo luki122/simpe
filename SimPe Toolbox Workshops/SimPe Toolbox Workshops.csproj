@@ -140,6 +140,58 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\NetDocks.dll</HintPath>
     </Reference>
+    <Reference Include="simpe.cache, Version=1.0.2305.29249, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.cache.dll</HintPath>
+    </Reference>
+    <Reference Include="simpe.clst, Version=1.0.2305.29249, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.clst.dll</HintPath>
+    </Reference>
+    <Reference Include="simpe.commandline, Version=1.0.2305.29256, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.commandline.dll</HintPath>
+    </Reference>
+    <Reference Include="simpe.commonhandler, Version=1.0.2305.29248, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.commonhandler.dll</HintPath>
+    </Reference>
+    <Reference Include="simpe.extfilehandler, Version=1.0.2305.29252, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.extfilehandler.dll</HintPath>
+    </Reference>
+    <Reference Include="simpe.filehandler, Version=1.0.2305.29252, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.filehandler.dll</HintPath>
+    </Reference>
+    <Reference Include="simpe.gmdc.exporter.base, Version=1.0.2305.29253, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.gmdc.exporter.base.dll</HintPath>
+    </Reference>
+    <Reference Include="simpe.helper, Version=0.59.0.28882, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.helper.dll</HintPath>
+    </Reference>
+    <Reference Include="simpe.interfaces, Version=1.0.2305.29248, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="simpe.package, Version=1.0.2305.29249, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.package.dll</HintPath>
+    </Reference>
+    <Reference Include="simpe.rcol, Version=1.0.2305.29251, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.rcol.dll</HintPath>
+    </Reference>
+    <Reference Include="simpe.scenegraph, Version=1.0.2305.29254, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.scenegraph.dll</HintPath>
+    </Reference>
+    <Reference Include="simpe.workspace, Version=1.0.2305.29250, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\__Release\simpe.workspace.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -165,66 +217,14 @@
       <Name>xpcommoncontrols</Name>
       <HintPath>..\xpcommoncontrols.dll</HintPath>
     </Reference>
-    <ProjectReference Include="..\SimPe Cache\SimPe Cache.csproj">
-      <Project>{C949FB46-0C06-4C5D-92AE-5DD7F6E53364}</Project>
-      <Name>SimPe Cache</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe Clst\SimPe Clst.csproj">
-      <Project>{5DD89FD7-1E89-49D4-B48D-CC605D767C3B}</Project>
-      <Name>SimPe Clst</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe Commandline\SimPe Commandline.csproj">
-      <Project>{0D63B13E-F41B-456C-92D0-C0BB3FE8744F}</Project>
-      <Name>SimPe Commandline</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe Extended Filehandlers\SimPe Extended Filehandlers.csproj">
-      <Project>{7EF7C30C-2968-46E8-AA74-79EDB0FE8F2A}</Project>
-      <Name>SimPe Extended Filehandlers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe FileHandler\SimPe FileHandlers.csproj">
-      <Project>{97551C0A-6295-4E32-8E15-A4FF456E65A6}</Project>
-      <Name>SimPe FileHandlers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe GMDC Exporter Base\SimPe GMDC Exporter Base.csproj">
-      <Project>{76D6A8B3-10DF-4948-9028-C63A416AB00E}</Project>
-      <Name>SimPe GMDC Exporter Base</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe HandlerCommon\SimPe HandlerCommon.csproj">
-      <Project>{A4CC48FD-9574-4F0B-B721-9E8C1B1E6A8A}</Project>
-      <Name>SimPe HandlerCommon</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe Helper\SimPe Helper.csproj">
-      <Project>{59E3C353-1350-42D8-A045-CBBAD232F228}</Project>
-      <Name>SimPe Helper</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SimPe HGBH\SimPe HGBH.csproj">
       <Project>{2A67C9C3-9577-4922-991F-291EAA6B4F2D}</Project>
       <Name>SimPe HGBH</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe Interfaces\SimPe Interfaces.csproj">
-      <Project>{74FCBBEC-105A-4006-A1FC-8EF4F80FD2D7}</Project>
-      <Name>SimPe Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe Packages\SimPe Packages.csproj">
-      <Project>{1C6C45BF-FE19-4C23-B327-01F45B0F269C}</Project>
-      <Name>SimPe Packages</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe RCOL\SimPe RCOL.csproj">
-      <Project>{74517907-2236-4C45-80ED-E188D5E5CE0E}</Project>
-      <Name>SimPe RCOL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe Scenegraph\SimPe Scenegraph.csproj">
-      <Project>{1151A88B-47AF-41DA-BCDF-DEFED0CC326E}</Project>
-      <Name>SimPe Scenegraph</Name>
     </ProjectReference>
     <ProjectReference Include="..\SimPe Wizardbase\SimPe Wizardbase.csproj">
       <Name>SimPe Wizardbase</Name>
       <Project>{B552AF25-66F1-4DFE-8760-2D3053F57E7C}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
-    <ProjectReference Include="..\SimPe Workspace Helper\SimPe Workspace Helper.csproj">
-      <Project>{45021667-BAD2-4ECA-8423-F4734F914CBB}</Project>
-      <Name>SimPe Workspace Helper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -292,6 +292,7 @@
     <EmbeddedResource Include="demo.png" />
     <EmbeddedResource Include="NeighborhoodPreview.de.resx">
       <DependentUpon>NeighborhoodPreview.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NeighborhoodPreview.fr.resx">
       <DependentUpon>NeighborhoodPreview.cs</DependentUpon>
@@ -303,9 +304,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NeighborhoodPreview.pl.resx">
       <DependentUpon>NeighborhoodPreview.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NeighborhoodPreview.resx">
       <DependentUpon>NeighborhoodPreview.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NeighborhoodPreview.ru.resx">
       <DependentUpon>NeighborhoodPreview.cs</DependentUpon>
@@ -314,9 +317,11 @@
     <EmbeddedResource Include="nothumb.png" />
     <EmbeddedResource Include="ObjectPreview.de.resx">
       <DependentUpon>ObjectPreview.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ObjectPreview.es.resx">
       <DependentUpon>ObjectPreview.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ObjectPreview.fr.resx">
       <DependentUpon>ObjectPreview.cs</DependentUpon>
@@ -328,6 +333,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ObjectPreview.pl.resx">
       <DependentUpon>ObjectPreview.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ObjectPreview.resx">
       <DependentUpon>ObjectPreview.cs</DependentUpon>
@@ -339,6 +345,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ObjectsDock.de.resx">
       <DependentUpon>ObjectsDock.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ObjectsDock.fr.resx">
       <DependentUpon>ObjectsDock.cs</DependentUpon>
@@ -354,6 +361,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PackageDetailDock.de.resx">
       <DependentUpon>PackageDetailDock.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="PackageDetailDock.fr.resx">
       <DependentUpon>PackageDetailDock.cs</DependentUpon>
@@ -365,15 +373,19 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PackageDetailDock.pl.resx">
       <DependentUpon>PackageDetailDock.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="PackageDetailDock.resx">
       <DependentUpon>PackageDetailDock.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="PackageRepairForm.resx">
       <DependentUpon>PackageRepairForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="PreviewForm.resx">
       <DependentUpon>PreviewForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
@@ -384,6 +396,7 @@
     <EmbeddedResource Include="subitems.png" />
     <EmbeddedResource Include="XObjectPreview.de.resx">
       <DependentUpon>XObjectPreview.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="XObjectPreview.fr.resx">
       <DependentUpon>XObjectPreview.cs</DependentUpon>
@@ -391,9 +404,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="XObjectPreview.pl.resx">
       <DependentUpon>XObjectPreview.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="XObjectPreview.resx">
       <DependentUpon>XObjectPreview.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
