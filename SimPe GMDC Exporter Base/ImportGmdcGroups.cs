@@ -696,11 +696,16 @@ namespace SimPe.Plugin.Gmdc
 					a.Group.Opacity = (uint)MeshOpacity.Shadow;
 				if (a.Group.Opacity>0x10 && f.cbBMesh.Enabled) a.UseInBoundingMesh = true;
 
-				if (a.Target.Name=="") 
-				{
-					a.Target.Name = a.Group.Name;
-					a.Target.Index = gmdc.FindGroupByName(a.Target.Name);
-				}
+                if ((a.Target.Index = gmdc.FindGroupByName(a.Group.Name)) >= 0)
+                {
+                    a.Action = GmdcImporterAction.Replace;
+                    a.Target.Name = a.Group.Name;
+                }
+                else
+                {
+                    a.Action = GmdcImporterAction.Nothing;
+                    a.Target.Name = "";
+                }
 				ListViewItem lvi = new ListViewItem(a.Group.Name);
 				lvi.SubItems.Add(a.Action.ToString());
 				lvi.SubItems.Add(a.Target.Name);				
