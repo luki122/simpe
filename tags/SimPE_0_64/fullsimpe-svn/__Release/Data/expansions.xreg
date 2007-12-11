@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<registry>
+  <key name="Expansions">
+    <!-- Information about the base Game -->
+    <key name="BaseGame">
+      <int name="Version">0</int>
+      <string name="RegKey">Software\EA Games\The Sims 2</string>
+      <int name="Flag">0</int>
+      <!-- Flag is a BitMask defining SimPE's behaviour if the given EP was found:
+        Bit 0: Is an ExpansionPack
+        Bit 1: Is a StuffPack (aka MiniExpansion)
+        Bit 2: Comes with a Lua Folder
+        Bit 3: Load additional W&F Texts from this Expansion (BaseGame is allways loaded!!)
+	Bit 4: Sim Story
+	Bit 5: Objects.package does only contain additional objects-->
+      <string name="ExeName">Sims2.exe</string>
+      <int name="Group">1</int>
+      <cilist name="SaveGameLocationsForGroup">
+        <string name="0">{UserSaveGame}</string>
+      </cilist>
+      <string name="namelistnr">1</string>
+      <key name="en">
+          <string name="short">Original</string>
+      	  <string name="long">The Sims 2</string>
+      </key>
+      <key name="de">
+          <string name="short">Original</string>
+      	  <string name="long">Die Sims 2</string>
+      </key>
+    </key>
+
+    <!-- Information about University -->
+    <key name="University">
+      <int name="Version">1</int>
+      <string name="RegKey">Software\\EA Games\\The Sims 2 University</string>
+      <int name="Flag">9</int>
+      <string name="ExeName">Sims2EP1.exe</string>
+      <cilist name="SimNameDeepSearch">
+        <string name="0">TSData\Res\NeighborhoodTemplate\U001\Characters\</string>
+        <string name="1">TSData\Res\NeighborhoodTemplate\U002\Characters\</string>
+        <string name="2">TSData\Res\NeighborhoodTemplate\U003\Characters\</string>
+      </cilist>
+      <!-- SimNameDeepSearch: This is a list of additional Folders (in the EP's Folder), 
+      SimPE is using when it performs a 'Deep Search' for SimDescriptions-->
+      <int name="Group">1</int>
+      <string name="namelistnr">1</string>
+      <key name="en">
+      	  <string name="long">The Sims 2 - University</string>
+      </key>
+      <key name="de">
+          <string name="short">Campus</string>
+          <string name="name">Wilde Campus Jahre</string>
+      	  <string name="long">Die Sims 2 - Wilde Campus Jahre</string>
+      </key>
+    </key>
+
+    <!-- Information about Nightlife -->
+    <key name="Nightlife">
+      <int name="Version">2</int>
+      <string name="RegKey">Software\\EA Games\\The Sims 2 Nightlife</string>
+      <int name="Flag">13</int>
+      <string name="ExeName">Sims2EP2.exe</string>
+      <string name="Censor">quaxi_nl_censor_v1.package</string>
+      <cilist name="SimNameDeepSearch">
+        <string name="0">TSData\Res\NeighborhoodTemplate\D001\Characters\</string>
+      </cilist>
+      <int name="Group">1</int>
+      <string name="namelistnr">2</string>
+      <key name="en">
+      	  <string name="long">The Sims 2 - Nightlife</string>
+      </key>
+      <key name="de">
+      	  <string name="long">Die Sims 2 - Nightlife</string>
+      </key>
+    </key>
+
+    <!-- Information about Business -->
+    <key name="Business">
+      <int name="Version">3</int>
+      <string name="RegKey">Software\\EA Games\\The Sims 2 Open For Business</string>
+      <int name="Flag">13</int>
+      <string name="ExeName">Sims2EP3.exe</string>
+      <string name="Censor">quaxi_ofb_censor_v1.package</string>
+      <cilist name="SimNameDeepSearch">
+        <string name="0">TSData\Res\NeighborhoodTemplate\B001\Characters\</string>
+      </cilist>
+      <int name="Group">1</int>
+      <string name="namelistnr">3</string>
+      <key name="en">
+      	  <string name="long">The Sims 2 - Open For Business</string>
+      </key>
+      <key name="de">
+      	  <string name="long">Die Sims 2 - Open For Business</string>
+      </key>
+    </key>
+
+    <!-- Information about FamilyFun Stuff-->
+    <key name="FamilyFun">
+      <int name="Version">4</int>
+      <string name="RegKey">Software\\EA Games\\The Sims 2 Family Fun Stuff</string>
+      <int name="Flag">2</int>
+      <string name="ExeName">Sims2SP1.exe</string>
+      <string name="Censor">quaxi_ofb_censor_v1.package</string>
+      <int name="Group">1</int>
+      <string name="namelistnr">1</string>
+      <key name="en">
+	  <string name="short">Family Fun</string>
+          <string name="name">Family Fun Stuff</string>
+      	  <string name="long">The Sims 2 - Family Fun Stuff</string>
+      </key>
+      <key name="de">
+          <string name="short">Family Fun</string>
+          <string name="name">Family Fun Accessoires</string>
+      	  <string name="long">Die Sims 2 - Family Fun Accessoires</string>
+      </key>
+    </key>
+
+    <!-- Information about Glamour Stuff -->
+    <key name="Glamour">
+      <int name="Version">5</int>
+      <string name="RegKey">Software\\EA Games\\The Sims 2 Glamour Life Stuff</string>
+      <int name="Flag">2</int>
+      <string name="ExeName">Sims2SP2.exe</string>
+      <string name="Censor">quaxi_ofb_censor_v1.package</string>
+      <int name="Group">1</int>
+      <string name="namelistnr">2</string>
+      <key name="en">
+          <string name="name">Glamour Stuff</string>
+      	  <string name="long">The Sims 2 - Glamour Stuff</string>
+      </key>
+      <key name="de">
+          <string name="name">Glamour Accessoires</string>
+      	  <string name="long">Die Sims 2 - Glamour Accessoires</string>
+      </key>
+    </key>
+
+    <!-- Information about Pets-->
+    <key name="Pets">
+      <int name="Version">6</int>
+      <string name="RegKey">Software\\EA Games\\The Sims 2 Pets</string>
+      <int name="Flag">13</int>
+      <string name="ExeName">Sims2EP4.exe</string>
+      <string name="Censor">quaxi_pets_censor_v1.package</string>
+      <cilist name="SimNameDeepSearch">
+        <string name="0">TSData\Res\NeighborhoodTemplate\P001\Characters\</string>
+      </cilist>
+      <int name="Group">1</int>
+      <string name="namelistnr">4</string>
+      <key name="en">
+      	  <string name="long">The Sims 2 - Pets</string>
+      </key>
+      <key name="de">
+          <string name="short">Haustiere</string>
+      	  <string name="long">Die Sims 2 - Haustiere</string>
+      </key>
+    </key>
+
+    <!-- Information about Life Stories (provided by Numenor) -->
+    <key name="LifeStories">
+      <int name="Version">20</int>
+      <string name="RegKey">SOFTWARE\\Electronic Arts\\The Sims Life Stories</string>
+      <int name="Flag">20</int>
+      <string name="ExeName">SimsLS.exe</string>
+      <string name="Censor">quaxi_pets_censor_v1.package</string>
+      <int name="Group">2</int>
+      <cilist name="SaveGameLocationsForGroup">
+        <string name="0">{MyDocuments}\\Electronic Arts\\{DisplayName}</string>
+      </cilist>
+      <string name="namelistnr">1</string>
+      <key name="en">
+	  <string name="short">Life Stories</string>
+      	  <string name="long">The Sims 2 - Life Stories</string>
+      </key>
+    </key>
+
+    <!-- Version 7 is inetrnally used for the Happy Hollidays SP, which is not a real SP -->
+
+    <!-- Information about Seasons -->
+    <key name="Seasons">
+      <int name="Version">8</int>
+      <string name="RegKey">Software\\EA Games\\The Sims 2 Seasons</string>
+      <int name="Flag">13</int>
+      <string name="ExeName">Sims2EP5.exe</string>
+      <string name="Censor">quaxi_pets_censor_v1.package</string>
+      <int name="Group">1</int>
+      <cilist name="SimNameDeepSearch">
+        <string name="0">TSData\Res\NeighborhoodTemplate\G002\Characters\</string>
+      </cilist>
+      <string name="namelistnr">5</string>
+      <key name="en">
+      	  <string name="long">The Sims 2 - Seasons</string>
+      </key>
+      <key name="de">
+          <string name="short">Jahreszeiten</string>
+          <string name="name">Vier Jahreszeiten</string>
+      	  <string name="long">Die Sims 2 - Vier Jahreszeiten</string>
+      </key>
+    </key>
+
+    <!-- Information about Celebration! Stuff  (provided by Numenor) -->
+    <key name="Celebration">
+      <int name="Version">9</int>
+      <int name="PreferedRuntimeVersion">8</int>
+      <string name="RegKey">Software\\EA Games\\The Sims 2 Celebration Stuff</string>
+      <int name="Flag">34</int>
+      <string name="ExeName">Sims2SP4.exe</string>
+      <string name="Censor">quaxi_ofb_censor_v1.package</string>
+      <string name="ObjectsFolder">TSData\\Res\\StuffPack\\Objects</string> <!-- Provided by Carrigon -->
+      <int name="Group">1</int>
+      <string name="namelistnr">3</string>
+      <key name="en">
+	  <string name="short">Celebration!</string>
+          <string name="name">Celebration! Stuff</string>
+      	  <string name="long">The Sims 2 - Celebration! Stuff</string>
+      </key>
+      <key name="de">
+          <string name="short">Party</string>
+          <string name="name">Party-Accessoires</string>
+      	  <string name="long">Die Sims 2 - Party-Accessoires</string>
+      </key>
+    </key>
+
+    <!-- Information about H&M Fashion Stuff  (provided by Numenor) -->
+    <key name="Fashion">
+      <int name="Version">10</int>
+      <int name="PreferedRuntimeVersion">8</int>
+      <string name="RegKey">Software\\EA Games\\The Sims 2 H M Fashion Stuff</string>
+      <int name="Flag">34</int>
+      <string name="ExeName">Sims2SP5.exe</string>
+      <string name="Censor">quaxi_ofb_censor_v1.package</string>
+      <string name="ObjectsFolder">TSData\\Res\\StuffPack\\Objects</string>
+      <int name="Group">1</int>
+      <string name="namelistnr">4</string>
+      <key name="en">
+	  <string name="short">Fashion</string>
+          <string name="name">H&amp;M Fashion Stuff</string>
+      	  <string name="long">The Sims 2 - H&amp;M Fashion Stuff</string>
+      </key>
+      <key name="de">
+          <string name="short">Fashion</string>
+          <string name="name">H&amp;M Fashion-Accessoires</string>
+      	  <string name="long">Die Sims 2 - H&amp;M Fashion-Accessoires</string>
+      </key>
+    </key>
+  
+    <!-- Information about Pet Stories (provided by Numenor) -->
+    <key name="PetStories">
+      <int name="Version">21</int>
+      <string name="RegKey">SOFTWARE\Electronic Arts\The Sims Pet Stories</string>
+      <int name="Flag">20</int>
+      <string name="ExeName">SimsPS.exe</string>
+      <string name="Censor">quaxi_ofb_censor_v1.package</string>
+      <int name="Group">4</int>
+      <cilist name="SaveGameLocationsForGroup">
+        <string name="0">{MyDocuments}\Electronic Arts\{DisplayName}</string>
+      </cilist>	
+      <string name="namelistnr">2</string>
+      <key name="en">
+	  <string name="short">Pet Stories</string>
+      	  <string name="long">The Sims 2 - Pet Stories</string>
+      </key>
+      <key name="de">
+          <string name="short">Tiergeschichten</string>
+      	  <string name="long">Die Sims 2 - Tiergeschichten</string>
+      </key>
+    </key>
+
+    <!-- Information about Bon Voyage -->
+    <key name="Voyage">
+      <int name="Version">11</int>
+      <string name="RegKey">Software\\EA Games\\The Sims 2 Bon Voyage</string>
+      <int name="Flag">13</int>
+      <string name="ExeName">Sims2EP6.exe</string>
+      <string name="Censor">quaxi_pets_censor_v1.package</string>
+      <int name="Group">1</int>
+      <cilist name="SimNameDeepSearch">
+        <string name="0">TSData\Res\NeighborhoodTemplate\A001\Characters\</string>
+        <string name="1">TSData\Res\NeighborhoodTemplate\M001\Characters\</string>
+        <string name="2">TSData\Res\NeighborhoodTemplate\T001\Characters\</string>
+        <string name="3">TSData\Res\NeighborhoodTemplate\V001\Characters\</string>
+ 
+      </cilist>
+      <cilist name="AdditionalFileTableFolders">
+        <string name="0">!TSData\Res\Overrides\</string>
+      </cilist>
+      <string name="namelistnr">6</string>
+      <key name="en">
+            <string name="name">Bon Voyage</string>
+	    <string name="long">The Sims 2 - Bon Voyage</string>
+      </key>
+      <key name="de">
+          <string name="short">Reise</string>
+          <string name="name">Gute Reise</string>
+      	  <string name="long">Die Sims 2 - Gute Reise</string>
+      </key>
+    </key>
+  </key>
+
+</registry>
