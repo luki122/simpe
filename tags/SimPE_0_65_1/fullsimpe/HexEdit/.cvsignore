@@ -1,0 +1,5 @@
+CodeCommentReport
+obj
+*.suo
+Thumbs.db
+*.csproj.user
