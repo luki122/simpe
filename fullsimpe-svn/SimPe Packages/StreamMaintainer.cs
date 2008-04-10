@@ -117,7 +117,6 @@ namespace SimPe.Packages
 			} 
 			catch (Exception ex){
 				if (Helper.DebugMode) Helper.ExceptionMessage("", ex);
-                //Helper.ExceptionMessage("StreamItem.SetFileAccess", ex);
 				return false;
 			}
 			return true;
@@ -377,8 +376,6 @@ namespace SimPe.Packages
 			} 
 			else 
 			{
-                if (si.FileStream == null)
-                    Helper.ExceptionMessage("filestream is null unexpectedly", new Exception());
 				if (!si.SetFileAccess(fa))
 					si.Close();				
 			}

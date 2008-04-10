@@ -47,12 +47,6 @@ namespace SimPe.Interfaces.Scenegraph
 		/// </remarks>
 		void ForceReload();
 
-        /// <summary>
-        /// Indicates the File Index was loaded
-        /// </summary>
-        event EventHandler FILoad;
-        void OnFILoad(object sender, EventArgs e);
-
 		/// <summary>
 		/// Load the FileIndex if it is not available yet
 		/// </summary>

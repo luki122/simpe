@@ -213,8 +213,7 @@ namespace SimPe.Windows.Forms
 
                 foreach (NamedPackedFileDescriptor pfd in manager.Everything)
                 {
-                    //if (pfd.Descriptor.Equals(sender))
-                    if (sender == pfd.Descriptor) // must be the exact same object
+                    if (pfd.Descriptor.Equals(sender))
                     {                        
                         pfd.ResetRealName();
                         return true;
