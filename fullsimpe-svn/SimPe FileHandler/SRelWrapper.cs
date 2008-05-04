@@ -87,6 +87,18 @@ namespace SimPe.PackedFiles.Wrapper
 			set { SetBit((byte)Data.MetaData.RelationshipStateBits.Known, value); }
 		}
 	}
+
+    public class UIFlags2 : FlagBase
+    {
+        public UIFlags2(ushort flags) : base(flags) { }
+
+        public bool isBFF
+        {
+            get { return GetBit((byte)Data.MetaData.UIFlags2Names.BestFriendForever); }
+            set { SetBit((byte)Data.MetaData.UIFlags2Names.BestFriendForever, value); }
+        }
+    }
+
 	/// <summary>
 	/// This is the actual FileWrapper
 	/// </summary>
@@ -125,6 +137,7 @@ namespace SimPe.PackedFiles.Wrapper
 		}
 
 		RelationshipFlags flags;
+        UIFlags2 flags2;
 
 		/// <summary>
 		/// Returns the Relationship Values.
@@ -133,8 +146,18 @@ namespace SimPe.PackedFiles.Wrapper
 		public RelationshipFlags RelationState
 		{
 			get { return flags; }
-			set { flags = value; }
+			//set { flags = value; }
 		}
+
+
+        /// <summary>
+        /// Returns the second set of relationship state flags
+        /// </summary>
+        /// <remarks>The Meaning of the Bits is given by MetaData.UIFlags2Names</remarks>
+        public UIFlags2 RelationState2
+        {
+            get { return flags2; }
+        }
 
 		/// <summary>
 		/// The Type of Family Relationship the Sim has to another
@@ -214,8 +237,10 @@ namespace SimPe.PackedFiles.Wrapper
 			for (int i=0; i<stored; i++) values[i] = reader.ReadInt32();
 			
 			//set some special Attributes
-			flags.Value = (ushort)values[1];
-		}
+            flags.Value = (ushort)values[1];
+
+            if (9 < values.Length) flags2.Value = (ushort)values[9];
+        }
 
 		/// <summary>
 		/// Serializes a the Attributes stored in this Instance to the BinaryStream
@@ -228,7 +253,8 @@ namespace SimPe.PackedFiles.Wrapper
 		protected override void Serialize(System.IO.BinaryWriter writer)
 		{
 			//set some special Attributes
-			values[1] = (int)(flags.Value | 0xffff0000);
+			values[1] = (int)((values[1] & 0xffff0000) | flags.Value);
+            if (9 < values.Length) values[9] = (int)((values[9] & 0xffff0000) | flags2.Value);
 
 			//write to file
 			writer.Write(reserved[0]);
