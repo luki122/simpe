@@ -592,7 +592,7 @@ namespace SimPe.Data
         /// </summary>
         public enum UIFlags2Names : byte
         {
-            BestFriendForever = 0x08,
+            BestFriendForever = 0x00,
         };
 
 

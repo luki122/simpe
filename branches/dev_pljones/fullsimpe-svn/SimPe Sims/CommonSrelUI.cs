@@ -36,13 +36,35 @@ namespace SimPe.PackedFiles.UserInterface
 	/// Zusammenfassung für ExtSrelUI.
 	/// </summary>
 	public class CommonSrel : System.Windows.Forms.UserControl
-	{
-		/// <summary> 
+    {
+        #region Form fields
+        private FlowLayoutPanel flowLayoutPanel2;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private Label label91;
+        private ComboBox cbfamtype;
+        private TextBox tbRel;
+        private LabeledProgressBar pbDay;
+        private LabeledProgressBar pbLife;
+        private TableLayoutPanel tableLayoutPanel1;
+        private TransparentCheckBox cblove;
+        private TransparentCheckBox cbcrush;
+        private TransparentCheckBox cbengaged;
+        private TransparentCheckBox cbmarried;
+        private TransparentCheckBox cbbuddie;
+        private TransparentCheckBox cbfriend;
+        private TransparentCheckBox cbsteady;
+        private TransparentCheckBox cbenemy;
+        private TransparentCheckBox cbfamily;
+        private TransparentCheckBox cbbest;
+        private TransparentCheckBox cbBFF;
+
+        /// <summary> 
 		/// Erforderliche Designervariable.
 		/// </summary>
 		private System.ComponentModel.Container components = null;
+        #endregion
 
-		public CommonSrel()
+        public CommonSrel()
 		{
 			// Dieser Aufruf ist für den Windows Form-Designer erforderlich.
 			InitializeComponent();
@@ -58,8 +80,14 @@ namespace SimPe.PackedFiles.UserInterface
 
 			InitComboBox();
 
-			tbRel.Visible = Helper.WindowsRegistry.HiddenMode;			
-		}
+			tbRel.Visible = Helper.WindowsRegistry.HiddenMode;
+            ltcb = new List<TransparentCheckBox>(new TransparentCheckBox[] {
+                cbcrush, cblove, cbengaged, cbmarried, cbfriend, cbbuddie, cbsteady, cbenemy,
+                null, null, null, null, null, null, cbfamily, cbbest,
+                cbBFF, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null,
+            });
+        }
 
 		/// <summary> 
 		/// Die verwendeten Ressourcen bereinigen.
@@ -285,26 +313,6 @@ namespace SimPe.PackedFiles.UserInterface
 		}
 		#endregion
 
-        private FlowLayoutPanel flowLayoutPanel2;
-        private FlowLayoutPanel flowLayoutPanel1;
-        private Label label91;
-        private ComboBox cbfamtype;
-        private TextBox tbRel;
-        private LabeledProgressBar pbDay;
-        private LabeledProgressBar pbLife;
-        private TableLayoutPanel tableLayoutPanel1;
-        private TransparentCheckBox cblove;
-        private TransparentCheckBox cbcrush;
-        private TransparentCheckBox cbengaged;
-        private TransparentCheckBox cbmarried;
-        private TransparentCheckBox cbbuddie;
-        private TransparentCheckBox cbfriend;
-        private TransparentCheckBox cbsteady;
-        private TransparentCheckBox cbenemy;
-        private TransparentCheckBox cbfamily;
-        private TransparentCheckBox cbbest;
-        private TransparentCheckBox cbBFF;
-
 
         SimPe.PackedFiles.Wrapper.ExtSrel srel;
 		public SimPe.PackedFiles.Wrapper.ExtSrel Srel
@@ -353,7 +361,9 @@ namespace SimPe.PackedFiles.UserInterface
 		}
 
 		bool intern;
-		protected void UpdateContent()
+        List<TransparentCheckBox> ltcb;
+
+        protected void UpdateContent()
 		{
 			this.Enabled = (Srel!=null);
 			if (Srel==null) return;
@@ -361,14 +371,6 @@ namespace SimPe.PackedFiles.UserInterface
 			this.pbDay.Value = Srel.Shortterm;
 			this.pbLife.Value = Srel.Longterm;
 
-            List<TransparentCheckBox> ltcb = new List<TransparentCheckBox>(new TransparentCheckBox[] {
-                cbcrush, cblove, cbengaged, cbmarried,
-                cbfriend, cbbuddie, cbsteady, cbenemy,
-                null, null, null, null,
-                null, null, cbfamily, cbbest,
-                null, null, null, null, null, null, null, null,
-                cbBFF, null, null, null, null, null, null, null,
-            });
             Boolset bs = Srel.RelationState.Value;
             for (int i = 0; i < bs.Length; i++) if (ltcb[i] != null) ltcb[i].Checked = bs[i];
             if (Srel.RelationState2 != null)
@@ -464,12 +466,6 @@ namespace SimPe.PackedFiles.UserInterface
 		{
 			if (intern) return;
 
-            List<TransparentCheckBox> ltcb = new List<TransparentCheckBox>(new TransparentCheckBox[] {
-                cbcrush, cblove, cbengaged, cbmarried, cbfriend, cbbuddie, cbsteady, cbenemy,
-                null, null, null, null, null, null, cbfamily, cbbest,
-                null, null, null, null, null, null, null, null,
-                cbBFF, null, null, null, null, null, null, null,
-            });
             int i = ltcb.IndexOf((TransparentCheckBox)sender);
             if (i >= 0)
             {
