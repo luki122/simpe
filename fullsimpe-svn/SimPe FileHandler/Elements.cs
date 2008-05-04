@@ -1912,11 +1912,11 @@ namespace SimPe.PackedFiles.UserInterface
                     List<CheckBox> ltcb = new List<CheckBox>(new CheckBox[] {
                         cbcrush, cblove, cbengaged, cbmarried, cbfriend, cbbuddie, cbsteady, cbenemy,
                         //null, null, null, null, null, null, cbfamily, cbbest,
-                        //null, null, null, null, null, null, null, null,
                         // /*cbBFF,*/ null, null, null, null, null, null, null, null,
+                        //null, null, null, null, null, null, null, null,
                     });
                     Boolset bs1 = srel.RelationState.Value;
-                    //Boolset bs2 = Srel.RelationState2.Value;
+                    //Boolset bs2 = srel.RelationState2.Value;
                     for (int i = 0; i < 16; i++)
                         if (ltcb[i] != null) bs1[i] = ltcb[i].Checked;
                     srel.RelationState.Value = bs1;
