@@ -120,16 +120,16 @@ namespace SimPe.PackedFiles.UserInterface
             this.pbDay = new Ambertation.Windows.Forms.LabeledProgressBar();
             this.pbLife = new Ambertation.Windows.Forms.LabeledProgressBar();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.cblove = new Ambertation.Windows.Forms.TransparentCheckBox();
             this.cbcrush = new Ambertation.Windows.Forms.TransparentCheckBox();
+            this.cbfamily = new Ambertation.Windows.Forms.TransparentCheckBox();
+            this.cblove = new Ambertation.Windows.Forms.TransparentCheckBox();
             this.cbengaged = new Ambertation.Windows.Forms.TransparentCheckBox();
             this.cbmarried = new Ambertation.Windows.Forms.TransparentCheckBox();
-            this.cbbuddie = new Ambertation.Windows.Forms.TransparentCheckBox();
             this.cbfriend = new Ambertation.Windows.Forms.TransparentCheckBox();
+            this.cbbuddie = new Ambertation.Windows.Forms.TransparentCheckBox();
             this.cbsteady = new Ambertation.Windows.Forms.TransparentCheckBox();
-            this.cbenemy = new Ambertation.Windows.Forms.TransparentCheckBox();
             this.cbbest = new Ambertation.Windows.Forms.TransparentCheckBox();
-            this.cbfamily = new Ambertation.Windows.Forms.TransparentCheckBox();
+            this.cbenemy = new Ambertation.Windows.Forms.TransparentCheckBox();
             this.cbBFF = new Ambertation.Windows.Forms.TransparentCheckBox();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -150,7 +150,6 @@ namespace SimPe.PackedFiles.UserInterface
             resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
             this.flowLayoutPanel1.Controls.Add(this.label91);
             this.flowLayoutPanel1.Controls.Add(this.cbfamtype);
-            this.flowLayoutPanel1.Controls.Add(this.tbRel);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             // 
             // label91
@@ -166,8 +165,8 @@ namespace SimPe.PackedFiles.UserInterface
             // 
             // tbRel
             // 
-            resources.ApplyResources(this.tbRel, "tbRel");
             this.tbRel.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            resources.ApplyResources(this.tbRel, "tbRel");
             this.tbRel.Name = "tbRel";
             // 
             // pbDay
@@ -207,6 +206,7 @@ namespace SimPe.PackedFiles.UserInterface
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.cbcrush, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.cbfamily, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.tbRel, 3, 2);
             this.tableLayoutPanel1.Controls.Add(this.cblove, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.cbengaged, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.cbmarried, 3, 0);
@@ -218,19 +218,26 @@ namespace SimPe.PackedFiles.UserInterface
             this.tableLayoutPanel1.Controls.Add(this.cbBFF, 3, 1);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
-            // cblove
-            // 
-            resources.ApplyResources(this.cblove, "cblove");
-            this.cblove.Name = "cblove";
-            this.cblove.UseVisualStyleBackColor = false;
-            this.cblove.CheckedChanged += new System.EventHandler(this.ChangedState);
-            // 
             // cbcrush
             // 
             resources.ApplyResources(this.cbcrush, "cbcrush");
             this.cbcrush.Name = "cbcrush";
             this.cbcrush.UseVisualStyleBackColor = false;
             this.cbcrush.CheckedChanged += new System.EventHandler(this.ChangedState);
+            // 
+            // cbfamily
+            // 
+            resources.ApplyResources(this.cbfamily, "cbfamily");
+            this.cbfamily.Name = "cbfamily";
+            this.cbfamily.UseVisualStyleBackColor = false;
+            this.cbfamily.CheckedChanged += new System.EventHandler(this.ChangedState);
+            // 
+            // cblove
+            // 
+            resources.ApplyResources(this.cblove, "cblove");
+            this.cblove.Name = "cblove";
+            this.cblove.UseVisualStyleBackColor = false;
+            this.cblove.CheckedChanged += new System.EventHandler(this.ChangedState);
             // 
             // cbengaged
             // 
@@ -246,19 +253,19 @@ namespace SimPe.PackedFiles.UserInterface
             this.cbmarried.UseVisualStyleBackColor = false;
             this.cbmarried.CheckedChanged += new System.EventHandler(this.ChangedState);
             // 
-            // cbbuddie
-            // 
-            resources.ApplyResources(this.cbbuddie, "cbbuddie");
-            this.cbbuddie.Name = "cbbuddie";
-            this.cbbuddie.UseVisualStyleBackColor = false;
-            this.cbbuddie.CheckedChanged += new System.EventHandler(this.ChangedState);
-            // 
             // cbfriend
             // 
             resources.ApplyResources(this.cbfriend, "cbfriend");
             this.cbfriend.Name = "cbfriend";
             this.cbfriend.UseVisualStyleBackColor = false;
             this.cbfriend.CheckedChanged += new System.EventHandler(this.ChangedState);
+            // 
+            // cbbuddie
+            // 
+            resources.ApplyResources(this.cbbuddie, "cbbuddie");
+            this.cbbuddie.Name = "cbbuddie";
+            this.cbbuddie.UseVisualStyleBackColor = false;
+            this.cbbuddie.CheckedChanged += new System.EventHandler(this.ChangedState);
             // 
             // cbsteady
             // 
@@ -267,13 +274,6 @@ namespace SimPe.PackedFiles.UserInterface
             this.cbsteady.UseVisualStyleBackColor = false;
             this.cbsteady.CheckedChanged += new System.EventHandler(this.ChangedState);
             // 
-            // cbenemy
-            // 
-            resources.ApplyResources(this.cbenemy, "cbenemy");
-            this.cbenemy.Name = "cbenemy";
-            this.cbenemy.UseVisualStyleBackColor = false;
-            this.cbenemy.CheckedChanged += new System.EventHandler(this.ChangedState);
-            // 
             // cbbest
             // 
             resources.ApplyResources(this.cbbest, "cbbest");
@@ -281,12 +281,12 @@ namespace SimPe.PackedFiles.UserInterface
             this.cbbest.UseVisualStyleBackColor = false;
             this.cbbest.CheckedChanged += new System.EventHandler(this.ChangedState);
             // 
-            // cbfamily
+            // cbenemy
             // 
-            resources.ApplyResources(this.cbfamily, "cbfamily");
-            this.cbfamily.Name = "cbfamily";
-            this.cbfamily.UseVisualStyleBackColor = false;
-            this.cbfamily.CheckedChanged += new System.EventHandler(this.ChangedState);
+            resources.ApplyResources(this.cbenemy, "cbenemy");
+            this.cbenemy.Name = "cbenemy";
+            this.cbenemy.UseVisualStyleBackColor = false;
+            this.cbenemy.CheckedChanged += new System.EventHandler(this.ChangedState);
             // 
             // cbBFF
             // 

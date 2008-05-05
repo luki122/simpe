@@ -167,7 +167,7 @@ namespace SimPe.PackedFiles.Wrapper
         /// <remarks>The Meaning of the Bits is given by MetaData.UIFlags2Names</remarks>
         public UIFlags2 RelationState2
         {
-            get { return values.Length > 0 ? flags2 : null; }
+            get { return values.Length > 9 ? flags2 : null; }
         }
 		#endregion
 
