@@ -71,10 +71,10 @@ namespace SimPe.Plugin.TabPage
 			//
 			InitializeComponent();
 
-            btnMerge.Top = linkLabel1.Top - btnMerge.Height - 12;
-            btnImport.Top = btnMerge.Top - btnImport.Height - 6;
-            btnExport.Top = btnImport.Top - btnExport.Height - 6;
-            btnExport.Left = btnImport.Left = btnMerge.Left = linkLabel1.Left;
+            btnExport.Left = gbprop.Left;
+            btnImport.Left = btnExport.Right + 12;
+            btnMerge.Left = btnImport.Right + 12;
+            btnExport.Top = btnImport.Top = btnMerge.Top = gbprop.Bottom + 12;
 
             llscan.Visible = Helper.DebugMode;
 
@@ -163,6 +163,39 @@ namespace SimPe.Plugin.TabPage
             this.gbprop.TabStop = false;
             this.gbprop.Text = "Property";
             // 
+            // btnExport
+            // 
+            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExport.AutoSize = true;
+            this.btnExport.Location = new System.Drawing.Point(354, 180);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(75, 27);
+            this.btnExport.TabIndex = 8;
+            this.btnExport.Text = "Export...";
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
+            // btnImport
+            // 
+            this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnImport.AutoSize = true;
+            this.btnImport.Location = new System.Drawing.Point(390, 180);
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(75, 27);
+            this.btnImport.TabIndex = 7;
+            this.btnImport.Text = "Import...";
+            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
+            // 
+            // btnMerge
+            // 
+            this.btnMerge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMerge.AutoSize = true;
+            this.btnMerge.Location = new System.Drawing.Point(318, 180);
+            this.btnMerge.Name = "btnMerge";
+            this.btnMerge.Size = new System.Drawing.Size(75, 27);
+            this.btnMerge.TabIndex = 9;
+            this.btnMerge.Text = "Merge...";
+            this.btnMerge.Click += new System.EventHandler(this.btnMerge_Click);
+            // 
             // lldel
             // 
             this.lldel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -241,59 +274,26 @@ namespace SimPe.Plugin.TabPage
             this.linkLabel1.Text = "sort List";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
-            // btnImport
-            // 
-            this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnImport.AutoSize = true;
-            this.btnImport.Location = new System.Drawing.Point(390, 180);
-            this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(75, 27);
-            this.btnImport.TabIndex = 7;
-            this.btnImport.Text = "Import...";
-            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
-            // 
-            // btnExport
-            // 
-            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExport.AutoSize = true;
-            this.btnExport.Location = new System.Drawing.Point(354, 180);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(75, 27);
-            this.btnExport.TabIndex = 8;
-            this.btnExport.Text = "Export...";
-            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
-            // 
-            // btnMerge
-            // 
-            this.btnMerge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMerge.AutoSize = true;
-            this.btnMerge.Location = new System.Drawing.Point(318, 180);
-            this.btnMerge.Name = "btnMerge";
-            this.btnMerge.Size = new System.Drawing.Size(75, 27);
-            this.btnMerge.TabIndex = 9;
-            this.btnMerge.Text = "Merge...";
-            this.btnMerge.Click += new System.EventHandler(this.btnMerge_Click);
-            // 
             // saveFileDialog1
             // 
             this.saveFileDialog1.DefaultExt = "xml";
-            this.saveFileDialog1.Filter = "TXMT Properties (xml)|*.xml";
-            this.saveFileDialog1.Title = "Export TXMT Properties";
+            this.saveFileDialog1.Filter = "Material Definition Properties (xml)|*.xml";
+            this.saveFileDialog1.Title = "Export Material Definition Properties";
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.DefaultExt = "xml";
-            this.openFileDialog1.Filter = "TXMT Properties (xml)|*.xml|All files|*.*";
-            this.openFileDialog1.Title = "TXMT Properties";
+            this.openFileDialog1.Filter = "Material Definition Properties (xml)|*.xml|All files|*.*";
+            this.openFileDialog1.Title = "Material Definition Properties";
             // 
             // MatdForm
             // 
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.btnMerge);
-            this.Controls.Add(this.btnExport);
-            this.Controls.Add(this.btnImport);
             this.Controls.Add(this.llscan);
             this.Controls.Add(this.lbprop);
+            this.Controls.Add(this.btnMerge);
+            this.Controls.Add(this.btnImport);
+            this.Controls.Add(this.btnExport);
             this.Controls.Add(this.gbprop);
             this.Controls.Add(this.linkLabel1);
             this.Location = new System.Drawing.Point(4, 22);
