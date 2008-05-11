@@ -78,6 +78,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="HelpForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HelpForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="img\splash.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
