@@ -65,9 +65,20 @@ namespace SimPe
         #region Enable flags
         static bool EnableFlags(string[] args)
         {
-            if (args[0].ToLower() != "-enable") return false;
-
             List<string> argv = new List<string>(args);
+
+            if (argv[0].ToLower() == "-localmode") // backward compatibility; uses ".Insert" as there may be trailing unknown stuff
+            {
+                argv.RemoveAt(0);
+                argv.InsertRange(0, new string[] { "-enable", "localmode" });
+                if (args.Length > 1 && args[1].ToLower() == "-noplugins")
+                {
+                    argv.RemoveAt(2);
+                    argv.Insert(2, "noplugins");
+                }
+            }
+
+            if (argv[0].ToLower() != "-enable") return false;
 
             while (argv.Count > 0)
             {
