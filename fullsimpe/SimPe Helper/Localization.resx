@@ -384,10 +384,10 @@ Package: {filename}</value>
     <value>Open Sim Description for "{name}"</value>
   </data>
   <data name="AddRelationCaption" xml:space="preserve">
-    <value>Add Relationship to "{name}"</value>
+    <value>Add Relation to "{name}"</value>
   </data>
   <data name="RemoveRelationCaption" xml:space="preserve">
-    <value>Remove Relationship with "{name}"</value>
+    <value>Remove Relation to "{name}"</value>
   </data>
   <data name="Please Wait" xml:space="preserve">
     <value>Please Wait</value>
@@ -1113,7 +1113,7 @@ Run SimPE anyway?</value>
     <value>Savegames</value>
   </data>
   <data name="Max Relation to this Sim" xml:space="preserve">
-    <value>Max Relationship with {name}</value>
+    <value>Max Relation to {name}</value>
   </data>
   <data name="Economy" xml:space="preserve">
     <value>Economy</value>
