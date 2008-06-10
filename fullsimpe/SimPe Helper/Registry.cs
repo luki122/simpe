@@ -1469,6 +1469,8 @@ namespace SimPe
                     System.IO.TextReader fs = System.IO.File.OpenText(PathProvider.Global.StartupCheatFile);
 					string cont = fs.ReadToEnd();
 					fs.Close();
+					fs.Dispose();
+					fs = null;
 					string[] lines = cont.Split("\n".ToCharArray());
 
 					foreach (string line in lines) 
@@ -1504,6 +1506,8 @@ namespace SimPe
                         System.IO.TextReader fs = System.IO.File.OpenText(PathProvider.Global.StartupCheatFile);
 						string cont = fs.ReadToEnd();
 						fs.Close();
+						fs.Dispose();
+						fs = null;
 						
 						string[] lines = cont.Split("\n".ToCharArray());
 						
@@ -1547,6 +1551,8 @@ namespace SimPe
                     System.IO.TextWriter fw = System.IO.File.CreateText(PathProvider.Global.StartupCheatFile);
 					fw.Write(newcont.Trim());
 					fw.Close();
+					fw.Dispose();
+					fw = null;
 				} 
 				catch (Exception) {}
 			}

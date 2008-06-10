@@ -113,7 +113,10 @@ namespace SimPe.Packages
 			} 
 			finally 
 			{
+				si.Close();
 				fs.Close();
+				fs.Dispose();
+				fs = null;
 			}
 		}
 
@@ -136,6 +139,8 @@ namespace SimPe.Packages
 			finally 
 			{
 				fs.Close();
+				fs.Dispose();
+				fs = null;
 			}
 		}
 
@@ -182,6 +187,8 @@ namespace SimPe.Packages
 			finally 
 			{
 				fs.Close();
+				fs.Dispose();
+				fs = null;
 			}
 		}
 	}
