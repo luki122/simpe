@@ -211,6 +211,8 @@ namespace SimPe
 				finally 
 				{
 					fs.Close();
+					fs.Dispose();
+					fs = null;
 				}
 			}
 			catch (Exception ex) 

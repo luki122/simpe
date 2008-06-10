@@ -142,7 +142,7 @@ namespace SimPe.Packages
 		/// </summary>
 		public void Close()
 		{
-			if (fs != null) fs.Close();
+			if (fs != null) { fs.Close(); fs.Dispose(); fs = null; }
 		}
 	}
 

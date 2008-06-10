@@ -116,7 +116,6 @@ namespace SimPe.Actions.Default
 				try 
 				{				
 					tw.Write(xml);
-					tw.Close();
 				} 
 				catch (Exception ex) 
 				{
@@ -125,6 +124,8 @@ namespace SimPe.Actions.Default
 				finally 
 				{
 					tw.Close();
+					tw.Dispose();
+					tw = null;
 				}				
 
 			}
