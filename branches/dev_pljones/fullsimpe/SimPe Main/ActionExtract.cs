@@ -147,7 +147,9 @@ namespace SimPe.Actions.Default
 
 			if (flname==null) return;
 
+#if !DEBUG
 			try 
+#endif
 			{
 				if (!multi) //extract one File
 				{
@@ -167,10 +169,12 @@ namespace SimPe.Actions.Default
 					ExtractAllFiles(flname, ar, es.LoadedPackage.Package);
 				}
 			}
+#if !DEBUG
 			catch (Exception ex) 
 			{
 				Helper.ExceptionMessage(Localization.Manager.GetString("err002")+flname, ex);
 			}
+#endif
 		}
 
 		#endregion
