@@ -275,8 +275,13 @@ namespace SimPe.Packages
 		{
 			//this.id = new char[4];
 			for (uint i=0; i<this.id.Length; i++) this.id[i] = reader.ReadChar();
+            if (Identifier != "DBPF")
+                throw new InvalidOperationException("SimPe does not support this type of file");
 			
 			this.majorversion = reader.ReadInt32();
+            if (this.majorversion > 1)
+                throw new InvalidOperationException("SimPe does not support this version of DBPF file");
+
 			this.minorversion = reader.ReadInt32();
 
 			//this.reserved_00 = new Int32[3];
