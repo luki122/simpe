@@ -129,7 +129,22 @@ namespace SimPe.PackedFiles.UserInterface
 			
 			this.cbsort.Enum = typeof(Data.ObjFunctionSubSort);	
 			this.cbsort.ResourceManager = SimPe.Localization.Manager;
+
+            btnCommit.Enabled = false;
+            setFocusHandler(this.pnobjd.Controls);
 		}
+
+        void setFocusHandler(Control.ControlCollection controls)
+        {
+            foreach (Control c in controls)
+            {
+                c.Enter += new EventHandler(enableCommit);
+                c.GotFocus += new EventHandler(enableCommit);
+                if (c.Controls != null) setFocusHandler(c.Controls);
+            }
+        }
+
+        void enableCommit(object sender, EventArgs e) { btnCommit.Enabled = wrapper.Changed = true; }
 
 		/// <summary>
 		/// Die verwendeten Ressourcen bereinigen.
