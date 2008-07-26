@@ -1056,7 +1056,7 @@ namespace SimPe
 			flname = System.IO.Path.GetFileNameWithoutExtension(flname);
 			string[] parts = flname.Split(new char[] {'_'}, 2);
 			if (parts.Length==0) return filename;
-			return System.IO.Path.Combine(System.IO.Path.GetDirectoryName(filename), parts[0]+"_Neighborhood.package");
+            return System.IO.Path.Combine(System.IO.Path.GetDirectoryName(filename), parts[0] + neighborhood_package);
 		}
 
         static string HoodsFile { get { return System.IO.Path.Combine(Helper.SimPeDataPath, "hoods.xml"); ; } }
