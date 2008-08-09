@@ -223,7 +223,7 @@ namespace SimPe.Plugin
             this.miNuke,
             this.miFix});
             this.menu.Name = "menu";
-            this.menu.Size = new System.Drawing.Size(158, 48);
+            this.menu.Size = new System.Drawing.Size(153, 70);
             this.menu.Text = "(context menu)";
             this.menu.VisibleChanged += new System.EventHandler(this.menu_VisibleChanged);
             // 
@@ -231,7 +231,7 @@ namespace SimPe.Plugin
             // 
             this.miNuke.Image = ((System.Drawing.Image)(resources.GetObject("miNuke.Image")));
             this.miNuke.Name = "miNuke";
-            this.miNuke.Size = new System.Drawing.Size(157, 22);
+            this.miNuke.Size = new System.Drawing.Size(152, 22);
             this.miNuke.Text = "Nuke Memories";
             this.miNuke.Click += new System.EventHandler(this.miNuke_Activate);
             // 
@@ -239,7 +239,7 @@ namespace SimPe.Plugin
             // 
             this.miFix.Image = ((System.Drawing.Image)(resources.GetObject("miFix.Image")));
             this.miFix.Name = "miFix";
-            this.miFix.Size = new System.Drawing.Size(157, 22);
+            this.miFix.Size = new System.Drawing.Size(152, 22);
             this.miFix.Text = "Fix Memories";
             this.miFix.Click += new System.EventHandler(this.miFix_Activate);
             // 
@@ -309,6 +309,7 @@ namespace SimPe.Plugin
             // 
             // shelper
             // 
+            this.shelper.AutoScroll = true;
             this.shelper.BackColor = System.Drawing.Color.Transparent;
             this.shelper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.shelper.Font = new System.Drawing.Font("Tahoma", 8.25F);
@@ -498,6 +499,7 @@ namespace SimPe.Plugin
 				Collections.NgbhSlots slots = this.Ngbh.GetSlots(Data.NeighborhoodSlots.Sims);
 				if (slots!=null) 
 				{
+                    SimPe.PackedFiles.Wrapper.ExtSDesc selectedSim = spc.SelectedSim;
 					NgbhSlot slot = slots.GetInstanceSlot(spc.SelectedSim.Instance);
 					if (slot!=null)
 					{
@@ -508,6 +510,7 @@ namespace SimPe.Plugin
 							Message.Show(String.Format("Deleted {0} memories from the sim pool", deletedCount));
 					
 						spc.Refresh();
+                        spc.SelectedSim = selectedSim;
 					}
 				}
 			}
