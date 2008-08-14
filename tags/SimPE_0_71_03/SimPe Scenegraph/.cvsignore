@@ -1,0 +1,8 @@
+CodeCommentReport
+obj
+*.suo
+Thumbs.db
+*.csproj.user
+bin
+PreviewFormOld.cs
+PreviewFormOld.resx
