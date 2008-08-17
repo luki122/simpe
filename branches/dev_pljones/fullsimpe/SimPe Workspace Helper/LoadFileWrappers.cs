@@ -291,8 +291,10 @@ namespace SimPe
 				foreach(Type t in mytypes)
 				{
 					Type mit = t.GetInterface(interfaceType.FullName);
-					if (mit != null) 
-					{
+					if (mit != null)
+
+                    {
+                        Splash.Screen.SetMessage(SimPe.Localization.GetString("Loading")+" " + t.Name);
 					
 						object obj = Activator.CreateInstance(t);
 						return obj;

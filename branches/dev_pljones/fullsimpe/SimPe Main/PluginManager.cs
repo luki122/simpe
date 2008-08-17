@@ -51,23 +51,33 @@ namespace SimPe
 			FileTable.SettingsRegistry = tr;
 
 			wloader = new LoadFileWrappersExt();
-			
-			this.LoadDynamicWrappers();
+
+            Splash.Screen.SetMessage("");
+            this.LoadDynamicWrappers();
+            Splash.Screen.SetMessage("");
 			this.LoadStaticWrappers();
+            Splash.Screen.SetMessage("");
 
 			wloader.AddMenuItems(ref ChangedGuiResourceEvent, toolmenu, tootoolbar, new ToolMenuItemExt.ExternalToolNotify(ClosedToolPluginHandler));
+            Splash.Screen.SetMessage("");
 			wloader.AddListeners(ref ChangedGuiResourceEvent);
+            Splash.Screen.SetMessage("");
 			//dc.ActiveDocumentChanged += new TD.SandDock.ActiveDocumentEventHandler(wloader.ActiveDocumentChanged);
 			//lp.AfterFileLoad += new SimPe.Events.PackageFileLoadedEvent(wloader.ChangedPackage);
 
 			
 			LoadActionTools(defaultactiontaskbox, actiontoolbar, defaultactionmenu, GetDefaultActions());
+            Splash.Screen.SetMessage("");
 			LoadActionTools(toolactiontaskbox, actiontoolbar, defaultactionmenu, LoadExternalTools());
+            Splash.Screen.SetMessage("");
 			LoadActionTools(extactiontaskbox, actiontoolbar, null, null);
+            Splash.Screen.SetMessage("");
 			
 			LoadDocks(docktooldc, lp);
+            Splash.Screen.SetMessage("");
 
 			lht = new LoadHelpTopics(helpmenu);
+            Splash.Screen.SetMessage("");
 		}
 
 		/// <summary>
