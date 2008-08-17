@@ -130,7 +130,6 @@ namespace SimPe.PackedFiles
 
             if (wrapper != null)
             {
-                Splash.Screen.SetMessage(SimPe.Localization.GetString("Loading")+" " + wrapper.WrapperDescription.Name);
                 if (!handlers.Contains(wrapper))
                 {
                     ((SimPe.Interfaces.IWrapper)wrapper).Priority = reg.GetWrapperPriority(((SimPe.Interfaces.IWrapper)wrapper).WrapperDescription.UID);
