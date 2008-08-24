@@ -10,7 +10,8 @@
     <StartAction>Program</StartAction>
     <StartProgram>J:\Dynamic\Projects\SimPE\fullsimpe-svn\__Debug\SimPe.exe</StartProgram>
     <StartWorkingDirectory>J:\Dynamic\Projects\SimPE\fullsimpe-svn\__Debug\</StartWorkingDirectory>
-    <StartArguments>-gensemiglob</StartArguments>
+    <StartArguments>
+    </StartArguments>
     <StartPage>
     </StartPage>
     <StartURL>
