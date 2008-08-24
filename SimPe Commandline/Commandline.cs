@@ -65,18 +65,27 @@ namespace SimPe
         /// <returns>true if the GUI should <b>NOT</b> show up</returns>
         public static bool FullEnvStart(ref string[] args)
         {
-            SimPe.Splash.Screen.SetMessage(SimPe.Localization.GetString("Checking commandline parameters"));
-            // Help() will display plugin command line tools
-            if (Help(ref args)) return true;
-
             if (args.Length < 1) return false;
-            ITool[] tools = SimPe.FileTable.ToolRegistry.Tools;
-            foreach (ITool tool in tools)
+
+            try
             {
-                ICommandLine cmd = tool as ICommandLine;
-                if (cmd != null && cmd.Parse(ref args)) return true;
+                SimPe.Splash.Screen.SetMessage(SimPe.Localization.GetString("Checking commandline parameters"));
+
+                // Help() will display plugin command line tools
+                if (Help(ref args)) return true;
+
+                ITool[] tools = SimPe.FileTable.ToolRegistry.Tools;
+                foreach (ITool tool in tools)
+                {
+                    ICommandLine cmd = tool as ICommandLine;
+                    if (cmd != null && cmd.Parse(ref args)) return true;
+                }
+                return false;
             }
-            return false;
+            finally
+            {
+                SimPe.Splash.Screen.SetMessage(SimPe.Localization.GetString(""));
+            }
         }
 
         static bool Help(ref string[] args)
