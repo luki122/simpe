@@ -114,6 +114,7 @@ namespace SimPe
             //FileTable.WrapperRegistry.Register(new SimPe.PackedFiles.Wrapper.Factory.GenericWrapperFactory());
             Splash.Screen.SetMessage("Loading ScenegraphWrapperFactory");
             FileTable.WrapperRegistry.Register(new SimPe.Plugin.ScenegraphWrapperFactory());
+            FileTable.ToolRegistry.Register(new SimPe.Plugin.ScenegraphWrapperFactory());
             Splash.Screen.SetMessage("Loading RefFileFactory");
             FileTable.WrapperRegistry.Register(new SimPe.Plugin.RefFileFactory());
             Splash.Screen.SetMessage("Loading ClstWrapperFactory");

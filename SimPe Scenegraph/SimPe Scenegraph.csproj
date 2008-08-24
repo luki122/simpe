@@ -317,6 +317,7 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BuildTxtr.cs" />
     <Compile Include="ColorOptions.cs">
       <SubType>Code</SubType>
     </Compile>
