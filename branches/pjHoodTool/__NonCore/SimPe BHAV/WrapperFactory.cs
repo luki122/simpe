@@ -98,18 +98,19 @@ namespace SimPe.Plugin
 
 		public IToolPlugin[] KnownTools
 		{
-			get
-			{
-				IToolPlugin[] tools = {
+            get
+            {
+                IToolPlugin[] tools = {
 									new ImportSemiTool(this.LinkedRegistry, this.LinkedProvider),
 #if DEBUG
                                     new SimPe.Plugin.Tool.Action.ActionBuildGlobList(),
 #endif
 								    new OpenLuaTool(),
                                     new SearchTool(this.LinkedRegistry, this.LinkedProvider),
+                                    new GenSemiGlobals(),
 								};
-				return tools;
-			}
+                return tools;
+            }
 		}
 
 

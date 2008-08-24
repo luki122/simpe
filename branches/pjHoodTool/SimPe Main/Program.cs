@@ -28,7 +28,7 @@ using Ambertation.Windows.Forms;
 
 namespace SimPe
 {
-    partial class MainForm 
+    partial class MainForm
     {
         static string[] pargs;
         public static MainForm Global;
@@ -38,14 +38,12 @@ namespace SimPe
         [STAThread]
         static void Main(string[] args)
         {
-            
-#if !DEBUG
+
             try
             {
-#endif
                 if (System.Environment.Version.Major < 2)
                 {
-                    Message.Show(SimPe.Localization.GetString("NoDotNet").Replace("{VERSION}",System.Environment.Version.ToString()));
+                    Message.Show(SimPe.Localization.GetString("NoDotNet").Replace("{VERSION}", System.Environment.Version.ToString()));
                     return;
                 }
 
@@ -73,13 +71,13 @@ namespace SimPe
                 if (!Commandline.Start(ref args))
                 {
                     Helper.WindowsRegistry.UpdateSimPEDirectory();
+                    Global = new MainForm();
                     if (!Commandline.FullEnvStart(ref args))
                     {
-                        Global = new MainForm();
                         pargs = args;
                         Application.Run(Global);
                     }
-                    
+
 
                     Helper.WindowsRegistry.Flush();
                     Helper.WindowsRegistry.Layout.Flush();
@@ -87,8 +85,8 @@ namespace SimPe
 
                 }
 
-#if !DEBUG
             }
+#if !DEBUG
             catch (Exception ex)
             {
                 try
@@ -98,17 +96,14 @@ namespace SimPe
                 }
                 catch (Exception ex2)
                 {
-
                     MessageBox.Show("SimPE will shutdown due to an unhandled Exception.\n\nMessage: " + ex2.Message);
                 }
             }
+#endif
             finally
             {
-#endif
                 SimPe.Splash.Screen.ShutDown();
-#if !DEBUG
             }
-#endif
 
             try
             {
