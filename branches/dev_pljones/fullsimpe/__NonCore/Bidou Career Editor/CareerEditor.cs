@@ -3752,20 +3752,20 @@ namespace SimPe.Plugin
 			this.package = (SimPe.Packages.GeneratableFile)package;
 			
 			WaitingScreen.Wait();
-			try 
-			{
-				if (this.package==null) 
-				{
-					this.package = SimPe.Packages.GeneratableFile.LoadFromFile(CareerTool.DefaultCareerFile);					
-					newpackage = true;
-					this.package = (SimPe.Packages.GeneratableFile)this.package.Clone();
-				}
+            try
+            {
+                if (this.package == null)
+                {
+                    this.package = SimPe.Packages.GeneratableFile.LoadFromFile(CareerTool.DefaultCareerFile);
+                    newpackage = true;
+                    this.package = (SimPe.Packages.GeneratableFile)this.package.Clone();
+                }
 
                 loadFiles();
 
                 menuItem6.Enabled = !isPetCareer;
-				//menuItem2.Checked = oneEnglish;
-				miEnglishOnly.Checked = englishOnly;
+                //menuItem2.Checked = oneEnglish;
+                miEnglishOnly.Checked = englishOnly;
 
                 currentLanguage = 1;
 
@@ -3776,17 +3776,21 @@ namespace SimPe.Plugin
 
                 Language.DataSource = languageString;
 
-				CareerTitle.Text = catalogueDesc[currentLanguage][0].Title;
+                CareerTitle.Text = catalogueDesc[currentLanguage][0].Title;
 
                 internalchg = false;
 
                 noLevelsChanged((ushort)tuning[0]);
-			}
-			catch (Exception e)
-			{
-				Helper.ExceptionMessage("Error Loading Career", e);
-				return new Plugin.ToolResult(false, false);
-			} 
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return new Plugin.ToolResult(false, false);
+            }
+            catch (Exception e)
+            {
+                Helper.ExceptionMessage("Error Loading Career", e);
+                return new Plugin.ToolResult(false, false);
+            } 
 			finally 
 			{
                 internalchg = false; // Should already be done.
@@ -3814,16 +3818,55 @@ namespace SimPe.Plugin
 			return new Plugin.ToolResult(true, newpackage);
 		}
 
-
-        private Bcon getBcon(uint instance)
+        private Bcon getBcon(uint instance) { return getBcon(instance, Int16.MinValue, Int16.MaxValue); }
+        /// <summary>
+        /// Bounds-checking retrieval of Bcon values
+        /// </summary>
+        /// <param name="instance">Bcon instance</param>
+        /// <param name="min">minimum value allowed for any row in Bcon</param>
+        /// <param name="max">maximum value allowed for any row in Bcon</param>
+        /// <returns>Bcon read</returns>
+        /// <exception cref="ArgumentOutOfRangeException">thrown if a row is out of bounds</exception>
+        private Bcon getBcon(uint instance, Int16 min, Int16 max)
 		{
-			Interfaces.Files.IPackedFileDescriptor pfd = package.FindFile(0x42434F4E, 0, groupId, instance);
+			Interfaces.Files.IPackedFileDescriptor pfd = package.FindFile(0x42434F4E/*BCON*/, 0, groupId, instance);
             if (pfd == null) return null;
 
 			Bcon bcon = new Bcon();
 			bcon.ProcessData(pfd, package);
+            for(int i = 0; i < bcon.Count; i++)
+            {
+                if (bcon[i] < min)
+                {
+                    OutOfBounds(instance, i, bcon[i]);
+                    bcon[i] = min;
+                }
+                if (bcon[i] > max)
+                {
+                    OutOfBounds(instance, i, bcon[i]);
+                    bcon[i] = max;
+                }
+            }
 			return bcon;
 		}
+        private void OutOfBounds(uint instance, int line, short value)
+        {
+            if (!overrideOutOfBounds)
+            {
+                overrideOutOfBounds = true;
+                DialogResult dr = MessageBox.Show(
+                        "\r\n" + "This career contains one or more out of bounds values." +
+                        "\r\n" +
+                        "\r\n" + "Click \"Yes\" to allow the Career Editor to adjust any out of bounds values." +
+                        "\r\n" + "Click \"No\" to disallow, in which case the Career Editor will close." +
+                        "\r\n" +
+                        "\r\n" + "If you choose No, you can continue editing the career using SimPE's normal resource plugins.",
+                    this.Text + " - BCON 0x" + SimPe.Helper.HexString(instance) + ":" + SimPe.Helper.HexString((short)line) + " = 0x" + SimPe.Helper.HexString(value),
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dr != DialogResult.Yes)
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
         private void insertBcon(Bcon bcon, int index, short value)
         {
             List<short> bconItem = new List<short>();
@@ -3850,8 +3893,11 @@ namespace SimPe.Plugin
             return str;
 		}
 
+        private bool overrideOutOfBounds = false;
         private void loadFiles()
 		{
+            overrideOutOfBounds = false;
+
             catalogueDesc = getCtss();
             groupId = catalogueDesc.FileDescriptor.Group;
 
@@ -3916,124 +3962,124 @@ namespace SimPe.Plugin
             if (!isPetCareer)
             {
                 skillReq = new Bcon[8];
-                skillReq[COOKING] = getBcon(0x1004);
-                skillReq[MECHANICAL] = getBcon(0x1005);
-                skillReq[BODY] = getBcon(0x1006);
-                skillReq[CHARISMA] = getBcon(0x1007);
-                skillReq[CREATIVITY] = getBcon(0x1008);
-                skillReq[LOGIC] = getBcon(0x1009);
-                skillReq[GARDENING] = getBcon(0x100A);
-                skillReq[CLEANING] = getBcon(0x100B);
+                skillReq[COOKING] = getBcon(0x1004, 0, 1000);
+                skillReq[MECHANICAL] = getBcon(0x1005, 0, 1000);
+                skillReq[BODY] = getBcon(0x1006, 0, 1000);
+                skillReq[CHARISMA] = getBcon(0x1007, 0, 1000);
+                skillReq[CREATIVITY] = getBcon(0x1008, 0, 1000);
+                skillReq[LOGIC] = getBcon(0x1009, 0, 1000);
+                skillReq[GARDENING] = getBcon(0x100A, 0, 1000);
+                skillReq[CLEANING] = getBcon(0x100B, 0, 1000);
                 trick = null;
             }
             else
             {
                 trick = getBcon(0x1004);
             }
-            friends = getBcon(0x1003);
+            friends = getBcon(0x1003, 0, 99);
 
             // Hours & Wages
 			startHour  = getBcon(0x1001);
 			hoursWorked = getBcon(0x1002);
             if (!isPetCareer)
             {
-                wages = getBcon(0x1000);
+                wages = getBcon(0x1000, 0, 10000);
                 wagesDog = wagesCat = null;
             }
             else
             {
-                wagesDog = getBcon(0x1000);
-                wagesCat = getBcon(0x1005);
+                wagesDog = getBcon(0x1000, 0, 10000);
+                wagesCat = getBcon(0x1005, 0, 10000);
                 wages = null;
             }
 			daysWorked = getBcon(0x101A);
 
 			motiveDeltas = new Bcon[11];
-			motiveDeltas[HUNGER] = getBcon(0x100E);
-			motiveDeltas[THIRST] = getBcon(0x100F);
-			motiveDeltas[COMFORT] = getBcon(0x1010);
-			motiveDeltas[HYGIENE] = getBcon(0x1011);
-			motiveDeltas[BLADDER] = getBcon(0x1012);
-			motiveDeltas[ENERGY] = getBcon(0x1013);
-			motiveDeltas[FUN] = getBcon(0x1014);
-			motiveDeltas[PUBLIC] = getBcon(0x1015);
-			motiveDeltas[FAMILY] = getBcon(0x1016);
-			motiveDeltas[ENVIRONMENT] = getBcon(0x1017);
-			motiveDeltas[MENTAL] = getBcon(0x1018);
+            motiveDeltas[HUNGER] = getBcon(0x100E, -1000, 1000);
+			motiveDeltas[THIRST] = getBcon(0x100F, -1000, 1000);
+			motiveDeltas[COMFORT] = getBcon(0x1010, -1000, 1000);
+			motiveDeltas[HYGIENE] = getBcon(0x1011, -1000, 1000);
+			motiveDeltas[BLADDER] = getBcon(0x1012, -1000, 1000);
+			motiveDeltas[ENERGY] = getBcon(0x1013, -1000, 1000);
+			motiveDeltas[FUN] = getBcon(0x1014, -1000, 1000);
+			motiveDeltas[PUBLIC] = getBcon(0x1015, -1000, 1000);
+			motiveDeltas[FAMILY] = getBcon(0x1016, -1000, 1000);
+			motiveDeltas[ENVIRONMENT] = getBcon(0x1017, -1000, 1000);
+			motiveDeltas[MENTAL] = getBcon(0x1018, -1000, 1000);
 
             // Chance cards
 			chanceCardsText = getStr(0x012D);
-            chanceChance = getBcon(0x101B);
+            chanceChance = getBcon(0x101B, 0, 100);
 
             if (!isPetCareer)
             {
                 chanceASkills = new Bcon[8]; // not pets
-                chanceASkills[COOKING] = getBcon(0x101C);
-                chanceASkills[MECHANICAL] = getBcon(0x101D);
-                chanceASkills[BODY] = getBcon(0x101E);
-                chanceASkills[CHARISMA] = getBcon(0x101F);
-                chanceASkills[CREATIVITY] = getBcon(0x1020);
-                chanceASkills[LOGIC] = getBcon(0x1021);
-                chanceASkills[GARDENING] = getBcon(0x1022);
-                chanceASkills[CLEANING] = getBcon(0x1023);
+                chanceASkills[COOKING] = getBcon(0x101C, -10, 10);
+                chanceASkills[MECHANICAL] = getBcon(0x101D, -10, 10);
+                chanceASkills[BODY] = getBcon(0x101E, -10, 10);
+                chanceASkills[CHARISMA] = getBcon(0x101F, -10, 10);
+                chanceASkills[CREATIVITY] = getBcon(0x1020, -10, 10);
+                chanceASkills[LOGIC] = getBcon(0x1021, -10, 10);
+                chanceASkills[GARDENING] = getBcon(0x1022, -10, 10);
+                chanceASkills[CLEANING] = getBcon(0x1023, -10, 10);
 
                 chanceBSkills = new Bcon[8]; // not pets
-                chanceBSkills[COOKING] = getBcon(0x1024);
-                chanceBSkills[MECHANICAL] = getBcon(0x1025);
-                chanceBSkills[BODY] = getBcon(0x1026);
-                chanceBSkills[CHARISMA] = getBcon(0x1027);
-                chanceBSkills[CREATIVITY] = getBcon(0x1028);
-                chanceBSkills[LOGIC] = getBcon(0x1029);
-                chanceBSkills[GARDENING] = getBcon(0x102A);
-                chanceBSkills[CLEANING] = getBcon(0x102B);
+                chanceBSkills[COOKING] = getBcon(0x1024, -10, 10);
+                chanceBSkills[MECHANICAL] = getBcon(0x1025, -10, 10);
+                chanceBSkills[BODY] = getBcon(0x1026, -10, 10);
+                chanceBSkills[CHARISMA] = getBcon(0x1027, -10, 10);
+                chanceBSkills[CREATIVITY] = getBcon(0x1028, -10, 10);
+                chanceBSkills[LOGIC] = getBcon(0x1029, -10, 10);
+                chanceBSkills[GARDENING] = getBcon(0x102A, -10, 10);
+                chanceBSkills[CLEANING] = getBcon(0x102B, -10, 10);
             }
 
             chanceAGood = new Bcon[10];
-            chanceAGood[MONEY] = getBcon(0x102C);
-            chanceAGood[JOB] = getBcon(0x102D);
+            chanceAGood[MONEY] = getBcon(0x102C, -10000, 10000);
+            chanceAGood[JOB] = getBcon(0x102D, -10000, 10000);
             chanceABad = new Bcon[10]; // not pets
-            chanceABad[MONEY] = getBcon(0x1036);
-            chanceABad[JOB] = getBcon(0x1037);
+            chanceABad[MONEY] = getBcon(0x1036, -10000, 10000);
+            chanceABad[JOB] = getBcon(0x1037, -10000, 10000);
             chanceBGood = new Bcon[10];
-            chanceBGood[MONEY] = getBcon(0x1040);
-            chanceBGood[JOB] = getBcon(0x1041);
+            chanceBGood[MONEY] = getBcon(0x1040, -10000, 10000);
+            chanceBGood[JOB] = getBcon(0x1041, -10000, 10000);
             chanceBBad = new Bcon[10];
-            chanceBBad[MONEY] = getBcon(0x104A);
-            chanceBBad[JOB] = getBcon(0x104B);
+            chanceBBad[MONEY] = getBcon(0x104A, -10000, 10000);
+            chanceBBad[JOB] = getBcon(0x104B, -10000, 10000);
             if (!isPetCareer) // not pets
             {
-                chanceAGood[COOKING] = getBcon(0x102E);
-                chanceAGood[MECHANICAL] = getBcon(0x102F);
-                chanceAGood[BODY] = getBcon(0x1030);
-                chanceAGood[CHARISMA] = getBcon(0x1031);
-                chanceAGood[CREATIVITY] = getBcon(0x1032);
-                chanceAGood[LOGIC] = getBcon(0x1033);
-                chanceAGood[GARDENING] = getBcon(0x1034);
-                chanceAGood[CLEANING] = getBcon(0x1035);
-                chanceABad[COOKING] = getBcon(0x1038);
-                chanceABad[MECHANICAL] = getBcon(0x1039);
-                chanceABad[BODY] = getBcon(0x103A);
-                chanceABad[CHARISMA] = getBcon(0x103B);
-                chanceABad[CREATIVITY] = getBcon(0x103C);
-                chanceABad[LOGIC] = getBcon(0x103D);
-                chanceABad[GARDENING] = getBcon(0x103E);
-                chanceABad[CLEANING] = getBcon(0x103F);
-                chanceBGood[COOKING] = getBcon(0x1042);
-                chanceBGood[MECHANICAL] = getBcon(0x1043);
-                chanceBGood[BODY] = getBcon(0x1044);
-                chanceBGood[CHARISMA] = getBcon(0x1045);
-                chanceBGood[CREATIVITY] = getBcon(0x1046);
-                chanceBGood[LOGIC] = getBcon(0x1047);
-                chanceBGood[GARDENING] = getBcon(0x1048);
-                chanceBGood[CLEANING] = getBcon(0x1049);
-                chanceBBad[COOKING] = getBcon(0x104C);
-                chanceBBad[MECHANICAL] = getBcon(0x104D);
-                chanceBBad[BODY] = getBcon(0x104E);
-                chanceBBad[CHARISMA] = getBcon(0x104F);
-                chanceBBad[CREATIVITY] = getBcon(0x1050);
-                chanceBBad[LOGIC] = getBcon(0x1051);
-                chanceBBad[GARDENING] = getBcon(0x1052);
-                chanceBBad[CLEANING] = getBcon(0x1053);
+                chanceAGood[COOKING] = getBcon(0x102E, -1000, 1000);
+                chanceAGood[MECHANICAL] = getBcon(0x102F, -1000, 1000);
+                chanceAGood[BODY] = getBcon(0x1030, -1000, 1000);
+                chanceAGood[CHARISMA] = getBcon(0x1031, -1000, 1000);
+                chanceAGood[CREATIVITY] = getBcon(0x1032, -1000, 1000);
+                chanceAGood[LOGIC] = getBcon(0x1033, -1000, 1000);
+                chanceAGood[GARDENING] = getBcon(0x1034, -1000, 1000);
+                chanceAGood[CLEANING] = getBcon(0x1035, -1000, 1000);
+                chanceABad[COOKING] = getBcon(0x1038, -1000, 1000);
+                chanceABad[MECHANICAL] = getBcon(0x1039, -1000, 1000);
+                chanceABad[BODY] = getBcon(0x103A, -1000, 1000);
+                chanceABad[CHARISMA] = getBcon(0x103B, -1000, 1000);
+                chanceABad[CREATIVITY] = getBcon(0x103C, -1000, 1000);
+                chanceABad[LOGIC] = getBcon(0x103D, -1000, 1000);
+                chanceABad[GARDENING] = getBcon(0x103E, -1000, 1000);
+                chanceABad[CLEANING] = getBcon(0x103F, -1000, 1000);
+                chanceBGood[COOKING] = getBcon(0x1042, -1000, 1000);
+                chanceBGood[MECHANICAL] = getBcon(0x1043, -1000, 1000);
+                chanceBGood[BODY] = getBcon(0x1044, -1000, 1000);
+                chanceBGood[CHARISMA] = getBcon(0x1045, -1000, 1000);
+                chanceBGood[CREATIVITY] = getBcon(0x1046, -1000, 1000);
+                chanceBGood[LOGIC] = getBcon(0x1047, -1000, 1000);
+                chanceBGood[GARDENING] = getBcon(0x1048, -1000, 1000);
+                chanceBGood[CLEANING] = getBcon(0x1049, -1000, 1000);
+                chanceBBad[COOKING] = getBcon(0x104C, -1000, 1000);
+                chanceBBad[MECHANICAL] = getBcon(0x104D, -1000, 1000);
+                chanceBBad[BODY] = getBcon(0x104E, -1000, 1000);
+                chanceBBad[CHARISMA] = getBcon(0x104F, -1000, 1000);
+                chanceBBad[CREATIVITY] = getBcon(0x1050, -1000, 1000);
+                chanceBBad[LOGIC] = getBcon(0x1051, -1000, 1000);
+                chanceBBad[GARDENING] = getBcon(0x1052, -1000, 1000);
+                chanceBBad[CLEANING] = getBcon(0x1053, -1000, 1000);
             }
 		}
 		private void saveFiles()
