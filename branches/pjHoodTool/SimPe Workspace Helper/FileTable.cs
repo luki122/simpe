@@ -51,7 +51,7 @@ namespace SimPe
 			FileTable.FileIndex.ForceReload();
 		}
 
-       
-		
-	}
+        static SimPe.Interfaces.ICommandLineRegistry clreg;
+        public static SimPe.Interfaces.ICommandLineRegistry CommandLineRegistry { get { return clreg; } set { clreg = value; } }
+    }
 }
