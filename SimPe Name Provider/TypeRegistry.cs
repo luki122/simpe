@@ -1,6 +1,8 @@
 /***************************************************************************
  *   Copyright (C) 2005 by Ambertation                                     *
  *   quaxi@ambertation.de                                                  *
+ *   Copyright (C) 2008 by Peter L Jones                                   *
+ *   peter@users.sf.net                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -36,7 +38,7 @@ namespace SimPe.PackedFiles
 	/// provide Infoformations from the Main Application to the Plugins, you have to use the 
 	/// TypeRegistry!
 	/// </remarks>	 
-	public sealed class TypeRegistry : IWrapperRegistry, IProviderRegistry, IToolRegistry, IHelpRegistry, ISettingsRegistry
+	public sealed class TypeRegistry : IWrapperRegistry, IProviderRegistry, IToolRegistry, IHelpRegistry, ISettingsRegistry, ICommandLineRegistry
 	{		
 		/// <summary>
 		/// Coontains all available handler Objects
@@ -58,6 +60,11 @@ namespace SimPe.PackedFiles
 		/// Contains all available action Tool Plugins
 		/// </summary>
 		ArrayList atools;
+
+        /// <summary>
+        /// Contains all known CommandLine tools
+        /// </summary>
+        ArrayList cmdlines;
 
 		/// <summary>
 		/// Contains all known Helptopics
@@ -113,6 +120,7 @@ namespace SimPe.PackedFiles
 			toolsp = new ArrayList();
 			dtools = new ArrayList();
 			atools = new ArrayList();
+            cmdlines = new ArrayList();
 			helptopics = new ArrayList();
 			settings = new ArrayList();
 			listeners = new SimPe.Collections.InternalListeners();
@@ -580,7 +588,31 @@ namespace SimPe.PackedFiles
             SimPe.FileTable.WrapperRegistry.Register(new SimPe.Plugin.ScenegraphWrapperFactory());
             SimPe.FileTable.WrapperRegistry.Register(new SimPe.PackedFiles.Wrapper.Factory.ClstWrapperFactory());
         }
-	}
+
+        #region ICommandLineRegistry Members
+
+        public void Register(ICommandLine CommandLine)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public void Register(ICommandLine[] CommandLines)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public void Register(ICommandLineFactory factory)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public ICommandLine[] CommandLines
+        {
+            get { throw new Exception("The method or operation is not implemented."); }
+        }
+
+        #endregion
+    }
 }
 
 namespace SimPe.Collections 
