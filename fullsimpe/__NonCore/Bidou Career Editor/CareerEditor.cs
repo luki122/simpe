@@ -3777,10 +3777,6 @@ namespace SimPe.Plugin
 
 			saveFiles();
 
-			XmlRegistryKey rk = Helper.WindowsRegistry.PluginRegistryKey.CreateSubKey("CareerEditor");
-			rk.SetValue("oneEnglish", oneEnglish);
-			rk.SetValue("englishOnly", englishOnly);
-
 			if (newpackage) package = this.package;
 			return new Plugin.ToolResult(true, newpackage);
 		}
