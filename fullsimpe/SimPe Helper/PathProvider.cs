@@ -25,6 +25,7 @@ namespace SimPe
         Kitchens =          0x4000,
         IKEA =              0x8000,
         Apartments =        0x10000,
+        Store =             0x20000,
         LifeStories =       0x00100000,
         PetStories =        0x00200000,
         IslandStories =     0x00400000,
@@ -99,7 +100,7 @@ namespace SimPe
                 exps.Add(i);
                 map[i.Expansion] = i;
 
-                if (i.Flag.SimStory) continue;
+                if (i.Flag.Class == ExpansionItem.Classes.Story) continue;
 
                 if (i.CensorFile != ""){
                     string fl = System.IO.Path.Combine(SimSavegameFolder, @"Downloads\" + i.CensorFileName);
