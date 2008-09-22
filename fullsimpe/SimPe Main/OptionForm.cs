@@ -1140,7 +1140,7 @@ namespace SimPe
             if (lbfolder.SelectedItem == null) return;
 
             //((FileTableItem)lbfolder.SelectedItem).Ignore = !((FileTableItem)lbfolder.SelectedItem).Ignore;
-            ((FileTableItem)lbfolder.SelectedItem).Ignore = e.NewValue != CheckState.Checked;
+            ((FileTableItem)lbfolder.SelectedItem).Ignore = lbfolder.CheckedItems.Contains(lbfolder.SelectedItem);
             btReload.Enabled = true;
             SetupFileTableCheckboxes();
         }
@@ -1180,30 +1180,6 @@ namespace SimPe
         }
 
         #region Simple FileTable Settings
-        bool isCEP(FileTableItem fti)
-        {
-            if (fti.IsFile)
-            {
-                if (Helper.CompareableFileName(fti.Name) == Helper.CompareableFileName(Data.MetaData.GMND_PACKAGE)
-                    || Helper.CompareableFileName(fti.Name) == Helper.CompareableFileName(Data.MetaData.MMAT_PACKAGE))
-                    return true;
-            }
-            else
-            {
-                if (fti.Type.AsExpansions == Expansions.Custom)
-                {
-                    if (Helper.CompareableFileName(fti.Name) == Helper.CompareableFileName(Data.MetaData.ZCEP_FOLDER))
-                        return true;
-                }
-                else
-                {
-                    if (Helper.CompareableFileName(fti.Name) == Helper.CompareableFileName(Data.MetaData.CTLG_FOLDER))
-                        return true;
-                }
-            }
-            return false;
-        }
-
         void SetupFileTableCheckboxes(CheckBox cb, FileTableItemType epver, bool cep)
         {
             if (this.cbIncCep.Tag != null) return;
@@ -1213,11 +1189,39 @@ namespace SimPe
 
             foreach (FileTableItem fti in lbfolder.Items)
             {
-                bool ftiIsCEP = isCEP(fti);
-                if ((ftiIsCEP && cep) || (!ftiIsCEP && fti.Type == epver))
+                if (cep)
                 {
-                    found++;
-                    if (fti.Ignore) ignored++;
+                    if (fti.IsFile)
+                    {
+                        if (Helper.CompareableFileName(fti.Name) == Helper.CompareableFileName(Data.MetaData.GMND_PACKAGE)
+                            || Helper.CompareableFileName(fti.Name) == Helper.CompareableFileName(Data.MetaData.MMAT_PACKAGE))
+                        {
+                            found++;
+                            if (fti.Ignore) ignored++;
+                        }
+                    }
+                    else
+                    {
+                        if (fti.Type.AsExpansions == Expansions.Custom
+                            && (Helper.CompareableFileName(fti.Name) == Helper.CompareableFileName(Data.MetaData.ZCEP_FOLDER)))
+                        {
+                            found++;
+                            if (fti.Ignore) ignored++;
+                        }
+                        else if (Helper.CompareableFileName(fti.Name) == Helper.CompareableFileName(Data.MetaData.CTLG_FOLDER))
+                        {
+                            found++;
+                            if (fti.Ignore) ignored++;
+                        }
+                    }
+                }
+                else
+                {
+                    if (fti.Type == epver)
+                    {
+                        found++;
+                        if (fti.Ignore) ignored++;
+                    }
                 }
             }
 
@@ -1236,9 +1240,41 @@ namespace SimPe
             {
                 FileTableItem fti = (FileTableItem)lbfolder.Items[i];
 
-                bool ftiIsCEP = isCEP(fti);
-                if ((ftiIsCEP && cep) || (!ftiIsCEP && fti.Type == epver))
-                    lbfolder.SetItemChecked(i, cb.CheckState != CheckState.Unchecked);
+                if (cep)
+                {
+                    if (fti.IsFile)
+                    {
+                        if (Helper.CompareableFileName(fti.Name) == Helper.CompareableFileName(Data.MetaData.GMND_PACKAGE)
+                            || Helper.CompareableFileName(fti.Name) == Helper.CompareableFileName(Data.MetaData.MMAT_PACKAGE))
+                            lbfolder.SetItemChecked(i, cb.CheckState != CheckState.Unchecked);
+                        else
+                            continue;
+                    }
+                    else
+                    {
+                        if (fti.Type.AsExpansions == Expansions.Custom)
+                        {
+                            if (Helper.CompareableFileName(fti.Name) == Helper.CompareableFileName(Data.MetaData.ZCEP_FOLDER))
+                                lbfolder.SetItemChecked(i, cb.CheckState != CheckState.Unchecked);
+                            else
+                                continue;
+                        }
+                        else
+                        {
+                            if (Helper.CompareableFileName(fti.Name) == Helper.CompareableFileName(Data.MetaData.CTLG_FOLDER))
+                                lbfolder.SetItemChecked(i, cb.CheckState != CheckState.Unchecked);
+                            else
+                                continue;
+                        }
+                    }
+                }
+                else
+                {
+                    if (fti.Type == epver)
+                    {
+                        lbfolder.SetItemChecked(i, cb.CheckState != CheckState.Unchecked);
+                    }
+                }
 
                 fti.Ignore = !lbfolder.GetItemChecked(i);
                 ExpansionItem ei = null;
@@ -1291,8 +1327,6 @@ namespace SimPe
             CheckBox cb = (CheckBox)sender;
             if (this.cbIncCep.Tag != null) return;
 
-            this.Tag = true;
-
             btReload.Enabled = true;
             if (cb == this.cbIncCep) ChangeFileTable(cb, FileTablePaths.Absolute, true);
             else
@@ -1312,9 +1346,7 @@ namespace SimPe
                     } //foreach
                 }
                 ChangeFileTable(cb, ei.Expansion, false);
-            }
-
-            this.Tag = null;
+            } 
         }
 
         #endregion
@@ -1335,6 +1367,16 @@ namespace SimPe
         private void cbCustom_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             this.pgcustom.SelectedObject = cbCustom.SelectedItem;
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
 
         void cbautobak_CheckedChanged(object sender, EventArgs e)
