@@ -75,10 +75,11 @@ namespace SimPe
                 tbPlugAction,
                 tbAction,
                 dockBottom,
-                this.mbiTopics);
+                this.mbiTopics,
+                lv
+            );
             plugger.ClosedToolPlugin += new ToolMenuItemExt.ExternalToolNotify(ClosedToolPlugin);
             remote.SetPlugger(plugger);
-
 
             remote.LoadedResource += new ChangedResourceEvent(rh_LoadedResource);
             
