@@ -184,7 +184,7 @@ namespace SimPe
                         ExpansionItem ei = PathProvider.Global.Expansions[i];
                         string s = ei.ShortId.ToLower();
 
-                        string ign = "";
+                        //string ign = "";
                         foreach (string folder in ei.PreObjectFileTableFolders)
                             writenode(xw, (ei.Group & 1) != 1, s, null, folder);
 
