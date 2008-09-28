@@ -208,6 +208,8 @@
     <Compile Include="CheckItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="ICommandLineRegistry.cs" />
+    <Compile Include="ICommandLineFactory.cs" />
     <Compile Include="ErrorWrapper.cs">
       <SubType>Code</SubType>
     </Compile>

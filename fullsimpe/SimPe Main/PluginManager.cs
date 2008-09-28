@@ -1,6 +1,8 @@
 /***************************************************************************
  *   Copyright (C) 2005 by Ambertation                                     *
  *   quaxi@ambertation.de                                                  *
+ *   Copyright (C) 2008 by Peter L Jones                                   *
+ *   peter@users.sf.net                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,6 +20,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 using System;
+using System.Windows.Forms;
 
 namespace SimPe
 {
@@ -29,27 +32,29 @@ namespace SimPe
 		LoadFileWrappersExt wloader;
 		SimPe.LoadHelpTopics lht;
 		internal PluginManager(
-            System.Windows.Forms.ToolStripMenuItem toolmenu, 
-			System.Windows.Forms.ToolStrip tootoolbar,
+            ToolStripMenuItem toolmenu, 
+			ToolStrip tootoolbar,
 			TD.SandDock.TabControl dc, 
 			LoadedPackage lp,
 			SteepValley.Windows.Forms.ThemedControls.XPTaskBox defaultactiontaskbox,
-            System.Windows.Forms.ContextMenuStrip defaultactionmenu,
+            ContextMenuStrip defaultactionmenu,
 			SteepValley.Windows.Forms.ThemedControls.XPTaskBox toolactiontaskbox, 
 			SteepValley.Windows.Forms.ThemedControls.XPTaskBox extactiontaskbox,
-			System.Windows.Forms.ToolStrip actiontoolbar,
+			ToolStrip actiontoolbar,
 			Ambertation.Windows.Forms.DockContainer docktooldc,
-            System.Windows.Forms.ToolStripMenuItem helpmenu,
+            ToolStripMenuItem helpmenu,
             SimPe.Windows.Forms.ResourceListViewExt lv
             ) : base(true)
 		{
-			SimPe.PackedFiles.TypeRegistry tr = new SimPe.PackedFiles.TypeRegistry();
+            Splash.Screen.SetMessage("Loading Type Registry");
+            SimPe.PackedFiles.TypeRegistry tr = new SimPe.PackedFiles.TypeRegistry();
 
 			FileTable.ProviderRegistry = tr;
 			FileTable.ToolRegistry = tr;
 			FileTable.WrapperRegistry = tr;
-			FileTable.HelpTopicRegistry = tr;
-			FileTable.SettingsRegistry = tr;
+            FileTable.CommandLineRegistry = tr;
+            FileTable.HelpTopicRegistry = tr;
+            FileTable.SettingsRegistry = tr;
 
 			wloader = new LoadFileWrappersExt();
 
@@ -115,6 +120,7 @@ namespace SimPe
             //FileTable.WrapperRegistry.Register(new SimPe.PackedFiles.Wrapper.Factory.GenericWrapperFactory());
             Splash.Screen.SetMessage("Loading ScenegraphWrapperFactory");
             FileTable.WrapperRegistry.Register(new SimPe.Plugin.ScenegraphWrapperFactory());
+            //FileTable.CommandLineRegistry.Register(new SimPe.Plugin.ScenegraphWrapperFactory());
             Splash.Screen.SetMessage("Loading RefFileFactory");
             FileTable.WrapperRegistry.Register(new SimPe.Plugin.RefFileFactory());
             Splash.Screen.SetMessage("Loading ClstWrapperFactory");
@@ -204,8 +210,8 @@ namespace SimPe
 		/// </summary>
 		void LoadActionTools(
 			SteepValley.Windows.Forms.ThemedControls.XPTaskBox taskbox, 
-			System.Windows.Forms.ToolStrip tb,
-            System.Windows.Forms.ContextMenuStrip mi, 
+			ToolStrip tb,
+            ContextMenuStrip mi, 
 			SimPe.Interfaces.IToolAction[] tools)
 		{			
 			if (tools==null) tools = FileTable.ToolRegistry.Actions;
@@ -247,7 +253,7 @@ namespace SimPe
                     
 					
                     if (tfirst && tb.Items.Count != 0)
-                        tb.Items.Add(new System.Windows.Forms.ToolStripSeparator());
+                        tb.Items.Add(new ToolStripSeparator());
                     tb.Items.Add(atd.ToolBarButton);
                     
 					tfirst = false;
