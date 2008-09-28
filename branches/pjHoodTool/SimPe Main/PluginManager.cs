@@ -42,7 +42,7 @@ namespace SimPe
 			SteepValley.Windows.Forms.ThemedControls.XPTaskBox extactiontaskbox,
 			ToolStrip actiontoolbar,
 			Ambertation.Windows.Forms.DockContainer docktooldc,
-            System.Windows.Forms.ToolStripMenuItem helpmenu,
+            ToolStripMenuItem helpmenu,
             SimPe.Windows.Forms.ResourceListViewExt lv
             ) : base(true)
 		{
