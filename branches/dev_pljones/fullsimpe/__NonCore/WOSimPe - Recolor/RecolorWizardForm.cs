@@ -1012,14 +1012,14 @@ namespace SimPe.Wizards
 
                 if ((System.IO.File.Exists(PathProvider.Global.NvidiaDDSTool)) && ((oldid.Format == SimPe.Plugin.ImageLoader.TxtrFormats.DXT1Format) || (oldid.Format == SimPe.Plugin.ImageLoader.TxtrFormats.DXT3Format) || (oldid.Format == SimPe.Plugin.ImageLoader.TxtrFormats.DXT5Format)))
 				{
-					SimPe.Commandline.LoadDDS(id, SimPe.Plugin.DDSTool.BuildDDS(ofd.FileName, (int)oldid.MipMapLevels, oldid.Format, "-sharpenMethod Smoothen"));
+                    SimPe.Plugin.BuildTxtr.LoadDDS(id, SimPe.Plugin.DDSTool.BuildDDS(ofd.FileName, (int)oldid.MipMapLevels, oldid.Format, "-sharpenMethod Smoothen"));
 				} 
 				else 
 				{
 					id.Format = oldid.Format;
 					if ((oldid.Format == SimPe.Plugin.ImageLoader.TxtrFormats.DXT1Format) || (oldid.Format == SimPe.Plugin.ImageLoader.TxtrFormats.DXT3Format) || (oldid.Format == SimPe.Plugin.ImageLoader.TxtrFormats.DXT5Format)) 
 						id.Format = SimPe.Plugin.ImageLoader.TxtrFormats.Raw32Bit;
-					SimPe.Commandline.LoadTXTR(id, ofd.FileName, oldid.TextureSize, (int)oldid.MipMapLevels, id.Format);
+                    SimPe.Plugin.BuildTxtr.LoadTXTR(id, ofd.FileName, oldid.TextureSize, (int)oldid.MipMapLevels, id.Format);
 				}
 
 				
