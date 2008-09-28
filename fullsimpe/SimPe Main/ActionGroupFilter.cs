@@ -67,7 +67,7 @@ namespace SimPe.Actions.Default
         {
             get
             {
-                return System.Windows.Forms.Shortcut.CtrlG;
+                return System.Windows.Forms.Shortcut.CtrlT; // for "Toggle"...
             }
         }
     }
