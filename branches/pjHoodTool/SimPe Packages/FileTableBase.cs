@@ -184,11 +184,11 @@ namespace SimPe
                         ExpansionItem ei = PathProvider.Global.Expansions[i];
                         string s = ei.ShortId.ToLower();
 
-                        string ign = "";
+                        //string ign = "";
                         foreach (string folder in ei.PreObjectFileTableFolders)
                             writenode(xw, (ei.Group & 1) != 1, s, null, folder);
 
-                        if (ei.Flag.SimStory || !ei.Flag.FullObjectsPackage)
+                        if (ei.Flag.Class == ExpansionItem.Classes.Story || !ei.Flag.FullObjectsPackage)
                             writenode(xw, (ei.Group & 1) != 1, s, null, ei.ObjectsSubFolder);
                         else
                             writenode(xw, (ei.Group & 1) != 1, s, ei.Version.ToString(), ei.ObjectsSubFolder);

@@ -38,7 +38,7 @@ namespace SimPe
         [STAThread]
         static void Main(string[] args)
         {
-
+            
             try
             {
                 if (System.Environment.Version.Major < 2)
@@ -46,6 +46,37 @@ namespace SimPe
                     Message.Show(SimPe.Localization.GetString("NoDotNet").Replace("{VERSION}", System.Environment.Version.ToString()));
                     return;
                 }
+
+                /*
+                bool stop = false;
+                System.IO.FileStream fs = null;
+                while (!stop)
+                {
+                    try
+                    {
+                        string exe = SimPe.PathProvider.Global.Latest.ApplicationPath;
+                        fs = new System.IO.FileStream(exe, System.IO.FileMode.Append, System.IO.FileAccess.Write);
+                        stop = true;
+                    }
+                    catch (System.IO.IOException)
+                    {
+                        DialogResult dr = MessageBox.Show("SimPe cannot start yet as The Sims2(tm) is still running.",
+                            "SimPe", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Stop);
+                        switch (dr)
+                        {
+                            case DialogResult.Abort: return;
+                            case DialogResult.Retry: break;
+                            case DialogResult.Ignore: stop = true; break;
+                        }
+                    }
+                    finally
+                    {
+                        if (fs != null)
+                            fs.Close();
+                        fs = null;
+                    }
+                }
+                */
 
                 if (Commandline.Splash(ref args, "--nosplash")) Helper.WindowsRegistry.ShowStartupSplash = false;
                 if (Commandline.Splash(ref args, "--splash")) Helper.WindowsRegistry.ShowStartupSplash = true;

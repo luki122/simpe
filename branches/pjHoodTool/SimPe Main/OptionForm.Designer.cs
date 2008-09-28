@@ -632,6 +632,7 @@ namespace SimPe
             // 
             resources.ApplyResources(this.cbautobak, "cbautobak");
             this.cbautobak.Name = "cbautobak";
+            this.cbautobak.CheckedChanged += new EventHandler(cbautobak_CheckedChanged);
             // 
             // cbcache
             // 
@@ -890,6 +891,7 @@ namespace SimPe
             // 
             resources.ApplyResources(this.lbfolder, "lbfolder");
             this.lbfolder.Name = "lbfolder";
+            this.lbfolder.CheckOnClick = true;
             this.lbfolder.SelectedIndexChanged += new System.EventHandler(this.lbfolder_SelectedIndexChanged);
             this.lbfolder.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lbfolder_ItemCheck);
             // 
@@ -937,7 +939,6 @@ namespace SimPe
             this.cbRLExt.FormattingEnabled = true;
             this.cbRLExt.Name = "cbRLExt";
             this.cbRLExt.ResourceManager = null;
-            this.cbRLExt.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             // 
             // label17
             // 
@@ -952,7 +953,6 @@ namespace SimPe
             this.cbRLTGI.FormattingEnabled = true;
             this.cbRLTGI.Name = "cbRLTGI";
             this.cbRLTGI.ResourceManager = null;
-            this.cbRLTGI.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // label16
             // 
