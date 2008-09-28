@@ -373,14 +373,16 @@ namespace SimPe.Plugin
 			} 
 			else 
 			{
-				this.ilist.Images.Add(new Bitmap(this.GetType().Assembly.GetManifestResourceStream("SimPe.Plugin.Network.png")));
-				this.iListSmall.Images.Add(ImageLoader.Preview(new Bitmap(this.GetType().Assembly.GetManifestResourceStream("SimPe.Plugin.Network.png")), iListSmall.ImageSize));
-			}
+				//this.ilist.Images.Add(new Bitmap(this.GetType().Assembly.GetManifestResourceStream("SimPe.Plugin.Network.png")));
+				//this.iListSmall.Images.Add(ImageLoader.Preview(new Bitmap(this.GetType().Assembly.GetManifestResourceStream("SimPe.Plugin.Network.png")), iListSmall.ImageSize));
+                this.ilist.Images.Add(new Bitmap(sdesc.GetType().Assembly.GetManifestResourceStream("SimPe.PackedFiles.Wrapper.noone.png")));
+                this.iListSmall.Images.Add(ImageLoader.Preview(new Bitmap(sdesc.GetType().Assembly.GetManifestResourceStream("SimPe.PackedFiles.Wrapper.noone.png")), iListSmall.ImageSize));
+            }
 		}
 
 		protected void AddSim(SimPe.PackedFiles.Wrapper.ExtSDesc sdesc) 
 		{
-			if (!sdesc.HasImage) return;
+			//if (!sdesc.HasImage) return;
 
 			AddImage(sdesc);
 			ListViewItem lvi = new ListViewItem();
@@ -479,19 +481,19 @@ namespace SimPe.Plugin
 
         private bool realIsTownie(PackedFiles.Wrapper.ExtSDesc sdesc)
         {
-            return sdesc.FamilyInstance < 0x7fff && sdesc.FamilyInstance >= 0x7fe0;
+            return sdesc.FamilyInstance < 0x7fff && sdesc.FamilyInstance >= 0x7f00;
             /*return sdesc.IsTownie;*/
         }
 
         private bool realIsPlayable(PackedFiles.Wrapper.ExtSDesc sdesc)
         {
-            return sdesc.FamilyInstance < 0x7fe0 && sdesc.FamilyInstance > 0;
+            return sdesc.FamilyInstance < 0x7f00 && sdesc.FamilyInstance > 0;
             /*return !realIsNPC(sdesc) && !realIsTownie(sdesc);*/
         }
 
         private bool realIsUneditable(PackedFiles.Wrapper.ExtSDesc sdesc)
         {
-            return sdesc.FamilyInstance == 0;
+            return sdesc.FamilyInstance == 0 || sdesc.FamilyInstance > 0x7fff;
         }
 
 		SimPe.Interfaces.Files.IPackedFileDescriptor pfd;

@@ -42,8 +42,9 @@ namespace SimPe
 			SteepValley.Windows.Forms.ThemedControls.XPTaskBox extactiontaskbox,
 			ToolStrip actiontoolbar,
 			Ambertation.Windows.Forms.DockContainer docktooldc,
-            ToolStripMenuItem helpmenu)
-            : base(true)
+            System.Windows.Forms.ToolStripMenuItem helpmenu,
+            SimPe.Windows.Forms.ResourceListViewExt lv
+            ) : base(true)
 		{
             Splash.Screen.SetMessage("Loading Type Registry");
             SimPe.PackedFiles.TypeRegistry tr = new SimPe.PackedFiles.TypeRegistry();
@@ -71,7 +72,7 @@ namespace SimPe
 
 
             Splash.Screen.SetMessage("Loading Default Actions");
-            LoadActionTools(defaultactiontaskbox, actiontoolbar, defaultactionmenu, GetDefaultActions());
+            LoadActionTools(defaultactiontaskbox, actiontoolbar, defaultactionmenu, GetDefaultActions(lv));
             Splash.Screen.SetMessage("Loading External Tools");
 			LoadActionTools(toolactiontaskbox, actiontoolbar, defaultactionmenu, LoadExternalTools());
             Splash.Screen.SetMessage("Loading ...");
@@ -190,18 +191,19 @@ namespace SimPe
 		/// Returns a List of Builtin Actions
 		/// </summary>
 		/// <returns></returns>
-		SimPe.Interfaces.IToolAction[] GetDefaultActions()
+		SimPe.Interfaces.IToolAction[] GetDefaultActions(SimPe.Windows.Forms.ResourceListViewExt lv)
 		{
-			return new SimPe.Interfaces.IToolAction[] {
-														  new SimPe.Actions.Default.AddAction(),
-														  new SimPe.Actions.Default.ExportAction(),
-														  new SimPe.Actions.Default.ReplaceAction(),
-														  new SimPe.Actions.Default.DeleteAction(),
-														  new SimPe.Actions.Default.RestoreAction(),
-														  new SimPe.Actions.Default.CloneAction(),
-														  new SimPe.Actions.Default.CreateAction()
-													  };
-		}
+            return new SimPe.Interfaces.IToolAction[] {
+                new SimPe.Actions.Default.AddAction(),
+                new SimPe.Actions.Default.ExportAction(),
+                new SimPe.Actions.Default.ReplaceAction(),
+                new SimPe.Actions.Default.DeleteAction(),
+                new SimPe.Actions.Default.RestoreAction(),
+                new SimPe.Actions.Default.CloneAction(),
+                new SimPe.Actions.Default.CreateAction(),
+                new SimPe.Actions.Default.ActionGroupFilter(lv),
+            };
+        }
 
 		/// <summary>
 		/// Load all available Action Tools

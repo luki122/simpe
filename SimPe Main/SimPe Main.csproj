@@ -340,6 +340,7 @@
     <Compile Include="ActionExtract.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ActionGroupFilter.cs" />
     <Compile Include="ActionReplace.cs">
       <SubType>Code</SubType>
     </Compile>
