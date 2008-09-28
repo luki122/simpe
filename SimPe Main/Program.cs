@@ -38,7 +38,7 @@ namespace SimPe
         [STAThread]
         static void Main(string[] args)
         {
-            
+
             try
             {
                 if (System.Environment.Version.Major < 2)
