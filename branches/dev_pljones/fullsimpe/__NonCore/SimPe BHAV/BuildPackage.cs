@@ -1,4 +1,6 @@
 /***************************************************************************
+ *   Copyright (C) 2005 by Ambertation                                     *
+ *   quaxi@ambertation.de                                                  *
  *   Copyright (C) 2008 by Peter L Jones                                   *
  *   peter@users.sf.net                                                    *
  *                                                                         *
@@ -20,29 +22,49 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SimPe;
+using SimPe.Interfaces;
+using SimPe.Packages;
 
-namespace SimPe.Interfaces
+namespace SimPe.Plugin
 {
-    /// <summary>
-    /// Implement this interface to get called with the SimPe command line
-    /// </summary>
-    public interface ICommandLine
+    class BuildPackage : ICommandLine
     {
-        /// <summary>
-        /// Parse() should check the first argument to see if it's recognised.
-        /// If not, simply return false.  Else process the remaining arguments until satisfied.
-        /// All arguments consumed should be removed.
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns>False if SimPe should start; True if SimPe should exit</returns>
-        bool Parse(List<string> argv);
+        #region ICommandLine Members
+        public bool Parse(List<string> argv)
+        {
+            if (!argv.Remove("-build")) return false;
 
-        /// <summary>
-        /// Called to determine what the "-help" option will display.
-        /// The option name should be language-invariant.
-        /// The help text can be language-specific.
-        /// </summary>
-        /// <returns>The command line option name (in string[0]) and help text (in string[1]).</returns>
-        string[] Help();
+            string output = "";
+            string input = "";
+
+            while (argv.Count > 0 && input.Length == 0 && output.Length == 0)
+            {
+                if (ArgParser.Parse(argv, "-desc", ref input)) continue;
+                if (ArgParser.Parse(argv, "-out", ref output)) continue;
+                break;
+            }
+
+            if (input.Length == 0 || output.Length == 0)
+            {
+                Console.WriteLine(Help()[0]);
+                return true;
+            }
+            if (!System.IO.File.Exists(input))
+            {
+                Console.WriteLine(Localization.GetString("filenotfound") + ":" + input);
+                return true;
+            }
+
+            GeneratableFile pkg = GeneratableFile.LoadFromStream(XmlPackageReader.OpenExtractedPackage(null, input));
+            pkg.Save(output);
+
+            Console.WriteLine("DONE");
+            Splash.Screen.SetMessage("DONE!");
+            return true;
+        }
+        public string[] Help() { return new string[] { "-build -desc <input> -out <output>", "" }; }
+        #endregion
     }
+
 }

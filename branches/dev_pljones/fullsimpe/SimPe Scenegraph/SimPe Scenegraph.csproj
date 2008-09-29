@@ -333,6 +333,7 @@
     <Compile Include="FixObject.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FixPackage.cs" />
     <Compile Include="GroupCacheForm.cs">
       <SubType>Form</SubType>
     </Compile>

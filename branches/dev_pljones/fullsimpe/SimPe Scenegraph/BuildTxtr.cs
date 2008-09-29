@@ -25,6 +25,7 @@ using System.Drawing;
 using System.Text;
 using SimPe.Interfaces;
 using SimPe.Interfaces.Scenegraph;
+using SimPe;
 
 namespace SimPe.Plugin
 {
@@ -195,117 +196,42 @@ namespace SimPe.Plugin
 
         #region ICommandLine Members
 
-        public bool Parse(ref string[] args)
+        public bool Parse(List<string> argv)
         {
-            if (args[0] != "-txtr") return false;
+            if (!argv.Remove("-txtr")) return false;
 
             //get Parameters
             string filename = "";
             string output = "";
             string texturename = "";
+            string num = "";
             int levels = 9;
             System.Drawing.Size sz = new System.Drawing.Size(512, 512);
             SimPe.Plugin.ImageLoader.TxtrFormats format = SimPe.Plugin.ImageLoader.TxtrFormats.DXT1Format;
 
-            #region Parse Arguments
-            for (int i = 0; i < args.Length; i++)
+            while (argv.Count > 0)
             {
-                if (args[i] == "-image")
+                if (ArgParser.Parse(argv, "-image", ref filename)) continue;
+                if (ArgParser.Parse(argv, "-out", ref output)) continue;
+                if (ArgParser.Parse(argv, "-name", ref texturename)) continue;
+                if (ArgParser.Parse(argv, "-levels", ref num)) { levels = Convert.ToInt32(num); continue; }
+                if (ArgParser.Parse(argv, "-width", ref num)) { sz.Width = Convert.ToInt32(num); continue; }
+                if (ArgParser.Parse(argv, "-height", ref num)) { sz.Height = Convert.ToInt32(num); continue; }
+                if (ArgParser.Parse(argv, "-format", ref num))
                 {
-                    if (args.Length > i + 1)
+                    switch (num)
                     {
-                        filename = args[++i];
-                        continue;
+                        case "dxt1": format = SimPe.Plugin.ImageLoader.TxtrFormats.DXT1Format; break;
+                        case "dxt3": format = SimPe.Plugin.ImageLoader.TxtrFormats.DXT3Format; break;
+                        case "dxt5": format = SimPe.Plugin.ImageLoader.TxtrFormats.DXT5Format; break;
+                        case "raw24": format = SimPe.Plugin.ImageLoader.TxtrFormats.Raw24Bit; break;
+                        case "raw32": format = SimPe.Plugin.ImageLoader.TxtrFormats.Raw32Bit; break;
+                        case "raw8": format = SimPe.Plugin.ImageLoader.TxtrFormats.Raw8Bit; break;
                     }
+                    continue;
                 }
-
-                if (args[i] == "-out")
-                {
-                    if (args.Length > i + 1)
-                    {
-                        output = args[++i];
-                        continue;
-                    }
-                }
-
-                if (args[i] == "-name")
-                {
-                    if (args.Length > i + 1)
-                    {
-                        texturename = args[++i];
-                        continue;
-                    }
-                }
-
-                if (args[i] == "-levels")
-                {
-                    if (args.Length > i + 1)
-                    {
-                        levels = Convert.ToInt32(args[++i]);
-                        continue;
-                    }
-                }
-
-                if (args[i] == "-width")
-                {
-                    if (args.Length > i + 1)
-                    {
-                        sz.Width = Convert.ToInt32(args[++i]);
-                        continue;
-                    }
-                }
-
-                if (args[i] == "-height")
-                {
-                    if (args.Length > i + 1)
-                    {
-                        sz.Height = Convert.ToInt32(args[++i]);
-                        continue;
-                    }
-                }
-
-                if (args[i] == "-format")
-                {
-                    if (args.Length > i + 1)
-                    {
-                        switch (args[++i])
-                        {
-                            case "dxt1":
-                                {
-                                    format = SimPe.Plugin.ImageLoader.TxtrFormats.DXT1Format;
-                                    break;
-                                }
-                            case "dxt3":
-                                {
-                                    format = SimPe.Plugin.ImageLoader.TxtrFormats.DXT3Format;
-                                    break;
-                                }
-                            case "dxt5":
-                                {
-                                    format = SimPe.Plugin.ImageLoader.TxtrFormats.DXT5Format;
-                                    break;
-                                }
-                            case "raw24":
-                                {
-                                    format = SimPe.Plugin.ImageLoader.TxtrFormats.Raw24Bit;
-                                    break;
-                                }
-                            case "raw32":
-                                {
-                                    format = SimPe.Plugin.ImageLoader.TxtrFormats.Raw32Bit;
-                                    break;
-                                }
-                            case "raw8":
-                                {
-                                    format = SimPe.Plugin.ImageLoader.TxtrFormats.Raw8Bit;
-                                    break;
-                                }
-                        }
-                        continue;
-                    }
-                }
+                break;
             }
-            #endregion
 
             //check if the File exists
             if (!System.IO.File.Exists(filename))

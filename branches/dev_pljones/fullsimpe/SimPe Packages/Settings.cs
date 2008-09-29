@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by Peter L Jones                                   *
- *   peter@drealm.info                                                     *
+ *   peter@users.sf.net                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *

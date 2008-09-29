@@ -179,6 +179,7 @@
     <Compile Include="BconWrapper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BuildPackage.cs" />
     <Compile Include="GenSemiGlobals.cs" />
     <Compile Include="ImportSemi.cs">
       <SubType>Form</SubType>

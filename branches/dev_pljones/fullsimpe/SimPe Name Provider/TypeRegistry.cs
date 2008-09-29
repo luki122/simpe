@@ -189,9 +189,12 @@ namespace SimPe.PackedFiles
 
 			if (factory.GetType().GetInterface("SimPe.Interfaces.Plugin.IHelpFactory", false) == typeof(SimPe.Interfaces.Plugin.IHelpFactory))			
 				Register((factory as SimPe.Interfaces.Plugin.IHelpFactory));
-			
-			if (factory.GetType().GetInterface("SimPe.Interfaces.Plugin.ISettingsFactory", false) == typeof(SimPe.Interfaces.Plugin.ISettingsFactory))			
-				Register((factory as SimPe.Interfaces.Plugin.ISettingsFactory));
+
+            if (factory.GetType().GetInterface("SimPe.Interfaces.Plugin.ISettingsFactory", false) == typeof(SimPe.Interfaces.Plugin.ISettingsFactory))
+                Register((factory as SimPe.Interfaces.Plugin.ISettingsFactory));
+
+            if (factory.GetType().GetInterface("SimPe.Interfaces.Plugin.ICommandLineFactory", false) == typeof(SimPe.Interfaces.Plugin.ICommandLineFactory))
+                Register((factory as SimPe.Interfaces.Plugin.ICommandLineFactory));
 
             AddUpdatablePlugin(factory);
 		}
@@ -569,9 +572,46 @@ namespace SimPe.PackedFiles
 
 		#endregion
 
+        #region ICommandLineRegistry Members
+
+        public void Register(ICommandLineFactory factory)
+        {
+            if (factory == null) return;
+            RegisterCommandLines(factory.KnownCommandLines);
+
+            AddUpdatablePlugin(factory);
+        }
+
+        public void RegisterCommandLines(ICommandLine[] CommandLines)
+        {
+            if (cmdlines == null) return;
+            foreach (ICommandLine c in CommandLines)
+                RegisterCommandLines(c as ICommandLine);
+        }
+
+        public void RegisterCommandLines(ICommandLine cmdline)
+        {
+            if (cmdline == null) return;
+            if (!cmdlines.Contains(cmdline))
+                cmdlines.Add(cmdline);
+        }
+
+        public ICommandLine[] CommandLines
+        {
+            get
+            {
+                ICommandLine[] ret = new ICommandLine[cmdlines.Count];
+                cmdlines.CopyTo(ret);
+                return ret;
+            }
+        }
+
+        #endregion
+
         /// <summary>
         /// This will perform some basic tasks, to bring the SimPE API into an useable state
         /// </summary>
+        /* unused ?? ?? ?? -> see SimPe Main\PluginManager.cs LoadStaticWrappers()
         public static void InitDefaultFileTable()
         {
             SimPe.PackedFiles.TypeRegistry tr = new SimPe.PackedFiles.TypeRegistry();
@@ -587,31 +627,10 @@ namespace SimPe.PackedFiles
             SimPe.FileTable.WrapperRegistry.Register(new SimPe.PackedFiles.Wrapper.Factory.DefaultWrapperFactory());
             SimPe.FileTable.WrapperRegistry.Register(new SimPe.Plugin.ScenegraphWrapperFactory());
             SimPe.FileTable.WrapperRegistry.Register(new SimPe.PackedFiles.Wrapper.Factory.ClstWrapperFactory());
+            SimPe.FileTable.WrapperRegistry.Register(new SimPe.Commandline.Help());
+
         }
-
-        #region ICommandLineRegistry Members
-
-        public void Register(ICommandLine CommandLine)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
-
-        public void Register(ICommandLine[] CommandLines)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
-
-        public void Register(ICommandLineFactory factory)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
-
-        public ICommandLine[] CommandLines
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
-
-        #endregion
+        */
     }
 }
 

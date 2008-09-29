@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by Ambertation                                     *
- *   quaxi@ambertation.de                                                  *
+ *   Copyright (C) 2008 by Peter L Jones                                   *
+ *   peter@users.sf.net                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -31,14 +31,14 @@ namespace SimPe.Interfaces
 		/// </summary>
 		/// <param name="CommandLine">The CommandLine to register</param>
 		/// <remarks>The CommandLine must only be added if the Registry doesnt already contain it</remarks>
-		void Register(ICommandLine CommandLine);	
+        void RegisterCommandLines(ICommandLine CommandLine);	
 	
 		/// <summary>
 		/// Registers all listed CommandLines with this Registry
 		/// </summary>
 		/// <param name="CommandLines">The CommandLines to register</param>
 		/// <remarks>The CommandLine must only be added if the Registry doesnt already contain it</remarks>
-		void Register(ICommandLine[] CommandLines);
+        void RegisterCommandLines(ICommandLine[] CommandLines);
 
 		/// <summary>
 		/// Registers all CommandLines supported by the Factory
