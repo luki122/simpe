@@ -65,14 +65,14 @@ namespace SimPe
 			set { sreg = value;}
 		}
 
+        static SimPe.Interfaces.ICommandLineRegistry clreg;
+        public static SimPe.Interfaces.ICommandLineRegistry CommandLineRegistry { get { return clreg; } set { clreg = value; } }
+
 		public static void Reload()
 		{
 			FileTable.FileIndex.BaseFolders.Clear();			
 			FileTable.FileIndex.BaseFolders = FileTable.DefaultFolders;
 			FileTable.FileIndex.ForceReload();
 		}
-
-        static SimPe.Interfaces.ICommandLineRegistry clreg;
-        public static SimPe.Interfaces.ICommandLineRegistry CommandLineRegistry { get { return clreg; } set { clreg = value; } }
     }
 }

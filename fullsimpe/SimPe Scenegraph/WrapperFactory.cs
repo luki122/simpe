@@ -30,7 +30,7 @@ namespace SimPe.Plugin
 	/// GetWrappers() has to return a list of all Plugins provided by this Library. 
 	/// If a Plugin isn't returned, SimPe won't recognize it!
 	/// </remarks>
-	public class ScenegraphWrapperFactory : SimPe.Interfaces.Plugin.AbstractWrapperFactory, IToolFactory
+	public class ScenegraphWrapperFactory : SimPe.Interfaces.Plugin.AbstractWrapperFactory, ICommandLineFactory
 	{
 		static bool inited = false;
 		/// <summary>
@@ -126,9 +126,15 @@ namespace SimPe.Plugin
 		#endregion
 
 
-        #region IToolFactory Members
+        #region ICommandLineFactory Members
 
-        public IToolPlugin[] KnownTools { get { return new IToolPlugin[] { new BuildTxtr() }; } }
+        public ICommandLine[] KnownCommandLines
+        {
+            get { return new ICommandLine[] {
+                new BuildTxtr(),
+                new FixPackage(),
+            }; }
+        }
 
         #endregion
     }

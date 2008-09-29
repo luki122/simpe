@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using SimPe.Plugin;
 using SimPe.Interfaces;
+using SimPe.Interfaces.Plugin;
 
 namespace SimPe
 {
@@ -31,409 +32,12 @@ namespace SimPe
 	/// </summary>
 	public class Commandline
 	{
-		/// <summary>
-		/// Tries to process the CommandLine
-		/// </summary>
-		/// <param name="args">Commandline Arguments</param>
-		/// <returns>true if simpe should stop now</returns>
-		public static bool Start(ref string[] args)
-		{
-            SimPe.Splash.Screen.SetMessage(SimPe.Localization.GetString("Checking commandline parameters"));
-			if (args.Length<1) return false;
-
-            if (MakeClassic(ref args)) return true;
-            if (MakeModern(ref args)) return true;
-			if (BuildPackage(ref args)) return true;
-			if (FixPackage(ref args)) return true;
-            if (EnableFlags(ref args)) return true;
-			return false;
-		}
-
-        public static bool Splash(ref string[] args, string opt)
-        {
-            List<string> argv = new List<string>(args);
-            bool res = argv.Contains(opt);
-            if (res) argv.RemoveAt(argv.IndexOf(opt));
-            args = argv.ToArray();
-            return res;
-        }
-
-        /// <summary>
-        /// Loaded just befor the GUI is started
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns>true if the GUI should <b>NOT</b> show up</returns>
-        public static bool FullEnvStart(ref string[] args)
-        {
-            if (args.Length < 1) return false;
-
-            try
-            {
-                SimPe.Splash.Screen.SetMessage(SimPe.Localization.GetString("Checking commandline parameters"));
-
-                // Help() will display plugin command line tools
-                if (Help(ref args)) return true;
-
-                ITool[] tools = SimPe.FileTable.ToolRegistry.Tools;
-                foreach (ITool tool in tools)
-                {
-                    ICommandLine cmd = tool as ICommandLine;
-                    if (cmd != null && cmd.Parse(ref args)) return true;
-                }
-                return false;
-            }
-            finally
-            {
-                SimPe.Splash.Screen.SetMessage(SimPe.Localization.GetString(""));
-            }
-        }
-
-        static bool Help(ref string[] args)
-        {
-            if (args[0] != "-help") return false;
-
-            string pluginHelp = "";
-            ITool[] tools = SimPe.FileTable.ToolRegistry.Tools;
-            foreach (ITool tool in tools)
-            {
-                ICommandLine cmd = tool as ICommandLine;
-                if (cmd != null)
-                {
-                    string[] help = cmd.Help();
-                    pluginHelp += "\r\n" + "  " + help[0];
-                    if (help[1] != null && help[1].Length > 0)
-                        pluginHelp += "\r\n" + "      " + help[1];
-                }
-            }
-            Console.WriteLine("  -enable noerrors");
-            Console.WriteLine("  -enable noerrors");
-
-            SimPe.Splash.Screen.Stop();
-
-            System.Windows.Forms.MessageBox.Show(""
-                    + "\r\n" + "  --splash"
-                    + "\r\n" + "  --nosplash"
-                    + "\r\n" + "  -classicpreset"
-                    + "\r\n" + "  -modernpreset"
-                    + "\r\n" + "  -build -desc [packag.xml] -out [output].package"
-                    + "\r\n" + "  -enable localmode"
-                    + "\r\n" + "  -enable noplugins"
-                    + "\r\n" + "  -enable fileformat"
-                    + pluginHelp
-                    + "\r\n"
-                    , "SimPE Commandline Parameters"
-                    , System.Windows.Forms.MessageBoxButtons.OK
-                    , System.Windows.Forms.MessageBoxIcon.Information
-                );
-
-            return true;
-        }
-
-        #region Enable flags
-        static bool EnableFlags(ref string[] args)
-        {
-            List<string> argv = new List<string>(args);
-
-            if (argv[0].ToLower() == "-localmode") // backward compatibility; uses ".Insert" as there may be trailing unknown stuff
-            {
-                argv.RemoveAt(0);
-                argv.InsertRange(0, new string[] { "-enable", "localmode" });
-                if (args.Length > 1 && args[1].ToLower() == "-noplugins")
-                {
-                    argv.RemoveAt(2);
-                    argv.Insert(2, "noplugins");
-                }
-            }
-
-            if (argv[0].ToLower() != "-enable") return false;
-
-            while (argv.Count > 0)
-            {
-                if (argv[0].ToLower() == "-enable") { argv.RemoveAt(0); continue; } // allow interspersed "-enables"
-                if (argv[0].ToLower() == "localmode") { Helper.LocalMode = true; argv.RemoveAt(0); continue; }
-                if (argv[0].ToLower() == "noplugins") { Helper.NoPlugins = true; argv.RemoveAt(0); continue; }
-                if (argv[0].ToLower() == "fileformat") { Helper.FileFormat = true; argv.RemoveAt(0); continue; }
-                if (argv[0].ToLower() == "noerrors") { Helper.NoErrors = true; argv.RemoveAt(0); continue; }
-                break; // hit an unrecognised "enable" option
-            }
-            if (Helper.LocalMode || Helper.NoPlugins || Helper.NoErrors)
-            {
-                SimPe.Splash.Screen.Stop();
-                string s = "";
-                if (Helper.LocalMode) s += Localization.GetString("InLocalMode") + "\r\n";
-                if (Helper.NoPlugins) s += "\r\n" + Localization.GetString("NoPlugins") + "\r\n";
-                if (Helper.NoErrors) s += "\r\n" + Localization.GetString("NoErrors");
-                Message.Show(s, "Notice", System.Windows.Forms.MessageBoxButtons.OK);
-                SimPe.Splash.Screen.Start();
-            }
-
-            args = argv.ToArray();
-            return false; // Don't exit SimPE!
-        }
-        #endregion
-
-        #region Theme Presets
-        static bool MakeClassic(ref string[] args) 
-		{
-			if (args[0]!="-classicpreset") return false;
-			
-			Overridelayout("classic_layout.xreg");
-
-			Helper.WindowsRegistry.Layout.SelectedTheme = 0;
-			Helper.WindowsRegistry.AsynchronLoad = false;
-			Helper.WindowsRegistry.DecodeFilenamesState = false;
-			Helper.WindowsRegistry.DeepSimScan = false;
-			Helper.WindowsRegistry.DeepSimTemplateScan = false;
-
-			Helper.WindowsRegistry.SimpleResourceSelect = true;
-			Helper.WindowsRegistry.MultipleFiles = false;
-			Helper.WindowsRegistry.FirefoxTabbing = false;
-            Helper.WindowsRegistry.ShowWaitBarPermanent = false;
-
-			Helper.WindowsRegistry.LockDocks = true;
-            Helper.WindowsRegistry.Flush();
-
-
-            SimPe.Splash.Screen.Stop();
-
-            List<string> argv = new List<string>(args);
-            argv.RemoveAt(0);
-            args = argv.ToArray();
-            if (Message.Show(SimPe.Localization.GetString("PresetChanged").Replace("{name}", SimPe.Localization.GetString("PresetClassic")), SimPe.Localization.GetString("Information"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
-				return false;
-			return true;
-		}
-
-		public static void ForceModernLayout()
-		{
-			Overridelayout("modern_layout.xreg");
-		}
-
-		static bool MakeModern(ref string[] args) 
-		{
-			if (args!=null)
-				if (args[0]!="-modernpreset") return false;
-
-            List<string> argv = new List<string>(args);
-            argv.RemoveAt(0);
-            args = argv.ToArray();
-
-            return !MakeModern();
-        }
-
-        static bool MakeModern()
-        {
-			Overridelayout("modern_layout.xreg");
-
-			Helper.WindowsRegistry.Layout.SelectedTheme = 3;
-			Helper.WindowsRegistry.AsynchronLoad = false;
-			Helper.WindowsRegistry.DecodeFilenamesState = true;
-			Helper.WindowsRegistry.DeepSimScan = true;
-			Helper.WindowsRegistry.DeepSimTemplateScan = false;
-
-			Helper.WindowsRegistry.SimpleResourceSelect = true;
-			Helper.WindowsRegistry.MultipleFiles = true;
-			Helper.WindowsRegistry.FirefoxTabbing = true;
-
-            Helper.WindowsRegistry.LockDocks = false;
-            Helper.WindowsRegistry.ShowWaitBarPermanent = true;
-            Helper.WindowsRegistry.Flush();
-
-            SimPe.Splash.Screen.Stop();
-
-            return (Message.Show(SimPe.Localization.GetString("PresetChanged").Replace("{name}",
-                SimPe.Localization.GetString("PresetModern")), SimPe.Localization.GetString("Information"),
-                System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes);
-        }
-
-		static void Overridelayout(string name)
-		{
-            
-			System.IO.Stream s = typeof(Commandline).Assembly.GetManifestResourceStream("SimPe."+name);
-			if (s!=null) 
-			{
-				try 
-				{
-                    System.IO.StreamWriter sw = System.IO.File.CreateText(LayoutRegistry.LayoutFile);
-                    sw.BaseStream.SetLength(0);
-					try 
-					{
-						System.IO.StreamReader sr = new System.IO.StreamReader(s);
-						sw.Write(sr.ReadToEnd());
-						sw.Flush();
-					} 
-					finally 
-					{
-						sw.Close();
-						sw.Dispose();
-						sw = null;
-					}
-				} 
-				catch (Exception ex) 
-				{
-					Helper.ExceptionMessage(ex);
-				}
-			}
-
-            string name2 = name.Replace("_layout.xreg", ".layout");
-            s = typeof(Commandline).Assembly.GetManifestResourceStream("SimPe." + name2);
-            if (s != null)
-            {
-                try
-                {
-                    System.IO.FileStream fs = System.IO.File.OpenWrite(Helper.LayoutFileName);
-                    System.IO.BinaryWriter sw = new System.IO.BinaryWriter(fs);
-                    sw.BaseStream.SetLength(0);
-                    try
-                    {
-                        System.IO.BinaryReader sr = new System.IO.BinaryReader(s);                        
-                        sw.Write(sr.ReadBytes((int)sr.BaseStream.Length));
-                        sw.Flush();
-                    }
-                    finally
-                    {
-                        sw.Close();
-                        sw = null;
-                        fs.Close();
-                        fs.Dispose();
-                        fs = null;
-                        s.Close();
-                        s.Dispose();
-                        s = null;
-                    }
-
-                    Helper.WindowsRegistry.ReloadLayout();
-                }
-                catch (Exception ex)
-                {
-                    Helper.ExceptionMessage(ex);
-                }
-            }	
-		}
-		#endregion
-
-		#region Fix
-		public static void FixPackage(string flname, string modelname, FixVersion ver)
-		{
-			if (System.IO.File.Exists(flname))
-			{
-				SimPe.Packages.GeneratableFile pkg = SimPe.Packages.GeneratableFile.LoadFromFile(flname);
-
-				System.Collections.Hashtable map = RenameForm.GetNames((modelname.Trim()!=""), pkg, null, modelname);
-				FixObject fo = new FixObject(pkg, ver, false);
-				fo.Fix(map, false);
-				fo.CleanUp();
-				fo.FixGroup();
-
-				pkg.Save();
-			}
-		}
-
-		static bool FixPackage(ref string[] args) 
-		{
-			if (args[0]!="-fix") return false;
-
-			string modelname = "";
-			string prefix = "";
-			string package = "";
-			FixVersion ver = FixVersion.UniversityReady;
-
-			#region Parse Arguments
-			for (int i=0; i<args.Length; i++) 
-			{
-				if (args[i]=="-package") 
-				{
-					if (args.Length>i+1) 
-					{
-						package = args[++i];
-						continue;
-					}
-				}
-
-				if (args[i]=="-modelname") 
-				{
-					if (args.Length>i+1) 
-					{
-						modelname = args[++i];
-						continue;
-					}
-				}
-
-				if (args[i]=="-prefix") 
-				{
-					if (args.Length>i+1) 
-					{
-						prefix = args[++i];
-						continue;
-					}
-				}
-
-				if (args[i]=="-fixversion") 
-				{
-					if (args.Length>i+1) 
-					{
-						if (args[++i].Trim().ToLower()=="uni1") ver = FixVersion.UniversityReady;
-						else if (args[++i].Trim().ToLower()=="uni2") ver = FixVersion.UniversityReady2;
-						continue;
-					}
-				}
-			}
-			#endregion
-
-			FixPackage(package, prefix+modelname,  ver);
-			return true;
-		}
-		#endregion
-
-		#region Build Package
-		static bool BuildPackage(ref string[] args) 
-		{
-			if (args[0]!="-build") return false;
-
-			string output = "";
-			string input = "";
-
-			#region Parse Arguments
-			for (int i=0; i<args.Length; i++) 
-			{
-				if (args[i]=="-desc") 
-				{
-					if (args.Length>i+1) 
-					{
-						input = args[++i];
-						continue;
-					}
-				}
-				if (args[i]=="-out") 
-				{
-					if (args.Length>i+1) 
-					{
-						output = args[++i];
-						continue;
-					}
-				}
-			}
-			#endregion
-
-			if (!System.IO.File.Exists(input)) 
-			{
-				Console.WriteLine(input + " existiert nicht.");
-				return true;
-			}
-
-			SimPe.Packages.GeneratableFile pkg = SimPe.Packages.GeneratableFile.LoadFromStream(XmlPackageReader.OpenExtractedPackage(null, input));
-			pkg.Save(output);
-
-			return true;
-		}
-		#endregion
-
 		#region Import Data
 		public static bool ConvertData()
 		{
 			string layoutname = LayoutRegistry.LayoutFile;
-			if (!System.IO.File.Exists(layoutname)) 
-				Commandline.MakeModern();
+			if (!System.IO.File.Exists(layoutname))
+                Commandline.ForceModernLayout();
 
 
             if (Helper.WindowsRegistry.PreviousEpCount < 3) 
@@ -589,5 +193,291 @@ namespace SimPe
         }
 		#endregion
 
+        internal static ICommandLine[] preSplashCommands = new ICommandLine[] {
+            new Splash(),
+            new NoSplash(),
+            new EnableFlags(),
+            new MakeClassic(),
+            new MakeModern(),
+        };
+
+        public static bool PreSplash(List<string> argv)
+        {
+            foreach (ICommandLine cmd in preSplashCommands)
+                if (cmd.Parse(argv)) return true;
+            return false;
+        }
+
+
+        class Splash : ICommandLine
+        {
+            #region ICommandLine Members
+            public bool Parse(List<string> argv) { if (argv.Remove("--splash")) Helper.WindowsRegistry.ShowStartupSplash = true; return false; }
+            public string[] Help() { return new string[] { "--splash", null }; }
+            #endregion
+        }
+
+        class NoSplash : ICommandLine
+        {
+            #region ICommandLine Members
+            public bool Parse(List<string> argv) { if (argv.Remove("--nosplash")) Helper.WindowsRegistry.ShowStartupSplash = false; return false; }
+            public string[] Help() { return new string[] { "--nosplash", null }; }
+            #endregion
+        }
+
+        class EnableFlags : ICommandLine
+        {
+            #region ICommandLine Members
+
+            public bool Parse(List<string> argv)
+            {
+                if (argv.Count == 0) return false;
+
+                if (argv[0].ToLower() == "-localmode") // backward compatibility; uses ".Insert" as there may be trailing unknown stuff
+                {
+                    argv.RemoveAt(0);
+                    argv.InsertRange(0, new string[] { "-enable", "localmode" });
+                    if (argv.Count > 2 && argv[2].ToLower() == "-noplugins")
+                    {
+                        argv.RemoveAt(2);
+                        argv.Insert(2, "noplugins");
+                    }
+                }
+
+                if (argv[0].ToLower() != "-enable") return false;
+
+                while (argv.Count > 0)
+                {
+                    if (argv[0].ToLower() == "-enable") { argv.RemoveAt(0); continue; } // allow interspersed "-enables"
+                    if (argv[0].ToLower() == "localmode") { Helper.LocalMode = true; argv.RemoveAt(0); continue; }
+                    if (argv[0].ToLower() == "noplugins") { Helper.NoPlugins = true; argv.RemoveAt(0); continue; }
+                    if (argv[0].ToLower() == "fileformat") { Helper.FileFormat = true; argv.RemoveAt(0); continue; }
+                    if (argv[0].ToLower() == "noerrors") { Helper.NoErrors = true; argv.RemoveAt(0); continue; }
+                    break; // hit an unrecognised "enable" option
+                }
+                if (Helper.LocalMode || Helper.NoPlugins || Helper.NoErrors)
+                {
+                    string s = "";
+                    if (Helper.LocalMode) s += Localization.GetString("InLocalMode") + "\r\n";
+                    if (Helper.NoPlugins) s += "\r\n" + Localization.GetString("NoPlugins") + "\r\n";
+                    if (Helper.NoErrors) s += "\r\n" + Localization.GetString("NoErrors");
+                    Message.Show(s, "Notice", System.Windows.Forms.MessageBoxButtons.OK);
+                }
+
+                return false; // Don't exit SimPE!
+            }
+
+            public string[] Help() { return new string[] { "-enable localmode  -enable noplugins  -enable fileformat  -enable noerrors", null }; }
+
+            #endregion
+        }
+
+        #region Theme Presets
+		public static void ForceModernLayout()
+		{
+			Overridelayout("modern_layout.xreg");
+
+			Helper.WindowsRegistry.Layout.SelectedTheme = 3;
+			Helper.WindowsRegistry.AsynchronLoad = false;
+			Helper.WindowsRegistry.DecodeFilenamesState = true;
+			Helper.WindowsRegistry.DeepSimScan = true;
+			Helper.WindowsRegistry.DeepSimTemplateScan = false;
+
+			Helper.WindowsRegistry.SimpleResourceSelect = true;
+			Helper.WindowsRegistry.MultipleFiles = true;
+			Helper.WindowsRegistry.FirefoxTabbing = true;
+
+            Helper.WindowsRegistry.LockDocks = false;
+            Helper.WindowsRegistry.ShowWaitBarPermanent = true;
+            Helper.WindowsRegistry.Flush();
+        }
+
+		static void Overridelayout(string name)
+		{
+            
+			System.IO.Stream s = typeof(Commandline).Assembly.GetManifestResourceStream("SimPe."+name);
+			if (s!=null) 
+			{
+				try 
+				{
+                    System.IO.StreamWriter sw = System.IO.File.CreateText(LayoutRegistry.LayoutFile);
+                    sw.BaseStream.SetLength(0);
+					try 
+					{
+						System.IO.StreamReader sr = new System.IO.StreamReader(s);
+						sw.Write(sr.ReadToEnd());
+						sw.Flush();
+					} 
+					finally 
+					{
+						sw.Close();
+						sw.Dispose();
+						sw = null;
+					}
+				} 
+				catch (Exception ex) 
+				{
+					Helper.ExceptionMessage(ex);
+				}
+			}
+
+            string name2 = name.Replace("_layout.xreg", ".layout");
+            s = typeof(Commandline).Assembly.GetManifestResourceStream("SimPe." + name2);
+            if (s != null)
+            {
+                try
+                {
+                    System.IO.FileStream fs = System.IO.File.OpenWrite(Helper.LayoutFileName);
+                    System.IO.BinaryWriter sw = new System.IO.BinaryWriter(fs);
+                    sw.BaseStream.SetLength(0);
+                    try
+                    {
+                        System.IO.BinaryReader sr = new System.IO.BinaryReader(s);                        
+                        sw.Write(sr.ReadBytes((int)sr.BaseStream.Length));
+                        sw.Flush();
+                    }
+                    finally
+                    {
+                        sw.Close();
+                        sw = null;
+                        fs.Close();
+                        fs.Dispose();
+                        fs = null;
+                        s.Close();
+                        s.Dispose();
+                        s = null;
+                    }
+
+                    Helper.WindowsRegistry.ReloadLayout();
+                }
+                catch (Exception ex)
+                {
+                    Helper.ExceptionMessage(ex);
+                }
+            }	
+		}
+		#endregion
+
+        class MakeClassic : ICommandLine
+        {
+            #region ICommandLine Members
+            public bool Parse(List<string> argv)
+            {
+                if (!argv.Remove("-classicpreset")) return false;
+
+                Overridelayout("classic_layout.xreg");
+
+                Helper.WindowsRegistry.Layout.SelectedTheme = 0;
+                Helper.WindowsRegistry.AsynchronLoad = false;
+                Helper.WindowsRegistry.DecodeFilenamesState = false;
+                Helper.WindowsRegistry.DeepSimScan = false;
+                Helper.WindowsRegistry.DeepSimTemplateScan = false;
+
+                Helper.WindowsRegistry.SimpleResourceSelect = true;
+                Helper.WindowsRegistry.MultipleFiles = false;
+                Helper.WindowsRegistry.FirefoxTabbing = false;
+                Helper.WindowsRegistry.ShowWaitBarPermanent = false;
+
+                Helper.WindowsRegistry.LockDocks = true;
+                Helper.WindowsRegistry.Flush();
+
+                return !(Message.Show(SimPe.Localization.GetString("PresetChanged").Replace("{name}", SimPe.Localization.GetString("PresetClassic")),
+                    SimPe.Localization.GetString("Information"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes);
+            }
+            public string[] Help() { return new string[] { "-classicpreset", null }; }
+            #endregion
+        }
+
+        class MakeModern : ICommandLine
+        {
+            #region ICommandLine Members
+            public bool Parse(List<string> argv)
+            {
+                if (!argv.Remove("-modernpreset")) return false;
+
+                ForceModernLayout();
+
+                return (Message.Show(SimPe.Localization.GetString("PresetChanged").Replace("{name}",
+                    SimPe.Localization.GetString("PresetModern")), SimPe.Localization.GetString("Information"),
+                    System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes);
+            }
+            public string[] Help() { return new string[] { "-modernpreset", null }; }
+            #endregion
+        }
+
+
+        /// <summary>
+        /// Loaded just befor the GUI is started
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns>true if the GUI should <b>NOT</b> show up</returns>
+        public static bool FullEnvStart(List<string> argv)
+        {
+            if (argv.Count < 1) return false;
+
+            try
+            {
+                SimPe.Splash.Screen.SetMessage(SimPe.Localization.GetString("Checking commandline parameters"));
+                foreach (ICommandLine cmdline in SimPe.FileTable.CommandLineRegistry.CommandLines)
+                    if (cmdline.Parse(argv)) return true;
+                return false;
+            }
+            finally
+            {
+                SimPe.Splash.Screen.SetMessage(SimPe.Localization.GetString(""));
+            }
+        }
+
+    }
+
+    public class CommandlineHelp : ICommandLine
+    {
+        #region ICommandLine Members
+        public bool Parse(List<string> argv)
+        {
+            if (!argv.Remove("-help")) return false;
+
+            string pluginHelp = "";
+            foreach (ICommandLine cmdline in Commandline.preSplashCommands)
+            {
+                string[] help = cmdline.Help();
+                pluginHelp += "\r\n" + "  " + help[0];
+                if (help[1] != null && help[1].Length > 0)
+                    pluginHelp += "\r\n" + "      " + help[1];
+            }
+            foreach (ICommandLine cmdline in SimPe.FileTable.CommandLineRegistry.CommandLines)
+            {
+                string[] help = cmdline.Help();
+                pluginHelp += "\r\n" + "  " + help[0];
+                if (help[1] != null && help[1].Length > 0)
+                    pluginHelp += "\r\n" + "      " + help[1];
+            }
+
+            SimPe.Splash.Screen.Stop();
+
+            System.Windows.Forms.MessageBox.Show(""
+                    + pluginHelp
+                    + "\r\n"
+                    , "SimPE Commandline Parameters"
+                    , System.Windows.Forms.MessageBoxButtons.OK
+                    , System.Windows.Forms.MessageBoxIcon.Information
+                );
+
+            return true;
+        }
+        public string[] Help() { return new string[] { "-help", null }; }
+        #endregion
+    }
+
+    public class CommandlineHelpFactory : AbstractWrapperFactory, ICommandLineFactory
+    {
+        #region ICommandLineFactory Members
+
+        public ICommandLine[] KnownCommandLines
+        {
+            get { return new ICommandLine[] { new CommandlineHelp(), }; }
+        }
+
+        #endregion
     }
 }

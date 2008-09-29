@@ -27,29 +27,13 @@ using SimPe.Interfaces.Plugin;
 
 namespace SimPe.Plugin
 {
-    class GenSemiGlobals : ITool, ICommandLine
+    class GenSemiGlobals : ICommandLine
     {
-
-        #region ITool Members
-
-        public IToolResult ShowDialog(ref SimPe.Interfaces.Files.IPackedFileDescriptor pfd, ref SimPe.Interfaces.Files.IPackageFile package)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
-
-        public bool IsEnabled(SimPe.Interfaces.Files.IPackedFileDescriptor pfd, SimPe.Interfaces.Files.IPackageFile package)
-        {
-            return false;
-        }
-
-        #endregion
-
         #region ICommandLine Members
 
-        public bool Parse(ref string[] args)
+        public bool Parse(List<string> argv)
         {
-            if (args[0] != "-gensemiglob") return false;
-
+            if (!argv.Remove("-gensemiglob")) return false;
 
             System.Collections.Generic.List<uint> added = new System.Collections.Generic.List<uint>();
             Splash.Screen.SetMessage("Loading FileTable...");

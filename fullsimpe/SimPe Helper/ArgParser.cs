@@ -21,28 +21,22 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SimPe.Interfaces
+namespace SimPe
 {
-    /// <summary>
-    /// Implement this interface to get called with the SimPe command line
-    /// </summary>
-    public interface ICommandLine
+    public class ArgParser
     {
-        /// <summary>
-        /// Parse() should check the first argument to see if it's recognised.
-        /// If not, simply return false.  Else process the remaining arguments until satisfied.
-        /// All arguments consumed should be removed.
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns>False if SimPe should start; True if SimPe should exit</returns>
-        bool Parse(List<string> argv);
-
-        /// <summary>
-        /// Called to determine what the "-help" option will display.
-        /// The option name should be language-invariant.
-        /// The help text can be language-specific.
-        /// </summary>
-        /// <returns>The command line option name (in string[0]) and help text (in string[1]).</returns>
-        string[] Help();
+        public static bool Parse(List<string> argv, string parm, ref string result)
+        {
+            if (argv.Remove(parm))
+            {
+                if (argv.Count > 0)
+                {
+                    result = argv[0];
+                    argv.RemoveAt(0);
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

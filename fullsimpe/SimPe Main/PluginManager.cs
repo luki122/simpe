@@ -109,6 +109,8 @@ namespace SimPe
 		/// </summary>
 		void LoadStaticWrappers()
 		{
+            Splash.Screen.SetMessage("Loading Commandline Help Factory");
+            FileTable.WrapperRegistry.Register(new SimPe.CommandlineHelpFactory());
             Splash.Screen.SetMessage("Loading SettingsFactory");
             FileTable.WrapperRegistry.Register(new SimPe.Custom.SettingsFactory());
             Splash.Screen.SetMessage("Loading SimFactory");
@@ -117,10 +119,8 @@ namespace SimPe
             FileTable.WrapperRegistry.Register(new SimPe.PackedFiles.Wrapper.Factory.ExtendedWrapperFactory());
             Splash.Screen.SetMessage("Loading DefaultWrapperFactory");
             FileTable.WrapperRegistry.Register(new SimPe.PackedFiles.Wrapper.Factory.DefaultWrapperFactory());
-            //FileTable.WrapperRegistry.Register(new SimPe.PackedFiles.Wrapper.Factory.GenericWrapperFactory());
             Splash.Screen.SetMessage("Loading ScenegraphWrapperFactory");
             FileTable.WrapperRegistry.Register(new SimPe.Plugin.ScenegraphWrapperFactory());
-            //FileTable.CommandLineRegistry.Register(new SimPe.Plugin.ScenegraphWrapperFactory());
             Splash.Screen.SetMessage("Loading RefFileFactory");
             FileTable.WrapperRegistry.Register(new SimPe.Plugin.RefFileFactory());
             Splash.Screen.SetMessage("Loading ClstWrapperFactory");
@@ -299,5 +299,5 @@ namespace SimPe
 			}
 		}
 		#endregion
-	}
+    }
 }
