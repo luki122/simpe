@@ -290,7 +290,6 @@
     <Compile Include="ShowHelpEventArgs.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SplashScreen.cs" />
     <Compile Include="ThemeManager.cs">
       <SubType>Code</SubType>
     </Compile>
