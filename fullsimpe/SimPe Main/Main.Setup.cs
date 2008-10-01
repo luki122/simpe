@@ -78,6 +78,7 @@ namespace SimPe
                 this.mbiTopics,
                 lv
             );
+            SimPe.Splash.Screen.SetMessage(SimPe.Localization.GetString("Loaded Plugins"));
             plugger.ClosedToolPlugin += new ToolMenuItemExt.ExternalToolNotify(ClosedToolPlugin);
             remote.SetPlugger(plugger);
 

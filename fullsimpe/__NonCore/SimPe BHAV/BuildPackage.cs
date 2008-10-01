@@ -35,6 +35,8 @@ namespace SimPe.Plugin
         {
             if (!argv.Remove("-build")) return false;
 
+            Splash.Screen.SetMessage("Building Package...");
+
             string output = "";
             string input = "";
 
@@ -42,25 +44,28 @@ namespace SimPe.Plugin
             {
                 if (ArgParser.Parse(argv, "-desc", ref input)) continue;
                 if (ArgParser.Parse(argv, "-out", ref output)) continue;
-                break;
+            	Splash.Screen.Stop();
+                System.Windows.Forms.MessageBox.Show(Help()[0]);
+                return true;
             }
 
             if (input.Length == 0 || output.Length == 0)
             {
-                Console.WriteLine(Help()[0]);
+            	Splash.Screen.Stop();
+                System.Windows.Forms.MessageBox.Show(Help()[0]);
                 return true;
             }
             if (!System.IO.File.Exists(input))
             {
-                Console.WriteLine(Localization.GetString("filenotfound") + ":" + input);
+            	Splash.Screen.Stop();
+                System.Windows.Forms.MessageBox.Show(Localization.GetString("filenotfound") + ":" + input);
                 return true;
             }
 
             GeneratableFile pkg = GeneratableFile.LoadFromStream(XmlPackageReader.OpenExtractedPackage(null, input));
             pkg.Save(output);
 
-            Console.WriteLine("DONE");
-            Splash.Screen.SetMessage("DONE!");
+            Splash.Screen.SetMessage("");
             return true;
         }
         public string[] Help() { return new string[] { "-build -desc <input> -out <output>", "" }; }

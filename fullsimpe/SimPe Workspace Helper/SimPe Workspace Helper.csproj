@@ -186,11 +186,6 @@
       <Name>SimPe Packages</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\SimPe Splash\SimPe Splash.csproj">
-      <Project>{6F0D2F45-62FD-4BF5-95C0-46D66C981034}</Project>
-      <Name>SimPe Splash</Name>
-      <Private>False</Private>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractTool.cs">

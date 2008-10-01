@@ -43,7 +43,7 @@ namespace SimPe.Plugin
 
             Splash.Screen.SetMessage("Found " + resources.Length + " GLOB Resources");
             string fl = Helper.SimPeSemiGlobalFile;
-            Console.WriteLine("Opening " + fl);
+//            Console.WriteLine("Opening " + fl);
             System.IO.StreamWriter sw = new System.IO.StreamWriter(fl, false);
             sw.WriteLine("<semiglobals>");
 
@@ -68,14 +68,14 @@ namespace SimPe.Plugin
                     unq++;
                 }
             }
-            Console.WriteLine("Wrote " + ct + " (" + unq + " unique) entries");
+//            Console.WriteLine("Wrote " + ct + " (" + unq + " unique) entries");
             sw.WriteLine("</semiglobals>");
-            Console.WriteLine("Finished writing to " + fl);
+//            Console.WriteLine("Finished writing to " + fl);
             sw.Close();
             sw.Dispose();
             sw = null;
-            Console.WriteLine("Closed File");
-            Splash.Screen.SetMessage("DONE!");
+//            Console.WriteLine("Closed File");
+            Splash.Screen.SetMessage("");
 
             return true;
         }

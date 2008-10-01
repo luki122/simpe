@@ -230,18 +230,22 @@ namespace SimPe.Plugin
                     }
                     continue;
                 }
-                break;
+            	Splash.Screen.Stop();
+                System.Windows.Forms.MessageBox.Show(Help()[0]);
+                return true;
             }
 
             //check if the File exists
             if (!System.IO.File.Exists(filename))
             {
-                System.Console.WriteLine(filename + " was not found.");
+            	Splash.Screen.Stop();
+                System.Windows.Forms.MessageBox.Show(filename + " was not found.");
                 return true;
             }
             if (output.Trim() == "")
             {
-                System.Console.WriteLine("Please specify a output File using -out.");
+            	Splash.Screen.Stop();
+                System.Windows.Forms.MessageBox.Show("Please specify a output File using -out.");
                 return true;
             }
 

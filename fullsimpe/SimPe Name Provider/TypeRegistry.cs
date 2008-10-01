@@ -392,7 +392,6 @@ namespace SimPe.PackedFiles
 
             if (tool != null)
             {
-                Splash.Screen.SetMessage(SimPe.Localization.GetString("Loading")+" " + tool.ToString());
                 if (tool.GetType().GetInterface("SimPe.Interfaces.IDockableTool", true) == typeof(SimPe.Interfaces.IDockableTool))
                 {
                     if (!dtools.Contains(tool))

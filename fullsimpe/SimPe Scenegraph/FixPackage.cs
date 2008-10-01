@@ -56,7 +56,9 @@ namespace SimPe.Plugin
                     }
                     continue;
                 }
-                break;
+                Splash.Screen.Stop();
+                System.Windows.Forms.MessageBox.Show(Help()[0]);
+                return true;
             }
 
             Fix(package, prefix + modelname, ver);
