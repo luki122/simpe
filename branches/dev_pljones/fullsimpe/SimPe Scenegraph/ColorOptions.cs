@@ -211,13 +211,13 @@ namespace SimPe.Plugin
 						string name = Hashes.StripHashFromName(mdp.Value).Trim();
 						if (!name.EndsWith("_txtr")) name+="_txtr";
 
-						Console.Write("loading second txtr "+mdp.Name+" = "+mdp.Value);
+						//Console.Write("loading second txtr "+mdp.Name+" = "+mdp.Value);
 						IPackageFile pkg = txmt.Package;
 						SimPe.Interfaces.Files.IPackedFileDescriptor[] pfds = pkg.FindFile(name, Data.MetaData.TXTR);
 						if (pfds.Length>0) 
 						{
 							SimPe.Interfaces.Files.IPackedFileDescriptor pfd = pfds[0];
-							Console.Write(" [found in local Package]");	
+							//Console.Write(" [found in local Package]");	
 	
 							GenericRcol txtr = new GenericRcol();
 							txtr.ProcessData(pfd, pkg);
