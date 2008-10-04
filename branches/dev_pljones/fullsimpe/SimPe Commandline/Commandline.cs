@@ -37,13 +37,17 @@ namespace SimPe
 		{
 			string layoutname = LayoutRegistry.LayoutFile;
 			if (!System.IO.File.Exists(layoutname))
-                Commandline.ForceModernLayout();
+                ForceModernLayout();
+
+            if (!System.IO.File.Exists(Helper.LayoutFileName))
+                ForceModernLayout();
 
 
             if (Helper.WindowsRegistry.PreviousEpCount < 3) 
 				Helper.WindowsRegistry.BlurNudityUpdate();
 
-            if (Helper.WindowsRegistry.PreviousVersion < 279174552515) 
+            #region folders.xreg -- removed
+            /*if (Helper.WindowsRegistry.PreviousVersion < 279174552515) 
 			{
 				string name = System.IO.Path.Combine(Helper.SimPeDataPath, "folders.xreg");
 				if (System.IO.File.Exists(name)) 
@@ -60,9 +64,11 @@ namespace SimPe
 						}
 					}
 				}
-			}
+			}*/
+            #endregion
 
-			/*if (Helper.WindowsRegistry.PreviousVersion<236370882908) 
+            #region simpelanguagecache -- removed
+            /*if (Helper.WindowsRegistry.PreviousVersion<236370882908) 
 			{
 				string name = Helper.SimPeLanguageCache;
 				if (System.IO.File.Exists(name)) 
@@ -81,14 +87,13 @@ namespace SimPe
 					}
 				}
 			}*/
+            #endregion
 
             if (Helper.WindowsRegistry.FoundUnknownEP())
             {
                 if (Message.Show(SimPe.Localization.GetString("Unknown EP found").Replace("{name}", SimPe.PathProvider.Global.GetExpansion(SimPe.PathProvider.Global.LastKnown).Name), SimPe.Localization.GetString("Warning"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.No)
                     return false;
             }
-
-            if (!System.IO.File.Exists(Helper.LayoutFileName)) ForceModernLayout();
 
 			return true;
 		}
