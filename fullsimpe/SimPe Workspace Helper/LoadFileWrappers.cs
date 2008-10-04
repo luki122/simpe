@@ -195,6 +195,11 @@ namespace SimPe
             if (o != null) lfw.reg.Register((IWrapperFactory)o);
 		}
 
+        public static void LoadErrorWrapper(SimPe.PackedFiles.Wrapper.ErrorWrapper w, LoadFileWrappersExt lfw)
+        {
+            lfw.reg.Register(w);
+        }
+
 		/// <summary>
 		/// Tries to load the IWrapperFactory from the passed File
 		/// </summary>
