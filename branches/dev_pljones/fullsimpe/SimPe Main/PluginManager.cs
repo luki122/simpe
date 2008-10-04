@@ -150,7 +150,7 @@ namespace SimPe
 				catch (Exception ex) 
 				{
 					Exception e = new Exception("Unable to load WrapperFactory", new Exception("Invalid Interface in "+file, ex));
-					reg.Register(new SimPe.PackedFiles.Wrapper.ErrorWrapper(file, ex));
+					LoadFileWrappersExt.LoadErrorWrapper(new SimPe.PackedFiles.Wrapper.ErrorWrapper(file, ex), wloader);
 					Helper.ExceptionMessage(ex);
 				}
 #endif
