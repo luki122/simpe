@@ -1,6 +1,8 @@
 /***************************************************************************
  *   Copyright (C) 2005 by Ambertation                                     *
  *   quaxi@ambertation.de                                                  *
+ *   Copyright (C) 2008 by Peter L Jones                                   *
+ *   peter@users.sf.net                                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -25,63 +27,82 @@ namespace SimPe
 {
     public class Splash
     {
+        /// <summary>
+        /// Event1: StartThread has created frm and sent SetMessage
+        /// </summary>
+        static System.Threading.ManualResetEvent ev1 = new System.Threading.ManualResetEvent(false);
+
         static Splash scr;
+        static object lockObj = new object();
         public static Splash Screen
         {
             get
             {
-                if (scr == null) scr = new Splash();
+                lock (lockObj)
+                {
+                    if (scr == null)
+                    {
+                        ev1.Reset();
+                        scr = new Splash();
+                        ev1.WaitOne();
+                    }
+                }
                 return scr;
             }
         }
 
-        SimPe.Windows.Forms.SplashForm frm;
-        //bool running;
-        bool show;
+        public static bool Running { get { return scr != null; } }
+
+        System.Threading.Thread t = null;
         private Splash()
         {
             mmsg = "";
-            //running = true;
-            show = false;
 
             if (Helper.WindowsRegistry.ShowStartupSplash)
             {
-                System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ThreadStart(StartThread));
+                t = new System.Threading.Thread(new System.Threading.ThreadStart(StartThread));
                 t.Start();
             }
+            else
+                ev1.Set();
         }
 
+        SimPe.Windows.Forms.SplashForm frm = null;
         protected void StartThread()
         {
-            System.Threading.Thread.Sleep(300);
             frm = new SimPe.Windows.Forms.SplashForm();
-            if (show) Start();
+            frm.FormClosed += new System.Windows.Forms.FormClosedEventHandler(frm_FormClosed);
             SetMessage(mmsg);
+            ev1.Set();
+            frm.StartSplash();
+        }
+
+        void frm_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
+        {
+            lock (lockObj)
+            {
+                t = null;
+                frm = null;
+                scr = null;
+            }
         }
 
         string mmsg;
         public void SetMessage(string msg)
         {
             mmsg = msg;
-            if (frm!=null)frm.Message = msg;
-        }
-
-        public void Start()
-        {
-            show = true;
-            if (frm!=null) frm.StartSplash();
+            if (frm != null) frm.Message = msg;
         }
 
         public void Stop()
         {
-            show = false;
-            if (frm!=null) frm.StopSplash();
+            if (frm != null) frm.StopSplash();
         }
 
         public void ShutDown()
         {
             Stop();
-            //running = false;
+            if (t != null) t.Join();
         }
     }
 }

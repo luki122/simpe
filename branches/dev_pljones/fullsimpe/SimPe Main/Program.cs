@@ -54,7 +54,6 @@ namespace SimPe
             try
             {
                 SimPe.Splash.Screen.SetMessage(SimPe.Localization.GetString("Starting SimPE..."));
-                SimPe.Splash.Screen.Start();
 
                 Application.DoEvents();
                 Application.Idle += new EventHandler(Application_Idle);
@@ -89,7 +88,7 @@ namespace SimPe
 #endif
             finally
             {
-                SimPe.Splash.Screen.ShutDown();
+                if (SimPe.Splash.Running) SimPe.Splash.Screen.ShutDown();
             }
 
             try
