@@ -98,6 +98,7 @@ namespace SimPe
             string[] names = xrk.GetSubKeyNames();
             int ver = -1;
             avlgrp = 0;
+            System.Diagnostics.Debug.WriteLine("\r\n----\r\nExpansionItems");
             foreach (string name in names)
             {
                 ExpansionItem i = new ExpansionItem(xrk.OpenSubKey(name, false));
@@ -120,6 +121,7 @@ namespace SimPe
 
                 avlgrp = avlgrp | (uint)i.Group;
             }
+            System.Diagnostics.Debug.WriteLine("----\r\n");
 
             
 
