@@ -29,7 +29,7 @@ using SimPe;
 
 namespace SimPe.Plugin
 {
-    public class BuildTxtr : ITool, ICommandLine
+    public class BuildTxtr : ICommandLine
     {
         #region Build TXTR
         /// <summary>
@@ -178,20 +178,6 @@ namespace SimPe.Plugin
             }
 
         }
-        #endregion
-
-        #region ITool Members
-
-        public SimPe.Interfaces.Plugin.IToolResult ShowDialog(ref SimPe.Interfaces.Files.IPackedFileDescriptor pfd, ref SimPe.Interfaces.Files.IPackageFile package)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
-
-        public bool IsEnabled(SimPe.Interfaces.Files.IPackedFileDescriptor pfd, SimPe.Interfaces.Files.IPackageFile package)
-        {
-            return false;
-        }
-
         #endregion
 
         #region ICommandLine Members
