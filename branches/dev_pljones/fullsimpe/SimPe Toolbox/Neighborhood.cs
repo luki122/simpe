@@ -207,19 +207,21 @@ namespace SimPe.Plugin
 			//name = System.IO.Path.Combine(path, name);
 			if (System.IO.File.Exists(name)) 
 			{
-				System.IO.Stream st = System.IO.File.OpenRead(name);
-				Image img = Image.FromStream(st);
-				st.Close();
-				st.Dispose();
-				st = null;
-				WaitingScreen.UpdateImage(ImageLoader.Preview(img, WaitingScreen.ImageSize));	
-				this.ilist.Images.Add(img);
-			} 
-			else 
-			{
-				this.ilist.Images.Add(new Bitmap(this.GetType().Assembly.GetManifestResourceStream("SimPe.Plugin.Network.png")));
+                try
+                {
+                    System.IO.Stream st = System.IO.File.OpenRead(name);
+                    Image img = Image.FromStream(st);
+                    st.Close();
+                    st.Dispose();
+                    st = null;
+                    WaitingScreen.UpdateImage(ImageLoader.Preview(img, WaitingScreen.ImageSize));
+                    this.ilist.Images.Add(img);
+                    return;
+                }
+                catch(System.ArgumentException) { }
 			}
-		}
+            this.ilist.Images.Add(new Bitmap(this.GetType().Assembly.GetManifestResourceStream("SimPe.Plugin.Network.png")));
+        }
 
 		protected void AddNeighborhood(ExpansionItem.NeighborhoodPath np, string path) 
 		{
@@ -309,20 +311,26 @@ namespace SimPe.Plugin
 
 		protected void UpdateList()
 		{
-			WaitingScreen.Wait();
-				
-			lv.Items.Clear();
-			ilist.Images.Clear();
+            WaitingScreen.Wait();
 
-            ExpansionItem.NeighborhoodPaths paths = PathProvider.Global.GetNeighborhoodsForGroup();
-            foreach (ExpansionItem.NeighborhoodPath path in paths)
+            try
             {
-                string sourcepath = path.Path;
-                string[] dirs = System.IO.Directory.GetDirectories(sourcepath, "????");
-                foreach (string dir in dirs)
-                    AddNeighborhood(path, dir);
+                lv.Items.Clear();
+                ilist.Images.Clear();
+
+                ExpansionItem.NeighborhoodPaths paths = PathProvider.Global.GetNeighborhoodsForGroup();
+                foreach (ExpansionItem.NeighborhoodPath path in paths)
+                {
+                    string sourcepath = path.Path;
+                    string[] dirs = System.IO.Directory.GetDirectories(sourcepath, "????");
+                    foreach (string dir in dirs)
+                        AddNeighborhood(path, dir);
+                }
             }
-			WaitingScreen.Stop(this);				
+            finally
+            {
+                WaitingScreen.Stop(this);
+            }
 		}
 
 		
