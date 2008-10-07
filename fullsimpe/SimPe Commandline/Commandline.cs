@@ -169,14 +169,10 @@ namespace SimPe
                                         Helper.WindowsRegistry.Reload();
                                         ThemeManager.Global.CurrentTheme = (SimPe.GuiTheme)Helper.WindowsRegistry.Layout.SelectedTheme;
                                     }
-                                    catch (Exception ex)
-                                    {
-                                        Helper.ExceptionMessage(new Warning("Unable to import Settings.", ex.Message, ex));
-                                    }
-                                    finally
-                                    {
-                                        WaitingScreen.Stop();
-                                    }
+#if !DEBUG
+                                    catch (Exception ex) { Helper.ExceptionMessage(new Warning("Unable to import Settings.", ex.Message, ex)); }
+#endif
+                                    finally { WaitingScreen.Stop(); }
                                 }
                             }
                 }

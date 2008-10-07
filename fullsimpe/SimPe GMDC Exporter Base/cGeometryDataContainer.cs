@@ -600,25 +600,28 @@ namespace SimPe.Plugin
 		/// Returns the RCOL which lists this Resource in it's ReferencedFiles Attribute
 		/// </summary>
 		/// <returns>null or the RCOl Ressource</returns>
-		public Rcol FindReferencingCRES()
-		{		
-			WaitingScreen.Wait();	
-			SimPe.Interfaces.Scenegraph.IScenegraphFileIndex nfi = FileTable.FileIndex.AddNewChild();
-			nfi.AddIndexFromPackage(this.Parent.Package);					
-			Rcol cres = FindReferencingCRES_Int();
-			FileTable.FileIndex.RemoveChild(nfi);
-			nfi.Clear();	
+        public Rcol FindReferencingCRES()
+        {
+            WaitingScreen.Wait();
+            try
+            {
+                SimPe.Interfaces.Scenegraph.IScenegraphFileIndex nfi = FileTable.FileIndex.AddNewChild();
+                nfi.AddIndexFromPackage(this.Parent.Package);
+                Rcol cres = FindReferencingCRES_Int();
+                FileTable.FileIndex.RemoveChild(nfi);
+                nfi.Clear();
 
-			if (cres==null && !FileTable.FileIndex.Loaded) 
-			{
-				FileTable.FileIndex.Load();
-				cres = FindReferencingCRES_Int();
-			}
-			
+                if (cres == null && !FileTable.FileIndex.Loaded)
+                {
+                    FileTable.FileIndex.Load();
+                    cres = FindReferencingCRES_Int();
+                }
 
-			WaitingScreen.Stop();
-			return cres;
-		}
+
+                return cres;
+            }
+            finally { WaitingScreen.Stop(); }
+        }
 		/// <summary>
 		/// Returns the RCOL which lists this Resource in it's ReferencedFiles Attribute
 		/// </summary>
