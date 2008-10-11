@@ -115,6 +115,7 @@ namespace SimPe.Plugin
             // 
             // btnOpen
             // 
+            this.btnOpen.DialogResult = System.Windows.Forms.DialogResult.OK;
             resources.ApplyResources(this.btnOpen, "btnOpen");
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Click += new System.EventHandler(this.NgbOpen);
@@ -195,6 +196,16 @@ namespace SimPe.Plugin
 
 		}
 		#endregion
+
+
+        bool ngbhBUMgr = true;
+        public bool ShowBackupManager { get { return ngbhBUMgr; } set { ngbhBUMgr = value; } }
+
+        bool loadNgbh = true;
+        public bool LoadNgbh { get { return loadNgbh; } set { loadNgbh = value; } }
+
+        NgbhType ngbh = null;
+        public string SelectedNgbh { get { return ngbh == null ? null : ngbh.FileName; } }
 
 		SimPe.Packages.GeneratableFile package;
 		SimPe.Packages.File source_package;
@@ -344,7 +355,7 @@ namespace SimPe.Plugin
 			UpdateList();
 			this.Cursor = Cursors.Default;
 
-			
+            pnBackup.Visible = ngbhBUMgr;
 			RemoteControl.ShowSubForm(this);
 			if (this.package!=null) package=this.package;
 			return new Plugin.ToolResult(false, ((this.package!=null) || (changed)));
@@ -403,10 +414,11 @@ namespace SimPe.Plugin
 		{
 			if (lv.SelectedItems.Count<=0) return;
 
-            NgbhType t = cbtypes.SelectedItem as NgbhType;
-            if (t != null)
+            ngbh = cbtypes.SelectedItem as NgbhType;
+            if (ngbh != null)
             {
-                package = SimPe.Packages.GeneratableFile.LoadFromFile(t.FileName);
+                if (loadNgbh) package = SimPe.Packages.GeneratableFile.LoadFromFile(ngbh.FileName);
+                this.DialogResult = DialogResult.OK;
                 Close();
             }
 		}

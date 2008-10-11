@@ -310,7 +310,7 @@
     <value>pnBackup</value>
   </data>
   <data name="&gt;&gt;pnBackup.Type" xml:space="preserve">
-    <value>Ambertation.Windows.Forms.XPTaskBoxSimple, graphcontrol, Version=1.0.3196.34965, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ambertation.Windows.Forms.XPTaskBoxSimple, graphcontrol, Version=1.0.3202.23445, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnBackup.Parent" xml:space="preserve">
     <value>$this</value>
@@ -424,7 +424,7 @@
     <value>pnOptions</value>
   </data>
   <data name="&gt;&gt;pnOptions.Type" xml:space="preserve">
-    <value>Ambertation.Windows.Forms.XPTaskBoxSimple, graphcontrol, Version=1.0.3196.34965, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ambertation.Windows.Forms.XPTaskBoxSimple, graphcontrol, Version=1.0.3202.23445, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnOptions.Parent" xml:space="preserve">
     <value>$this</value>
