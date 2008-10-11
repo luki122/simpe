@@ -207,7 +207,7 @@ namespace SimPe
         class Splash : ICommandLine
         {
             #region ICommandLine Members
-            public bool Parse(List<string> argv) { if (argv.Remove("--splash")) Helper.WindowsRegistry.ShowStartupSplash = true; return false; }
+            public bool Parse(List<string> argv) { if (ArgParser.Parse(argv, "--splash") >= 0) Helper.WindowsRegistry.ShowStartupSplash = true; return false; }
             public string[] Help() { return new string[] { "--splash", null }; }
             #endregion
         }
@@ -215,7 +215,7 @@ namespace SimPe
         class NoSplash : ICommandLine
         {
             #region ICommandLine Members
-            public bool Parse(List<string> argv) { if (argv.Remove("--nosplash")) Helper.WindowsRegistry.ShowStartupSplash = false; return false; }
+            public bool Parse(List<string> argv) { if (ArgParser.Parse(argv, "--nosplash") >= 0) Helper.WindowsRegistry.ShowStartupSplash = false; return false; }
             public string[] Help() { return new string[] { "--nosplash", null }; }
             #endregion
         }
@@ -226,30 +226,37 @@ namespace SimPe
 
             public bool Parse(List<string> argv)
             {
-                if (argv.Count == 0) return false;
+                int i = ArgParser.Parse(argv, "-localmode");
+                if (i >= 0) { argv.InsertRange(i, new string[] { "-enable", "localmode" }); }
+                i = ArgParser.Parse(argv, "-noplugins");
+                if (i >= 0) { argv.InsertRange(i, new string[] { "-enable", "noplugins" }); }
 
-                if (argv[0].ToLower() == "-localmode") // backward compatibility; uses ".Insert" as there may be trailing unknown stuff
+                bool haveEnable = false;
+                bool needEnable = true;
+                i = ArgParser.Parse(argv, "-enable");
+                if (i >= 0) { haveEnable = true; needEnable = false; } else return false;
+
+                List<string> flags = new List<string>(new string[] { "localmode", "noplugins", "fileformat", "noerrors", });
+                while (!needEnable)
                 {
-                    argv.RemoveAt(0);
-                    argv.InsertRange(0, new string[] { "-enable", "localmode" });
-                    if (argv.Count > 2 && argv[2].ToLower() == "-noplugins")
+                    if (argv.Count <= i) { Message.Show(Help()[0]); return true; } // -enable {nothing}
+                    switch (ArgParser.Parse(argv, i, flags))
                     {
-                        argv.RemoveAt(2);
-                        argv.Insert(2, "noplugins");
+                        case 0: Helper.LocalMode = true; haveEnable = false; break;
+                        case 1: Helper.NoPlugins = true; haveEnable = false; break;
+                        case 2: Helper.FileFormat = true; haveEnable = false; break;
+                        case 3: Helper.NoErrors = true; haveEnable = false; break;
+                        default:
+                            if (haveEnable) { Message.Show(Help()[0]); return true; } // -enable {unknown}
+                            else { needEnable = true; break; } // done one lot of -enables
+                    }
+                    if (needEnable)
+                    {
+                        i = ArgParser.Parse(argv, "-enable");
+                        if (i >= 0) { haveEnable = true; needEnable = false; }
                     }
                 }
 
-                if (argv[0].ToLower() != "-enable") return false;
-
-                while (argv.Count > 0)
-                {
-                    if (argv[0].ToLower() == "-enable") { argv.RemoveAt(0); continue; } // allow interspersed "-enables"
-                    if (argv[0].ToLower() == "localmode") { Helper.LocalMode = true; argv.RemoveAt(0); continue; }
-                    if (argv[0].ToLower() == "noplugins") { Helper.NoPlugins = true; argv.RemoveAt(0); continue; }
-                    if (argv[0].ToLower() == "fileformat") { Helper.FileFormat = true; argv.RemoveAt(0); continue; }
-                    if (argv[0].ToLower() == "noerrors") { Helper.NoErrors = true; argv.RemoveAt(0); continue; }
-                    break; // hit an unrecognised "enable" option
-                }
                 if (Helper.LocalMode || Helper.NoPlugins || Helper.NoErrors)
                 {
                     string s = "";
@@ -358,7 +365,7 @@ namespace SimPe
             #region ICommandLine Members
             public bool Parse(List<string> argv)
             {
-                if (!argv.Remove("-classicpreset")) return false;
+                if (ArgParser.Parse(argv, "-classicpreset") < 0) return false;
 
                 Overridelayout("classic_layout.xreg");
 
@@ -388,7 +395,7 @@ namespace SimPe
             #region ICommandLine Members
             public bool Parse(List<string> argv)
             {
-                if (!argv.Remove("-modernpreset")) return false;
+                if (ArgParser.Parse(argv, "-modernpreset") < 0) return false;
 
                 ForceModernLayout();
 
@@ -430,7 +437,7 @@ namespace SimPe
         #region ICommandLine Members
         public bool Parse(List<string> argv)
         {
-            if (!argv.Remove("-help")) return false;
+            if (ArgParser.Parse(argv, "-help") < 0) return false;
 
             string pluginHelp = "";
             foreach (ICommandLine cmdline in Commandline.preSplashCommands)

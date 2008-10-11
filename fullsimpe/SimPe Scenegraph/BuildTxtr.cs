@@ -184,7 +184,8 @@ namespace SimPe.Plugin
 
         public bool Parse(List<string> argv)
         {
-            if (!argv.Remove("-txtr")) return false;
+            int i = ArgParser.Parse(argv, "-txtr");
+            if (i < 0) return false;
 
             //get Parameters
             string filename = "";
@@ -195,15 +196,15 @@ namespace SimPe.Plugin
             System.Drawing.Size sz = new System.Drawing.Size(512, 512);
             SimPe.Plugin.ImageLoader.TxtrFormats format = SimPe.Plugin.ImageLoader.TxtrFormats.DXT1Format;
 
-            while (argv.Count > 0)
+            while (argv.Count > i)
             {
-                if (ArgParser.Parse(argv, "-image", ref filename)) continue;
-                if (ArgParser.Parse(argv, "-out", ref output)) continue;
-                if (ArgParser.Parse(argv, "-name", ref texturename)) continue;
-                if (ArgParser.Parse(argv, "-levels", ref num)) { levels = Convert.ToInt32(num); continue; }
-                if (ArgParser.Parse(argv, "-width", ref num)) { sz.Width = Convert.ToInt32(num); continue; }
-                if (ArgParser.Parse(argv, "-height", ref num)) { sz.Height = Convert.ToInt32(num); continue; }
-                if (ArgParser.Parse(argv, "-format", ref num))
+                if (ArgParser.Parse(argv, i, "-image", ref filename)) continue;
+                if (ArgParser.Parse(argv, i, "-out", ref output)) continue;
+                if (ArgParser.Parse(argv, i, "-name", ref texturename)) continue;
+                if (ArgParser.Parse(argv, i, "-levels", ref num)) { levels = Convert.ToInt32(num); continue; }
+                if (ArgParser.Parse(argv, i, "-width", ref num)) { sz.Width = Convert.ToInt32(num); continue; }
+                if (ArgParser.Parse(argv, i, "-height", ref num)) { sz.Height = Convert.ToInt32(num); continue; }
+                if (ArgParser.Parse(argv, i, "-format", ref num))
                 {
                     switch (num)
                     {
@@ -216,22 +217,19 @@ namespace SimPe.Plugin
                     }
                     continue;
                 }
-            	Splash.Screen.Stop();
-                System.Windows.Forms.MessageBox.Show(Help()[0]);
+                SimPe.Message.Show(Help()[0]);
                 return true;
             }
 
             //check if the File exists
             if (!System.IO.File.Exists(filename))
             {
-            	Splash.Screen.Stop();
-                System.Windows.Forms.MessageBox.Show(filename + " was not found.");
+                SimPe.Message.Show(filename + " was not found.");
                 return true;
             }
             if (output.Trim() == "")
             {
-            	Splash.Screen.Stop();
-                System.Windows.Forms.MessageBox.Show("Please specify a output File using -out.");
+                SimPe.Message.Show("Please specify an output file using -out");
                 return true;
             }
 

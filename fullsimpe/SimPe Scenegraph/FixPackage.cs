@@ -34,7 +34,8 @@ namespace SimPe.Plugin
 
         public bool Parse(List<string> argv)
         {
-            if (!argv.Remove("-fix")) return false;
+            int i = ArgParser.Parse(argv, "-fix");
+            if (i < 0) return false;
 
             string modelname = "";
             string prefix = "";
@@ -42,12 +43,12 @@ namespace SimPe.Plugin
             string vertxt = "";
             FixVersion ver = FixVersion.UniversityReady;
 
-            while (argv.Count > 0)
+            while (argv.Count > i)
             {
-                if (ArgParser.Parse(argv, "-package", ref package)) continue;
-                if (ArgParser.Parse(argv, "-modelname", ref modelname)) continue;
-                if (ArgParser.Parse(argv, "-prefix", ref prefix)) continue;
-                if (ArgParser.Parse(argv, "-fixversion", ref vertxt))
+                if (ArgParser.Parse(argv, i, "-package", ref package)) continue;
+                if (ArgParser.Parse(argv, i, "-modelname", ref modelname)) continue;
+                if (ArgParser.Parse(argv, i, "-prefix", ref prefix)) continue;
+                if (ArgParser.Parse(argv, i, "-fixversion", ref vertxt))
                 {
                     switch (vertxt.Trim().ToLower())
                     {
@@ -56,8 +57,7 @@ namespace SimPe.Plugin
                     }
                     continue;
                 }
-                Splash.Screen.Stop();
-                System.Windows.Forms.MessageBox.Show(Help()[0]);
+                SimPe.Message.Show(Help()[0]);
                 return true;
             }
 
