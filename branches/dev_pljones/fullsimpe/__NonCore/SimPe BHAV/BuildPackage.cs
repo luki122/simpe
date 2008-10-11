@@ -33,7 +33,8 @@ namespace SimPe.Plugin
         #region ICommandLine Members
         public bool Parse(List<string> argv)
         {
-            if (!argv.Remove("-build")) return false;
+            int i = ArgParser.Parse(argv, "-build");
+            if (i < 0) return false;
 
             Splash.Screen.SetMessage("Building Package...");
 
@@ -42,23 +43,20 @@ namespace SimPe.Plugin
 
             while (argv.Count > 0 && input.Length == 0 && output.Length == 0)
             {
-                if (ArgParser.Parse(argv, "-desc", ref input)) continue;
-                if (ArgParser.Parse(argv, "-out", ref output)) continue;
-            	Splash.Screen.Stop();
-                System.Windows.Forms.MessageBox.Show(Help()[0]);
+                if (ArgParser.Parse(argv, i, "-desc", ref input)) continue;
+                if (ArgParser.Parse(argv, i, "-out", ref output)) continue;
+                SimPe.Message.Show(Help()[0]);
                 return true;
             }
 
             if (input.Length == 0 || output.Length == 0)
             {
-            	Splash.Screen.Stop();
-                System.Windows.Forms.MessageBox.Show(Help()[0]);
+                SimPe.Message.Show(Help()[0]);
                 return true;
             }
             if (!System.IO.File.Exists(input))
             {
-            	Splash.Screen.Stop();
-                System.Windows.Forms.MessageBox.Show(Localization.GetString("filenotfound") + ":" + input);
+                SimPe.Message.Show(Help()[0]);
                 return true;
             }
 
