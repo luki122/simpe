@@ -42,6 +42,7 @@ namespace SimPe.Plugin
         private ComboBox cbtypes;
         private Label label1;
 		private System.ComponentModel.IContainer components;
+        private Button btnClose;
         ThemeManager tm;
 
 		public NeighborhoodForm()
@@ -92,6 +93,7 @@ namespace SimPe.Plugin
             this.pnOptions = new Ambertation.Windows.Forms.XPTaskBoxSimple();
             this.cbtypes = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnClose = new System.Windows.Forms.Button();
             this.pnBackup.SuspendLayout();
             this.pnOptions.SuspendLayout();
             this.SuspendLayout();
@@ -115,8 +117,8 @@ namespace SimPe.Plugin
             // 
             // btnOpen
             // 
-            this.btnOpen.DialogResult = System.Windows.Forms.DialogResult.OK;
             resources.ApplyResources(this.btnOpen, "btnOpen");
+            this.btnOpen.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Click += new System.EventHandler(this.NgbOpen);
             // 
@@ -134,13 +136,13 @@ namespace SimPe.Plugin
             // 
             // pnBackup
             // 
+            resources.ApplyResources(this.pnBackup, "pnBackup");
             this.pnBackup.BackColor = System.Drawing.Color.Transparent;
             this.pnBackup.BodyColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.pnBackup.BorderColor = System.Drawing.SystemColors.Window;
             this.pnBackup.Controls.Add(this.button3);
             this.pnBackup.Controls.Add(this.button2);
             this.pnBackup.HeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Bold);
-            resources.ApplyResources(this.pnBackup, "pnBackup");
             this.pnBackup.HeaderTextColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.pnBackup.IconLocation = new System.Drawing.Point(4, 12);
             this.pnBackup.IconSize = new System.Drawing.Size(32, 32);
@@ -150,13 +152,13 @@ namespace SimPe.Plugin
             // 
             // pnOptions
             // 
+            resources.ApplyResources(this.pnOptions, "pnOptions");
             this.pnOptions.BackColor = System.Drawing.Color.Transparent;
             this.pnOptions.BodyColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.pnOptions.BorderColor = System.Drawing.SystemColors.Window;
             this.pnOptions.Controls.Add(this.cbtypes);
             this.pnOptions.Controls.Add(this.label1);
             this.pnOptions.HeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Bold);
-            resources.ApplyResources(this.pnOptions, "pnOptions");
             this.pnOptions.HeaderTextColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.pnOptions.IconLocation = new System.Drawing.Point(4, 12);
             this.pnOptions.IconSize = new System.Drawing.Size(32, 32);
@@ -177,15 +179,23 @@ namespace SimPe.Plugin
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
+            // btnClose
+            // 
+            resources.ApplyResources(this.btnClose, "btnClose");
+            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnClose.Name = "btnClose";
+            // 
             // NeighborhoodForm
             // 
             this.AcceptButton = this.btnOpen;
             resources.ApplyResources(this, "$this");
+            this.CancelButton = this.btnClose;
             this.Controls.Add(this.pnOptions);
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnOpen);
             this.Controls.Add(this.lv);
             this.Controls.Add(this.pnBackup);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "NeighborhoodForm";
