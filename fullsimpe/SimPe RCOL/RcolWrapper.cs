@@ -57,10 +57,10 @@ namespace SimPe.Plugin
             set { if (duff) return; blocks = value; } 
 		}
 
-		uint type;
-		public uint Type 
+		uint count;
+		public uint Count 
 		{
-			get {return type;}
+			get {return count;}
 		}
 
         bool duff = false;
@@ -262,25 +262,26 @@ namespace SimPe.Plugin
 		/// <param name="reader">The Stream that contains the FileData</param>
 		protected override void Unserialize(System.IO.BinaryReader reader)
         {
-            type = reader.ReadUInt32();
+            count = reader.ReadUInt32();
 
             try
             {
 
-                reffiles = new Interfaces.Files.IPackedFileDescriptor[reader.ReadUInt32()];
+                reffiles = new Interfaces.Files.IPackedFileDescriptor[count == 0xffff0001 ? reader.ReadUInt32() : count];
                 for (int i = 0; i < reffiles.Length; i++)
                 {
                     SimPe.Packages.PackedFileDescriptor pfd = new SimPe.Packages.PackedFileDescriptor();
 
                     pfd.Group = reader.ReadUInt32();
                     pfd.Instance = reader.ReadUInt32();
-                    pfd.SubType = (type == 0xffff0001) ? reader.ReadUInt32() : 0;
+                    pfd.SubType = (count == 0xffff0001) ? reader.ReadUInt32() : 0;
                     pfd.Type = reader.ReadUInt32();
 
                     reffiles[i] = pfd;
                 }
 
-                index = new uint[reader.ReadUInt32()];
+                uint nn = reader.ReadUInt32();
+                index = new uint[nn];
                 blocks = new IRcolBlock[index.Length];
                 for (int i = 0; i < index.Length; i++) index[i] = reader.ReadUInt32();
 
@@ -300,7 +301,8 @@ namespace SimPe.Plugin
                     else oversize = new byte[0];
                 }
             }
-            catch (Exception e) { duff = true; this.e = e;/*SimPe.Helper.ExceptionMessage(e);*/ }
+            //catch (Exception e) { duff = true; this.e = e;/*SimPe.Helper.ExceptionMessage(e);*/ }
+            finally { }
 
         }
 
@@ -315,14 +317,14 @@ namespace SimPe.Plugin
 		protected override void Serialize(System.IO.BinaryWriter writer)
 		{
             if (duff) return;
-            writer.Write(type);
+            writer.Write(count == 0xffff0001 ? count : (uint)reffiles.Length);
             writer.Write((uint)reffiles.Length);
 			for (int i=0; i<reffiles.Length; i++) 
 			{
 				SimPe.Packages.PackedFileDescriptor pfd = (SimPe.Packages.PackedFileDescriptor)reffiles[i];
 				writer.Write(pfd.Group);
 				writer.Write(pfd.Instance);
-				if (type==0xffff0001) writer.Write(pfd.SubType);
+				if (count==0xffff0001) writer.Write(pfd.SubType);
 				writer.Write(pfd.Type);
 			}
 
