@@ -33,71 +33,6 @@ namespace SimPe
 	public class Commandline
 	{
 		#region Import Data
-		public static bool ConvertData()
-		{
-			string layoutname = LayoutRegistry.LayoutFile;
-			if (!System.IO.File.Exists(layoutname))
-                ForceModernLayout();
-
-            if (!System.IO.File.Exists(Helper.LayoutFileName))
-                ForceModernLayout();
-
-
-            if (Helper.WindowsRegistry.PreviousEpCount < 3) 
-				Helper.WindowsRegistry.BlurNudityUpdate();
-
-            #region folders.xreg -- removed
-            /*if (Helper.WindowsRegistry.PreviousVersion < 279174552515) 
-			{
-				string name = System.IO.Path.Combine(Helper.SimPeDataPath, "folders.xreg");
-				if (System.IO.File.Exists(name)) 
-				{
-					if (Message.Show(SimPe.Localization.GetString("Reset Filetable").Replace("{flname}", name), "Update", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
-					{
-						try 
-						{						
-							System.IO.File.Delete(name);							
-						} 
-						catch (Exception ex)
-						{
-							Helper.ExceptionMessage(ex);
-						}
-					}
-				}
-			}*/
-            #endregion
-
-            #region simpelanguagecache -- removed
-            /*if (Helper.WindowsRegistry.PreviousVersion<236370882908) 
-			{
-				string name = Helper.SimPeLanguageCache;
-				if (System.IO.File.Exists(name)) 
-				{
-					if (Message.Show(SimPe.Localization.GetString("Reset Cache").Replace("{flname}", name), "Update", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
-					{
-						try 
-						{						
-							System.IO.File.Delete(name);
-							
-						} 
-						catch (Exception ex)
-						{
-							Helper.ExceptionMessage(ex);
-						}
-					}
-				}
-			}*/
-            #endregion
-
-            if (Helper.WindowsRegistry.FoundUnknownEP())
-            {
-                if (Message.Show(SimPe.Localization.GetString("Unknown EP found").Replace("{name}", SimPe.PathProvider.Global.GetExpansion(SimPe.PathProvider.Global.LastKnown).Name), SimPe.Localization.GetString("Warning"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.No)
-                    return false;
-            }
-
-			return true;
-		}
-
 		static void CheckXML(string file)
 		{
 			System.Xml.XmlDocument xmlfile = new System.Xml.XmlDocument();
@@ -134,6 +69,71 @@ namespace SimPe
 				if (System.Windows.Forms.MessageBox.Show("The Layout File was not readable. SimPE will generate a new one, which means that your Window Layout will be reset to the Default.\n\nShould SimPe reset the Settings File?", "Error", System.Windows.Forms.MessageBoxButtons.YesNo)==System.Windows.Forms.DialogResult.Yes)
 					System.IO.File.Delete(file);
 			}
+		}
+
+		static bool ConvertData()
+		{
+			string layoutname = LayoutRegistry.LayoutFile;
+			if (!System.IO.File.Exists(layoutname))
+                ForceModernLayout();
+
+            if (!System.IO.File.Exists(Helper.LayoutFileName))
+                ForceModernLayout();
+
+
+            if (Helper.WindowsRegistry.PreviousEpCount < 3) 
+				Helper.WindowsRegistry.BlurNudityUpdate();
+
+            #region folders.xreg
+            if (Helper.WindowsRegistry.PreviousVersion < 279174552515) 
+			{
+				string name = System.IO.Path.Combine(Helper.SimPeDataPath, "folders.xreg");
+				if (System.IO.File.Exists(name)) 
+				{
+					if (Message.Show(SimPe.Localization.GetString("Reset Filetable").Replace("{flname}", name), "Update", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+					{
+						try 
+						{						
+							System.IO.File.Delete(name);							
+						} 
+						catch (Exception ex)
+						{
+							Helper.ExceptionMessage(ex);
+						}
+					}
+				}
+			}
+            #endregion
+
+            #region simpelanguagecache
+            if (Helper.WindowsRegistry.PreviousVersion<236370882908) 
+			{
+				string name = Helper.SimPeLanguageCache;
+				if (System.IO.File.Exists(name)) 
+				{
+					if (Message.Show(SimPe.Localization.GetString("Reset Cache").Replace("{flname}", name), "Update", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+					{
+						try 
+						{						
+							System.IO.File.Delete(name);
+							
+						} 
+						catch (Exception ex)
+						{
+							Helper.ExceptionMessage(ex);
+						}
+					}
+				}
+			}
+            #endregion
+
+            if (Helper.WindowsRegistry.FoundUnknownEP())
+            {
+                if (Message.Show(SimPe.Localization.GetString("Unknown EP found").Replace("{name}", SimPe.PathProvider.Global.GetExpansion(SimPe.PathProvider.Global.LastKnown).Name), SimPe.Localization.GetString("Warning"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.No)
+                    return false;
+            }
+
+			return true;
 		}
 
 		public static bool ImportOldData()

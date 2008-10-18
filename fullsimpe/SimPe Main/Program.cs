@@ -46,7 +46,7 @@ namespace SimPe
             }
 
             Commandline.CheckFiles();
-            if (!Commandline.ImportOldData()) return;
+            //if (!Commandline.ImportOldData()) return;
 
             List<string> argv = new List<string>(args);
             if (Commandline.PreSplash(argv)) return;
