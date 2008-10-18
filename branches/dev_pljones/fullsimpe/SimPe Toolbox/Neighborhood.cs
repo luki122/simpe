@@ -339,7 +339,7 @@ namespace SimPe.Plugin
                 lv.Items.Clear();
                 ilist.Images.Clear();
 
-                ExpansionItem.NeighborhoodPaths paths = PathProvider.Global.GetNeighborhoodsForGroup();
+                ExpansionItem.NeighborhoodPaths paths = PathProvider.Global.GetNeighborhoodsForGroup(PathProvider.Global.CurrentGroup);
                 foreach (ExpansionItem.NeighborhoodPath path in paths)
                 {
                     string sourcepath = path.Path;
