@@ -1466,4 +1466,10 @@ advised to make no changes and certainly not to save any packages.</value>
     <value>[Invalid CRES: {0}]</value>
     <comment>{0}: exception message</comment>
   </data>
+  <data name="[Description:AddSimNames]" xml:space="preserve">
+    <value>When true, for resources that are associated with Sims, the Sim's name will be applied.  (This can have an adverse effect on performance.)</value>
+  </data>
+  <data name="[Description:HackerMode]" xml:space="preserve">
+    <value>When true, this attempts to improve performance by reducing the number of resources in use.</value>
+  </data>
 </root>

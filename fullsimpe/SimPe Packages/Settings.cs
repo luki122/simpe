@@ -34,6 +34,7 @@ namespace SimPe.Custom
         private static Settings settings;
         static Settings() { settings = new Settings(); }
         public static bool Persistent { get { return settings.KeepFilesOpen; } }
+        public static bool SimNames { get { return !settings.HackerMode && settings.AddSimNames; } }
 
 
         public Settings() : base(rm) { }
@@ -55,6 +56,40 @@ namespace SimPe.Custom
             {
                 SimPe.XmlRegistryKey rkf = xrk.CreateSubKey(BASENAME);
                 rkf.SetValue("keepFilesOpen", value);
+            }
+        }
+
+        [System.ComponentModel.Category("SimPe")]
+        public bool AddSimNames
+        {
+            get
+            {
+                SimPe.XmlRegistryKey rkf = xrk.CreateSubKey(BASENAME);
+                object o = rkf.GetValue("addSimNames", false);
+                return Convert.ToBoolean(o);
+            }
+
+            set
+            {
+                SimPe.XmlRegistryKey rkf = xrk.CreateSubKey(BASENAME);
+                rkf.SetValue("addSimNames", value);
+            }
+        }
+
+        [System.ComponentModel.Category("SimPe")]
+        public bool HackerMode
+        {
+            get
+            {
+                SimPe.XmlRegistryKey rkf = xrk.CreateSubKey(BASENAME);
+                object o = rkf.GetValue("hackerMode", false);
+                return Convert.ToBoolean(o);
+            }
+
+            set
+            {
+                SimPe.XmlRegistryKey rkf = xrk.CreateSubKey(BASENAME);
+                rkf.SetValue("hackerMode", value);
             }
         }
 
