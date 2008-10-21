@@ -34,7 +34,7 @@ namespace SimPe.Custom
         private static Settings settings;
         static Settings() { settings = new Settings(); }
         public static bool Persistent { get { return settings.KeepFilesOpen; } }
-        public static bool SimNames { get { return !settings.HackerMode && settings.AddSimNames; } }
+        //public static bool SimNames { get { return !settings.HackerMode && settings.AddSimNames; } }
 
 
         public Settings() : base(rm) { }
@@ -59,6 +59,7 @@ namespace SimPe.Custom
             }
         }
 
+        /*
         [System.ComponentModel.Category("SimPe")]
         public bool AddSimNames
         {
@@ -92,7 +93,7 @@ namespace SimPe.Custom
                 rkf.SetValue("hackerMode", value);
             }
         }
-
+        */
 
         #region ISettings Members
 
