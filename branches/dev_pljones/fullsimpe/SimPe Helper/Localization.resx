@@ -1472,4 +1472,10 @@ advised to make no changes and certainly not to save any packages.</value>
   <data name="[Description:HackerMode]" xml:space="preserve">
     <value>When true, this attempts to improve performance by reducing the number of resources in use.</value>
   </data>
+  <data name="[Property:AddSimNames]" xml:space="preserve">
+    <value>Add Sim Names</value>
+  </data>
+  <data name="[Property:HackerMode]" xml:space="preserve">
+    <value>Hackers Mode</value>
+  </data>
 </root>
