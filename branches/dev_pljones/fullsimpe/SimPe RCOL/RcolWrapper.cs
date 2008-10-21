@@ -262,6 +262,9 @@ namespace SimPe.Plugin
 		/// <param name="reader">The Stream that contains the FileData</param>
 		protected override void Unserialize(System.IO.BinaryReader reader)
         {
+            duff = false;
+            this.e = null;
+
             count = reader.ReadUInt32();
 
             try
@@ -301,7 +304,12 @@ namespace SimPe.Plugin
                     else oversize = new byte[0];
                 }
             }
-            //catch (Exception e) { duff = true; this.e = e;/*SimPe.Helper.ExceptionMessage(e);*/ }
+            catch (Exception e)
+            {
+                duff = true;
+                this.e = e;
+                //SimPe.Helper.ExceptionMessage(e);
+            }
             finally { }
 
         }
