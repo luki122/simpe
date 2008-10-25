@@ -72,15 +72,19 @@ namespace SimPe
         static System.Threading.ManualResetEvent ev1 = new System.Threading.ManualResetEvent(false);
         static WaitingScreen scr;
         static object lockObj = new object();
+        static object lockObj2 = new object();
         static WaitingScreen Screen
         {
             get
             {
-                if (scr == null)
+                lock (lockObj2)
                 {
-                    ev1.Reset();
-                    scr = new WaitingScreen();
-                    ev1.WaitOne();
+                    if (scr == null)
+                    {
+                        ev1.Reset();
+                        scr = new WaitingScreen();
+                        ev1.WaitOne();
+                    }
                 }
                 return scr;
             }
@@ -93,8 +97,8 @@ namespace SimPe
         SimPe.WaitingForm frm;
         System.Threading.Thread t = null;
 
-        void doUpdate(System.Drawing.Image image) { lock (lockObj) { prevImage = image; } if (frm != null) frm.SetImage(image); }
-        void doUpdate(string msg) { lock (lockObj) { prevMessage = msg; } if (frm != null) frm.SetMessage(msg); }
+        void doUpdate(System.Drawing.Image image) { lock (lockObj) { prevImage = image; } if (frm != null) frm.SetImage(image); Application.DoEvents(); }
+        void doUpdate(string msg) { lock (lockObj) { prevMessage = msg; } if (frm != null) frm.SetMessage(msg); Application.DoEvents(); }
         void doUpdate(System.Drawing.Image image, string msg) { doUpdate(image); doUpdate(msg); }
         void doWait() { if (frm != null) frm.StartSplash(); }
         void doStop() { if (frm != null) frm.StopSplash(); }
@@ -103,6 +107,7 @@ namespace SimPe
 
         private WaitingScreen()
         {
+            System.Diagnostics.Debug.WriteLine("SimPe.WaitingScreen.WaitingScreen()");
             if (Helper.WindowsRegistry.WaitingScreen)
             {
                 t = new System.Threading.Thread(new System.Threading.ThreadStart(StartThread));
@@ -114,21 +119,28 @@ namespace SimPe
 
         protected void StartThread()
         {
+            System.Diagnostics.Debug.WriteLine("SimPe.WaitingScreen.StartThread()");
             frm = new SimPe.WaitingForm();
+            System.Diagnostics.Debug.WriteLine("SimPe.WaitingScreen.StartThread() - created new SimPe.WaitingForm()");
             lock (lockObj)
             {
                 prevImage = frm.Image;
                 prevMessage = frm.Message;
             }
+            System.Diagnostics.Debug.WriteLine("SimPe.WaitingScreen.StartThread() - set frm.Image and frm.Message");
 
             frm.FormClosed += new FormClosedEventHandler(frm_FormClosed);
             doUpdate(prevImage, prevMessage);
+            System.Diagnostics.Debug.WriteLine("SimPe.WaitingScreen.StartThread() - about to raise ev1");
             ev1.Set();
+            System.Diagnostics.Debug.WriteLine("SimPe.WaitingScreen.StartThread() - ev1 raised");
             frm.StartSplash();
+            System.Diagnostics.Debug.WriteLine("SimPe.WaitingScreen.StartThread() - returned from frm.StartSplash()");
         }
 
         void frm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("SimPe.WaitingScreen.frm_FormClosed(...)");
             lock (lockObj)
             {
                 //if (t != null) t.Join();
