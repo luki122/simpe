@@ -47,11 +47,8 @@ namespace SimPe
 		public static void CheckFiles()
 		{
 			//check if the settings File is available
-			string file = System.IO.Path.Combine(Helper.SimPeDataPath, @"simpe.xreg");
-			try 
-			{
-				CheckXML(file);
-			}
+            string file = Helper.DataFolder.SimPeXREG;
+			try { CheckXML(file); }
 			catch
 			{
 				if (System.Windows.Forms.MessageBox.Show("The Settings File was not readable. SimPE will generate a new one, which means that all your Settings made in \"Extra->Preferences\" get lost.\n\nShould SimPe reset the Settings File?", "Error", System.Windows.Forms.MessageBoxButtons.YesNo)==System.Windows.Forms.DialogResult.Yes)
@@ -73,11 +70,11 @@ namespace SimPe
 
 		static bool ConvertData()
 		{
-			string layoutname = LayoutRegistry.LayoutFile;
+            string layoutname = Helper.DataFolder.Layout2XREG;
 			if (!System.IO.File.Exists(layoutname))
                 ForceModernLayout();
 
-            if (!System.IO.File.Exists(Helper.LayoutFileName))
+            if (!System.IO.File.Exists(Helper.DataFolder.SimPeLayout))
                 ForceModernLayout();
 
 
@@ -87,7 +84,7 @@ namespace SimPe
             #region folders.xreg
             if (Helper.WindowsRegistry.PreviousVersion < 279174552515) 
 			{
-				string name = System.IO.Path.Combine(Helper.SimPeDataPath, "folders.xreg");
+                string name = Helper.DataFolder.FoldersXREG;
 				if (System.IO.File.Exists(name)) 
 				{
 					if (Message.Show(SimPe.Localization.GetString("Reset Filetable").Replace("{flname}", name), "Update", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
@@ -143,7 +140,7 @@ namespace SimPe
                 if (!System.IO.Directory.Exists(Helper.SimPeDataPath))
                     System.IO.Directory.CreateDirectory(Helper.SimPeDataPath);
 
-                if (!System.IO.File.Exists(System.IO.Path.Combine(Helper.SimPeDataPath, "simpe.xreg")))
+                if (!System.IO.File.Exists(Helper.DataFolder.SimPeXREG))
                 {
                     if (System.IO.Directory.Exists(Helper.WindowsRegistry.PreviousDataFolder))
                         if (Helper.WindowsRegistry.PreviousDataFolder.Trim().ToLower() != Helper.SimPeDataPath.Trim().ToLower())
@@ -192,6 +189,7 @@ namespace SimPe
             new Splash(),
             new NoSplash(),
             new EnableFlags(),
+            new Profile(),
             new MakeClassic(),
             new MakeModern(),
         };
@@ -274,6 +272,23 @@ namespace SimPe
             #endregion
         }
 
+        class Profile : ICommandLine
+        {
+            #region ICommandLine Members
+            public bool Parse(List<string> argv)
+            {
+                int index = ArgParser.Parse(argv, "-profile");
+                if (index < 0) return false;
+                if (index >= argv.Count || argv[index].Length == 0) { Message.Show(Help()[0]); return true; }
+                Helper.Profile = argv[index];
+                argv.RemoveAt(index);
+                if (!System.IO.File.Exists(Helper.DataFolder.SimPeXREG)) { Message.Show(Help()[0]); return true; }
+                return false;
+            }
+            public string[] Help() { return new string[] { "-profile savedprofilename", null }; }
+            #endregion
+        }
+
         #region Theme Presets
 		public static void ForceModernLayout()
 		{
@@ -302,7 +317,7 @@ namespace SimPe
 			{
 				try 
 				{
-                    System.IO.StreamWriter sw = System.IO.File.CreateText(LayoutRegistry.LayoutFile);
+                    System.IO.StreamWriter sw = System.IO.File.CreateText(Helper.DataFolder.Layout2XREG);
                     sw.BaseStream.SetLength(0);
 					try 
 					{
@@ -329,7 +344,7 @@ namespace SimPe
             {
                 try
                 {
-                    System.IO.FileStream fs = System.IO.File.OpenWrite(Helper.LayoutFileName);
+                    System.IO.FileStream fs = System.IO.File.OpenWrite(Helper.DataFolder.SimPeLayout);
                     System.IO.BinaryWriter sw = new System.IO.BinaryWriter(fs);
                     sw.BaseStream.SetLength(0);
                     try

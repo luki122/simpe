@@ -31,7 +31,6 @@ namespace SimPe
 {
     partial class MainForm
     {
-        static string[] pargs;
         public static MainForm Global;
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
@@ -45,11 +44,11 @@ namespace SimPe
                 return;
             }
 
-            Commandline.CheckFiles();
-            //if (!Commandline.ImportOldData()) return;
-
             List<string> argv = new List<string>(args);
             if (Commandline.PreSplash(argv)) return;
+
+            Commandline.CheckFiles();
+            //if (!Commandline.ImportOldData()) return;
 
             try
             {
@@ -62,7 +61,9 @@ namespace SimPe
                 Global = new MainForm();
                 if (!Commandline.FullEnvStart(argv))
                 {
-                    pargs = argv.ToArray();
+                    //load Files passed on the commandline
+                    SimPe.Splash.Screen.SetMessage(SimPe.Localization.GetString("Load or Import Files"));
+                    Global.package.LoadOrImportFiles(argv.ToArray(), true);
                     Application.Run(Global);
                 }
 

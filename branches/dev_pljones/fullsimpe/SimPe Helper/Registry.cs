@@ -90,9 +90,9 @@ namespace SimPe
 		/// Reload the SimPe Registry
 		/// </summary>
 		public void Reload()
-		{			
-			reg = new XmlRegistry(System.IO.Path.Combine(Helper.SimPeDataPath, "simpe.xreg"), true);
-			xrk = reg.CurrentUser.CreateSubKey("Software\\Ambertation\\SimPe");
+		{
+            reg = new XmlRegistry(Helper.DataFolder.SimPeXREG, true);
+			xrk = reg.CurrentUser.CreateSubKey(@"Software\Ambertation\SimPe");
 			ReloadLayout();
 		}
 
