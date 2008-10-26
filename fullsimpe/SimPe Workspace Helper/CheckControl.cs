@@ -560,7 +560,7 @@ namespace SimPe
 			isok = CheckItemState.Unknown;
 			try 
 			{
-				System.IO.File.Delete(FileTable.FolderFile);
+                System.IO.File.Delete(Helper.DataFolder.FoldersXREG);
 				FileTable.Reload();
 
 				if (FixedFileTable!=null) FixedFileTable(this, new EventArgs());
