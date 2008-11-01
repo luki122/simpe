@@ -54,34 +54,30 @@ namespace SimPe.Plugin
 		private System.Windows.Forms.CheckBox cbflip;
 		private System.ComponentModel.IContainer components;
 
-		public PhotoStudio()
+        public PhotoStudio()
         {
+            //
+            // Erforderlich für die Windows Form-Designerunterstützung
+            //
+            InitializeComponent();
+
+
+            //load all additional Package Templates
+            string[] files = System.IO.Directory.GetFiles(Helper.SimPeDataPath, "*.template");
+
+            if (files.Length == 0)
+            {
+                SimPe.WaitingScreen.Stop();
+                if (MessageBox.Show("SimPE didn't find a PhotoStudio Template in the Data Folder. It can download and install the needed Files from the SimPE Homepage (1.9MB).\n\nDo you want SimPE to download and install the Templates?", "Information", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    WebUpdate.InstallTemplates();
+                    files = System.IO.Directory.GetFiles(Helper.SimPeDataPath, "*.template");
+                }
+            }
+
             try
             {
-                //
-                // Erforderlich für die Windows Form-Designerunterstützung
-                //
-                InitializeComponent();
-
-
-                //load all additional Package Templates
-                string[] files = System.IO.Directory.GetFiles(Helper.SimPeDataPath, "*.template");
-
-                if (files.Length == 0)
-                {
-                    SimPe.WaitingScreen.Stop();
-                    if (MessageBox.Show("SimPE didn't find a PhotoStudio Template in the Data Folder. It can download and install the needed Files from the SimPE Homepage (1.9MB).\n\nDo you want SimPE to download and install the Templates?", "Information", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        WebUpdate.InstallTemplates();
-                        files = System.IO.Directory.GetFiles(Helper.SimPeDataPath, "*.template");
-                        SimPe.WaitingScreen.Wait();
-                    }
-                }
-                else
-                {
-                    SimPe.WaitingScreen.Wait();
-                }
-
+                SimPe.WaitingScreen.Wait();
                 //cbbase.Items.Clear();
 
                 foreach (string file in files)
@@ -113,7 +109,7 @@ namespace SimPe.Plugin
                 }
             }
             finally { SimPe.WaitingScreen.Stop(); }
-		}
+        }
 
 		/// <summary>
 		/// Die verwendeten Ressourcen bereinigen.

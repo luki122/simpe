@@ -299,7 +299,7 @@ namespace SimPe.Plugin
 			cachefile = new SimPe.Cache.ObjectCacheFile();
 		
 			if (!Helper.WindowsRegistry.UseCache) return;
-			WaitingScreen.UpdateMessage("Loading Cache");
+            if (WaitingScreen.Running) WaitingScreen.UpdateMessage("Loading Cache");
 			try 
 			{
 				cachefile.Load(CacheFileName);
@@ -319,7 +319,7 @@ namespace SimPe.Plugin
 		{
 			if (!Helper.WindowsRegistry.UseCache) return;
 			if (!cachechg) return;
-			WaitingScreen.UpdateMessage("Saving Cache");
+            if (WaitingScreen.Running) WaitingScreen.UpdateMessage("Saving Cache");
 
 			cachefile.Save(CacheFileName);
 		}		
@@ -943,33 +943,33 @@ namespace SimPe.Plugin
 					} else return;
 				}
 
-				if (this.rbClone.Checked) 
-				{
-                    try
+                if (this.rbClone.Checked)
+                {
+                    if (tabControl2.SelectedIndex < 2)
                     {
-                        if (tabControl2.SelectedIndex < 2)
+                        WaitingScreen.Wait();
+                        try { this.RecolorClone(pfd, localgroup, this.cbdefault.Checked, false, this.cbanim.Checked); }
+                        finally { WaitingScreen.Stop(this); }
+                    }
+
+
+                    FixObject fo = new FixObject(package, FixVersion.UniversityReady, true);
+                    System.Collections.Hashtable map = null;
+
+                    if (this.cbfix.Checked)
+                    {
+                        map = fo.GetNameMap(true);
+                        if (map == null) return;
+                    }
+
+
+                    if (this.cbfix.Checked)
+                    {
+                        if (sfd.ShowDialog() == DialogResult.OK)
                         {
                             WaitingScreen.Wait();
-                            try { this.RecolorClone(pfd, localgroup, this.cbdefault.Checked, false, this.cbanim.Checked); }
-                            finally { WaitingScreen.Stop(this); }
-                        }
-
-
-                        FixObject fo = new FixObject(package, FixVersion.UniversityReady, true);
-                        System.Collections.Hashtable map = null;
-
-                        if (this.cbfix.Checked)
-                        {
-                            map = fo.GetNameMap(true);
-                            if (map == null) return;
-                        }
-
-
-                        if (this.cbfix.Checked)
-                        {
-                            if (sfd.ShowDialog() == DialogResult.OK)
+                            try
                             {
-                                WaitingScreen.Wait();
                                 package.FileName = sfd.FileName;
                                 fo.Fix(map, true);
 
@@ -977,46 +977,51 @@ namespace SimPe.Plugin
                                 package.Save();
 
                             }
-                            else
-                            {
-                                package = null;
-                            }
-                        }
+                            finally { WaitingScreen.Stop(this); }
 
-                        if ((this.cbgid.Checked) && (package != null))
+                        }
+                        else
                         {
-                            WaitingScreen.Wait();
+                            package = null;
+                        }
+                    }
+
+                    if ((this.cbgid.Checked) && (package != null))
+                    {
+                        WaitingScreen.Wait();
+                        try
+                        {
                             fo.FixGroup();
                             if (this.cbfix.Checked) package.Save();
+
                         }
-
+                        finally { WaitingScreen.Stop(this); }
                     }
-                    finally { WaitingScreen.Stop(this); }
-				}
-				else //if Recolor
-				{
-					if (this.cbColor.Checked) cbColorExt.Checked = false;
+                }
+                else //if Recolor
+                {
+                    if (this.cbColor.Checked) cbColorExt.Checked = false;
 
-					if (tabControl2.SelectedIndex==0) 
-					{
-						foreach (IAlias ia in lbobj.SelectedItems) 
-						{
-							pfd = (Interfaces.Files.IPackedFileDescriptor)ia.Tag[0];
-							localgroup = (uint)ia.Tag[1];
-							package = null;
-							ReColor(pfd, localgroup);
-						}
-					} 
-					else if (tabControl2.SelectedIndex==1) 
-					{
-						package = null;
-						ReColor(pfd, localgroup);
-					}
-					else 
-					{
-						ReColor(null, Data.MetaData.LOCAL_GROUP);
-					}
-				}
+                    if (tabControl2.SelectedIndex == 0)
+                    {
+                        foreach (IAlias ia in lbobj.SelectedItems)
+                        {
+                            pfd = (Interfaces.Files.IPackedFileDescriptor)ia.Tag[0];
+                            localgroup = (uint)ia.Tag[1];
+                            package = null;
+                            ReColor(pfd, localgroup);
+                        }
+                    }
+                    else if (tabControl2.SelectedIndex == 1)
+                    {
+                        package = null;
+                        ReColor(pfd, localgroup);
+                    }
+                    else
+                    {
+                        ReColor(null, Data.MetaData.LOCAL_GROUP);
+                    }
+                }
 
 				Close();
 			} 
@@ -1083,7 +1088,7 @@ namespace SimPe.Plugin
 					SimPe.PackedFiles.Wrapper.Picture pic = new SimPe.PackedFiles.Wrapper.Picture();
 					pic.ProcessData(pfd, thumbs);
 					Bitmap bm = (Bitmap)ImageLoader.Preview(pic.Image, WaitingScreen.ImageSize);
-					WaitingScreen.Update(bm, message);
+					if (WaitingScreen.Running) WaitingScreen.Update(bm, message);
 					return pic.Image;
 				}
 				catch(Exception){}

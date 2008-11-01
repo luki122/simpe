@@ -96,7 +96,7 @@ namespace SimPe.Plugin
 				}
 			}
 
-			if (si.PackageCacheItem.Thumbnail!=null) WaitingScreen.UpdateImage(si.PackageCacheItem.Thumbnail);
+            if (si.PackageCacheItem.Thumbnail != null && WaitingScreen.Running) WaitingScreen.UpdateImage(si.PackageCacheItem.Thumbnail);
 			UpdateState(si, ps, lvi);
 		}
 
