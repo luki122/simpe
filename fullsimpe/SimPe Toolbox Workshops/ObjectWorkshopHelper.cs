@@ -548,100 +548,104 @@ namespace SimPe.Plugin.Tool.Dockable
 			return Start(pkg, a, ref pfd, localgroup, settings, false);
 		}
 
-		public static SimPe.Packages.GeneratableFile Start(SimPe.Packages.GeneratableFile pkg, SimPe.Interfaces.IAlias a, ref Interfaces.Files.IPackedFileDescriptor pfd, uint localgroup, ObjectWorkshopSettings settings, bool containsonlybaseclone)
-		{
-            try
+        public static SimPe.Packages.GeneratableFile Start(SimPe.Packages.GeneratableFile pkg, SimPe.Interfaces.IAlias a, ref Interfaces.Files.IPackedFileDescriptor pfd, uint localgroup, ObjectWorkshopSettings settings, bool containsonlybaseclone)
+        {
+            SimPe.Packages.GeneratableFile package = pkg;
+            SimPe.Plugin.CloneSettings.BaseResourceType br = SimPe.Plugin.CloneSettings.BaseResourceType.Objd;
+            if (pfd != null)
+                if (pfd.Type != Data.MetaData.OBJD_FILE)
+                    br = SimPe.Plugin.CloneSettings.BaseResourceType.Xml;
+            if (settings is OWCloneSettings)
             {
-                SimPe.Packages.GeneratableFile package = pkg;
-                SimPe.Plugin.CloneSettings.BaseResourceType br = SimPe.Plugin.CloneSettings.BaseResourceType.Objd;
-                if (pfd != null)
-                    if (pfd.Type != Data.MetaData.OBJD_FILE)
-                        br = SimPe.Plugin.CloneSettings.BaseResourceType.Xml;
-                if (settings is OWCloneSettings)
+                OWCloneSettings cs = (OWCloneSettings)settings;
+
+                package = RecolorClone(br, package, pfd, localgroup, settings, containsonlybaseclone);
+
+
+                FixObject fo = new FixObject(package, FixVersion.UniversityReady, settings.RemoveNonDefaultTextReferences);
+                System.Collections.Hashtable map = null;
+
+                if (cs.FixResources)
                 {
-                    OWCloneSettings cs = (OWCloneSettings)settings;
+                    map = fo.GetNameMap(true);
+                    if (map == null) return package;
 
-                    package = RecolorClone(br, package, pfd, localgroup, settings, containsonlybaseclone);
-
-
-                    FixObject fo = new FixObject(package, FixVersion.UniversityReady, settings.RemoveNonDefaultTextReferences);
-                    System.Collections.Hashtable map = null;
-
-                    if (cs.FixResources)
-                    {
-                        map = fo.GetNameMap(true);
-                        if (map == null) return package;
-
-                        SaveFileDialog sfd = new SaveFileDialog();
-                        sfd.Filter = ExtensionProvider.BuildFilterString(
-                            new SimPe.ExtensionType[] {
+                    SaveFileDialog sfd = new SaveFileDialog();
+                    sfd.Filter = ExtensionProvider.BuildFilterString(
+                        new SimPe.ExtensionType[] {
 													  SimPe.ExtensionType.Package,
 													  SimPe.ExtensionType.AllFiles
 												  }
-                            );
-                        if (sfd.ShowDialog() == DialogResult.OK)
+                        );
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
+                        WaitingScreen.Wait();
+                        try
                         {
-                            WaitingScreen.Wait();
                             package.FileName = sfd.FileName;
                             fo.Fix(map, true);
 
                             if (cs.RemoveUselessResource && br != SimPe.Plugin.CloneSettings.BaseResourceType.Xml)
                                 fo.CleanUp();
                             package.Save();
+                        }
+                        finally { WaitingScreen.Stop(); }
 
-                        }
-                        else
-                        {
-                            package = null;
-                        }
                     }
-
-                    if ((cs.CustomGroup) && (package != null))
+                    else
                     {
-                        WaitingScreen.Wait();
+                        package = null;
+                    }
+                }
+
+                if ((cs.CustomGroup) && (package != null))
+                {
+                    WaitingScreen.Wait();
+                    try
+                    {
                         fo.FixGroup();
                         if (cs.FixResources) package.Save();
                     }
-
-                    if (cs.ChangeObjectDescription) UpdateDescription(cs, package);
-
-                    //select a resource to display in SimPE
-                    pfd = null;
-                    if (package != null)
-                    {
-                        SimPe.Interfaces.Files.IPackedFileDescriptor[] pfds = package.FindFiles(Data.MetaData.OBJD_FILE);
-                        if (pfds.Length > 0) pfd = pfds[0];
-                    }
+                    finally { WaitingScreen.Stop(); }
                 }
-                else
+
+                if (cs.ChangeObjectDescription) UpdateDescription(cs, package);
+
+                //select a resource to display in SimPE
+                pfd = null;
+                if (package != null)
                 {
-                    /*if (br == SimPe.Plugin.CloneSettings.BaseResourceType.Xml)
-                        package = ReColorXObject(br, package, pfd, localgroup, new OWRecolorSettings());
-                    else*/
-                    package = ReColor(br, package, pfd, localgroup, new OWRecolorSettings(), containsonlybaseclone);
-
-                    //select a resource for display in SimPE
-                    pfd = null;
-                    if (package != null)
-                    {
-                        SimPe.Interfaces.Files.IPackedFileDescriptor[] pfds = package.FindFiles(Data.MetaData.TXTR);
-                        if (pfds.Length > 0) pfd = pfds[0];
-                    }
+                    SimPe.Interfaces.Files.IPackedFileDescriptor[] pfds = package.FindFiles(Data.MetaData.OBJD_FILE);
+                    if (pfds.Length > 0) pfd = pfds[0];
                 }
-
-                settings.SetRemoteResult(false);
-                if (settings.OpenWithRemoteControl)
-                {
-                    if (package != null)
-                        if (SimPe.RemoteControl.OpenMemoryPackage(package) && pfd != null)
-                            settings.SetRemoteResult(SimPe.RemoteControl.OpenPackedFile(pfd, package));
-                }
-
-
-                return package;
             }
-            finally { WaitingScreen.Stop(); }
-		}
+            else
+            {
+                /*if (br == SimPe.Plugin.CloneSettings.BaseResourceType.Xml)
+                    package = ReColorXObject(br, package, pfd, localgroup, new OWRecolorSettings());
+                else*/
+                package = ReColor(br, package, pfd, localgroup, new OWRecolorSettings(), containsonlybaseclone);
+
+                //select a resource for display in SimPE
+                pfd = null;
+                if (package != null)
+                {
+                    SimPe.Interfaces.Files.IPackedFileDescriptor[] pfds = package.FindFiles(Data.MetaData.TXTR);
+                    if (pfds.Length > 0) pfd = pfds[0];
+                }
+            }
+
+            settings.SetRemoteResult(false);
+            if (settings.OpenWithRemoteControl)
+            {
+                if (package != null)
+                    if (SimPe.RemoteControl.OpenMemoryPackage(package) && pfd != null)
+                        settings.SetRemoteResult(SimPe.RemoteControl.OpenPackedFile(pfd, package));
+            }
+
+
+            return package;
+        }
 
 		#region Update Object Description
 		/// <summary>

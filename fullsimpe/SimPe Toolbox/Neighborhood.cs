@@ -235,7 +235,7 @@ namespace SimPe.Plugin
                     st.Close();
                     st.Dispose();
                     st = null;
-                    WaitingScreen.UpdateImage(ImageLoader.Preview(img, WaitingScreen.ImageSize));
+                    if (WaitingScreen.Running) WaitingScreen.UpdateImage(ImageLoader.Preview(img, WaitingScreen.ImageSize));
                     this.ilist.Images.Add(img);
                     return;
                 }

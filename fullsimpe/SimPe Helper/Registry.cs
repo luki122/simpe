@@ -831,7 +831,7 @@ namespace SimPe
 			get 
 			{
 				XmlRegistryKey rkf = xrk.CreateSubKey("Settings");
-				object o = rkf.GetValue("WaitingScreenTopMost", true);
+				object o = rkf.GetValue("WaitingScreenTopMost", false);
 				return Convert.ToBoolean(o);
 			}
 			set

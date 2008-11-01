@@ -248,7 +248,7 @@ namespace SimPe.Plugin
 		/// <param name="fullmap">Contains a List of all available MMATs</param>
 		public void ProcessMmatMap(IPackageFile newpkg, Hashtable map, Hashtable fullmap) 
 		{
-			WaitingScreen.UpdateMessage("Loading Slave Subsets");
+			if (WaitingScreen.Running) WaitingScreen.UpdateMessage("Loading Slave Subsets");
 			AddSlavesSubsets(map, fullmap);
 			Hashtable slaves = Scenegraph.GetSlaveSubsets(package);
 
