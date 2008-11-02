@@ -79,7 +79,7 @@ namespace SimPe
 
         private PathProvider()
         {
-            reg = new XmlRegistry(ExpansionFile, true);
+            reg = new XmlRegistry(ExpansionFile, ExpansionFile, true);
             xrk = reg.CurrentUser.CreateSubKey("Expansions");
             exps = new List<ExpansionItem>();
             map = new Dictionary<Expansions, ExpansionItem>();

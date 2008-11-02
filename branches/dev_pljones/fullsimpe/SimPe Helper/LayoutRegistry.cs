@@ -52,7 +52,7 @@ namespace SimPe
 		/// <param name="layoutkey">Key to the Layout</param>
         internal LayoutRegistry(XmlRegistryKey layoutkey)
         {
-            reg = new XmlRegistry(Helper.DataFolder.Layout2XREG, true);
+            reg = new XmlRegistry(Helper.DataFolder.Layout2XREG, Helper.DataFolder.Layout2XREGW, true);
             xrk = reg.CurrentUser.CreateSubKey(@"Software\Ambertation\SimPe\Layout");
         }	
 

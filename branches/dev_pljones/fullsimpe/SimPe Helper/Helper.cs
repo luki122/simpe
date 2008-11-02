@@ -511,33 +511,54 @@ namespace SimPe
                 }
             }
 
-            static string ProfilePath(string s)
+            static string ProfilePath(string s) { return ProfilePath(s, false); }
+            static string ProfilePath(string s, bool readOnly)
             {
                     string path = SimPeDataPath;
-                    if (profile.Length > 0)
+                    if (profile.Length > 0 && readOnly)
                         path = Path.Combine(Path.Combine(path, "Profiles"), profile);
                     return Path.Combine(path, s);
             }
 
             /// <summary>
-            /// The path of the main SimPE settings file
+            /// The path of the main SimPE settings file (write)
             /// </summary>
-            public static string SimPeXREG { get { return ProfilePath("simpe.xreg"); } }
+            public static string SimPeXREGW { get { return ProfilePath("simpe.xreg"); } }
 
             /// <summary>
-            /// The path of the current layout
+            /// The path of the main SimPE settings file (readonly)
             /// </summary>
-            public static string SimPeLayout { get { return ProfilePath("simpe.layout"); } }
+            public static string SimPeXREG { get { return ProfilePath("simpe.xreg", true); } }
 
             /// <summary>
-            /// The path of the layout settings file
+            /// The path of the current layout (write)
             /// </summary>
-            public static string Layout2XREG { get { return ProfilePath("layout2.xreg"); } }
+            public static string SimPeLayoutW { get { return ProfilePath("simpe.layout"); } }
 
             /// <summary>
-            /// The path of the filetable folders file
+            /// The path of the current layout (readonly)
             /// </summary>
-            public static string FoldersXREG { get { return ProfilePath("folders.xreg"); } }
+            public static string SimPeLayout { get { return ProfilePath("simpe.layout", true); } }
+
+            /// <summary>
+            /// The path of the layout settings file (write)
+            /// </summary>
+            public static string Layout2XREGW { get { return ProfilePath("layout2.xreg"); } }
+
+            /// <summary>
+            /// The path of the layout settings file (readonly)
+            /// </summary>
+            public static string Layout2XREG { get { return ProfilePath("layout2.xreg", true); } }
+
+            /// <summary>
+            /// The path of the filetable folders file (write)
+            /// </summary>
+            public static string FoldersXREGW { get { return ProfilePath("folders.xreg"); } }
+
+            /// <summary>
+            /// The path of the filetable folders file (readonly)
+            /// </summary>
+            public static string FoldersXREG { get { return ProfilePath("folders.xreg", true); } }
         }
 
 		/// <summary>

@@ -33,55 +33,54 @@ namespace SimPe
 	public class Commandline
 	{
 		#region Import Data
-		static void CheckXML(string file)
-		{
-			System.Xml.XmlDocument xmlfile = new System.Xml.XmlDocument();
-						
-			if (System.IO.File.Exists(file)) 
-			{
-				xmlfile.Load(file);
-				System.Xml.XmlNodeList XMLData = xmlfile.GetElementsByTagName("registry");	
-			}
-		}
+        static void CheckXML(string file, string elementName)
+        {
+            if (System.IO.File.Exists(file))
+            {
+                System.Xml.XmlDocument xmlfile = new System.Xml.XmlDocument();
+                xmlfile.Load(file);
+                System.Xml.XmlNodeList XMLData = xmlfile.GetElementsByTagName(elementName);
+            }
+        }
+
+        static void CheckFile(string file, string elementName, string filename, string msg)
+        {
+            if (Helper.Profile.Length > 0) msg += " and you will need to re-save profile " + Helper.Profile;
+            try { CheckXML(file, elementName); }
+            catch
+            {
+                if (System.Windows.Forms.MessageBox.Show("The " + filename + " file was not valid XML.\n" +
+                    file + "\n" +
+                    "SimPE can generate a new one (" +
+                    msg + ").\n\nShould SimPe delete the " + filename + " File?"
+                    , "Error",
+                    System.Windows.Forms.MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Error) == System.Windows.Forms.DialogResult.Yes)
+                    System.IO.File.Delete(file);
+            }
+        }
 
 		public static void CheckFiles()
 		{
-			//check if the settings File is available
-            string file = Helper.DataFolder.SimPeXREG;
-			try { CheckXML(file); }
-			catch
-			{
-				if (System.Windows.Forms.MessageBox.Show("The Settings File was not readable. SimPE will generate a new one, which means that all your Settings made in \"Extra->Preferences\" get lost.\n\nShould SimPe reset the Settings File?", "Error", System.Windows.Forms.MessageBoxButtons.YesNo)==System.Windows.Forms.DialogResult.Yes)
-					System.IO.File.Delete(file);
-			}
+			//check if the settings File is valid
+            CheckFile(Helper.DataFolder.SimPeXREG, "registry", "Settings", "your settings made in \"Extra->Preferences\" be reset");
 
-			//check if the layout File is available
-			file = System.IO.Path.Combine(Helper.SimPeDataPath, @"layout.xreg");
-			try 
-			{
-				CheckXML(file);
-			}
-			catch
-			{
-				if (System.Windows.Forms.MessageBox.Show("The Layout File was not readable. SimPE will generate a new one, which means that your Window Layout will be reset to the Default.\n\nShould SimPe reset the Settings File?", "Error", System.Windows.Forms.MessageBoxButtons.YesNo)==System.Windows.Forms.DialogResult.Yes)
-					System.IO.File.Delete(file);
-			}
-		}
+            //check if the layout File is valid
+            CheckFile(Helper.DataFolder.Layout2XREG, "registry", "Window Layout", "your window layout will be reset");
 
+            //check if the layout File is valid
+            CheckFile(Helper.DataFolder.FoldersXREG, "folders", "File table settings", "your file table folder settings will be reset");
+        }
+
+#if ConvertData
 		static bool ConvertData()
 		{
-            string layoutname = Helper.DataFolder.Layout2XREG;
-			if (!System.IO.File.Exists(layoutname))
+			if (!System.IO.File.Exists(Helper.DataFolder.Layout2XREG) || !System.IO.File.Exists(Helper.DataFolder.SimPeLayout))
                 ForceModernLayout();
-
-            if (!System.IO.File.Exists(Helper.DataFolder.SimPeLayout))
-                ForceModernLayout();
-
 
             if (Helper.WindowsRegistry.PreviousEpCount < 3) 
 				Helper.WindowsRegistry.BlurNudityUpdate();
 
-            #region folders.xreg
+        #region folders.xreg
             if (Helper.WindowsRegistry.PreviousVersion < 279174552515) 
 			{
                 string name = Helper.DataFolder.FoldersXREG;
@@ -102,7 +101,7 @@ namespace SimPe
 			}
             #endregion
 
-            #region simpelanguagecache
+        #region simpelanguagecache
             if (Helper.WindowsRegistry.PreviousVersion<236370882908) 
 			{
 				string name = Helper.SimPeLanguageCache;
@@ -131,8 +130,10 @@ namespace SimPe
             }
 
 			return true;
-		}
+        }
+#endif
 
+#if ImportOldData
 		public static bool ImportOldData()
 		{
             try
@@ -183,7 +184,8 @@ namespace SimPe
 
             //return true;
         }
-		#endregion
+#endif
+        #endregion
 
         internal static ICommandLine[] preSplashCommands = new ICommandLine[] {
             new Splash(),
@@ -282,7 +284,7 @@ namespace SimPe
                 if (index >= argv.Count || argv[index].Length == 0) { Message.Show(Help()[0]); return true; }
                 Helper.Profile = argv[index];
                 argv.RemoveAt(index);
-                if (!System.IO.File.Exists(Helper.DataFolder.SimPeXREG)) { Message.Show(Help()[0]); return true; }
+                if (!System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(Helper.DataFolder.SimPeXREG))) { Message.Show(Help()[0]); return true; }
                 return false;
             }
             public string[] Help() { return new string[] { "-profile savedprofilename", null }; }
@@ -317,7 +319,7 @@ namespace SimPe
 			{
 				try 
 				{
-                    System.IO.StreamWriter sw = System.IO.File.CreateText(Helper.DataFolder.Layout2XREG);
+                    System.IO.StreamWriter sw = System.IO.File.CreateText(Helper.DataFolder.Layout2XREGW);
                     sw.BaseStream.SetLength(0);
 					try 
 					{
@@ -344,7 +346,7 @@ namespace SimPe
             {
                 try
                 {
-                    System.IO.FileStream fs = System.IO.File.OpenWrite(Helper.DataFolder.SimPeLayout);
+                    System.IO.FileStream fs = System.IO.File.OpenWrite(Helper.DataFolder.SimPeLayoutW);
                     System.IO.BinaryWriter sw = new System.IO.BinaryWriter(fs);
                     sw.BaseStream.SetLength(0);
                     try

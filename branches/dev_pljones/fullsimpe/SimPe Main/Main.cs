@@ -756,20 +756,30 @@ namespace SimPe
             if (pc.ShowDialog() != DialogResult.OK) return;
             string path = Path.Combine(Helper.DataFolder.Profiles, pc.Value);
 
-            File.Copy(Helper.DataFolder.FoldersXREG, Path.Combine(path, Path.GetFileName(Helper.DataFolder.FoldersXREG)), true);
+            File.Copy(Helper.DataFolder.FoldersXREGW, Path.Combine(path, Path.GetFileName(Helper.DataFolder.FoldersXREG)), true);
 
             Helper.WindowsRegistry.Flush();
-            File.Copy(Helper.DataFolder.Layout2XREG, Path.Combine(path, Path.GetFileName(Helper.DataFolder.Layout2XREG)), true);
-            File.Copy(Helper.DataFolder.SimPeXREG, Path.Combine(path, Path.GetFileName(Helper.DataFolder.SimPeXREG)), true);
+            File.Copy(Helper.DataFolder.Layout2XREGW, Path.Combine(path, Path.GetFileName(Helper.DataFolder.Layout2XREG)), true);
+            File.Copy(Helper.DataFolder.SimPeXREGW, Path.Combine(path, Path.GetFileName(Helper.DataFolder.SimPeXREG)), true);
 
             StoreLayout();
-            File.Copy(Helper.DataFolder.SimPeLayout, Path.Combine(path, Path.GetFileName(Helper.DataFolder.SimPeLayout)), true);
+            File.Copy(Helper.DataFolder.SimPeLayoutW, Path.Combine(path, Path.GetFileName(Helper.DataFolder.SimPeLayout)), true);
 
             MessageBox.Show(
                 Localization.GetString("spWrittenDesc")
                 , Localization.GetString("spWritten")
                 , MessageBoxButtons.OK);
         }
-	}
-			
+
+        private void tsmiSavePrefs_Click(object sender, EventArgs e)
+        {
+            Helper.WindowsRegistry.Flush();
+            StoreLayout();
+
+            MessageBox.Show(
+                Localization.GetString("Done!")
+                , tsmiSavePrefs.Text
+                , MessageBoxButtons.OK);
+        }
+    }
 }
