@@ -1482,13 +1482,13 @@ advised to make no changes and certainly not to save any packages.</value>
     <value>Profile already exists</value>
   </data>
   <data name="spOKCancelExists" xml:space="preserve">
-    <value>OK to overwrite, Cancel to abort</value>
+    <value>OK to overwrite existing profile, Cancel to abort</value>
   </data>
   <data name="spCreate" xml:space="preserve">
-    <value>Create profile</value>
+    <value>Creating new profile</value>
   </data>
   <data name="spOKCancelCreate" xml:space="preserve">
-    <value>OK to overwrite, Cancel to abort</value>
+    <value>OK to create new profile, Cancel to abort</value>
   </data>
   <data name="spWritten" xml:space="preserve">
     <value>Profile written</value>
