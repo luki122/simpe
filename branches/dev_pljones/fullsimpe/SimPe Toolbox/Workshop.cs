@@ -1352,13 +1352,13 @@ namespace SimPe.Plugin
                     npackage.Save();
                     package = npackage;
                 }
+#if DEBUG
+#else
+                if (package != npackage) package = null;
+#endif
 
             }
             finally { WaitingScreen.Stop(this); }
-#if DEBUG
-#else
-			if (package!=npackage) package = null;			
-#endif
         }
 
 		private void rbClone_CheckedChanged(object sender, System.EventArgs e)
