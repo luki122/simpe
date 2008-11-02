@@ -51,7 +51,7 @@ namespace SimPe
 
         private void StoreLayout()
         {
-            Ambertation.Windows.Forms.Serializer.Global.ToFile(Helper.DataFolder.SimPeLayout);
+            Ambertation.Windows.Forms.Serializer.Global.ToFile(Helper.DataFolder.SimPeLayoutW);
             
             MyButtonItem.SetLayoutInformations(this);
 
@@ -79,7 +79,7 @@ namespace SimPe
             if (defaultlayout != null)
             {
                 Ambertation.Windows.Forms.Serializer.Global.FromStream(defaultlayout);
-                Ambertation.Windows.Forms.Serializer.Global.ToFile(Helper.DataFolder.SimPeLayout);
+                Ambertation.Windows.Forms.Serializer.Global.ToFile(Helper.DataFolder.SimPeLayoutW);
             }
             
 

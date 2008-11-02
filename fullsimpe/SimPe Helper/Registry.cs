@@ -91,7 +91,7 @@ namespace SimPe
 		/// </summary>
 		public void Reload()
 		{
-            reg = new XmlRegistry(Helper.DataFolder.SimPeXREG, true);
+            reg = new XmlRegistry(Helper.DataFolder.SimPeXREG, Helper.DataFolder.SimPeXREGW, true);
 			xrk = reg.CurrentUser.CreateSubKey(@"Software\Ambertation\SimPe");
 			ReloadLayout();
 		}

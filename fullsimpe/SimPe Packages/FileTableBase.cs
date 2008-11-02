@@ -29,7 +29,8 @@ namespace SimPe
 		{
             get
             {
-                if (!System.IO.File.Exists(Helper.DataFolder.FoldersXREG)) BuildFolderXml();
+                string filename = Helper.DataFolder.FoldersXREG;
+                if (!System.IO.File.Exists(filename)) { BuildFolderXml(); filename = Helper.DataFolder.FoldersXREGW; } // as that's what we just wrote
 
                 System.Collections.Generic.Dictionary<string, ExpansionItem> shortmap = new System.Collections.Generic.Dictionary<string, ExpansionItem>();
                 foreach (ExpansionItem ei in PathProvider.Global.Expansions)
@@ -42,7 +43,7 @@ namespace SimPe
                 xrs.IgnoreComments = true;
                 xrs.IgnoreProcessingInstructions = true;
                 xrs.IgnoreWhitespace = true;
-                System.Xml.XmlReader xr = System.Xml.XmlReader.Create(Helper.DataFolder.FoldersXREG, xrs);
+                System.Xml.XmlReader xr = System.Xml.XmlReader.Create(filename, xrs);
                 try
                 {
                     xr.ReadStartElement("folders");
@@ -141,7 +142,7 @@ namespace SimPe
                 xws.CloseOutput = true;
                 xws.Indent = true;
                 xws.Encoding = System.Text.Encoding.UTF8;
-                System.Xml.XmlWriter xw = System.Xml.XmlWriter.Create(Helper.DataFolder.FoldersXREG, xws);
+                System.Xml.XmlWriter xw = System.Xml.XmlWriter.Create(Helper.DataFolder.FoldersXREGW, xws);
 
                 try
                 {
@@ -216,7 +217,7 @@ namespace SimPe
                 xws.CloseOutput = true;
                 xws.Indent = true;
                 xws.Encoding = System.Text.Encoding.UTF8;
-                System.Xml.XmlWriter xw = System.Xml.XmlWriter.Create(Helper.DataFolder.FoldersXREG, xws);
+                System.Xml.XmlWriter xw = System.Xml.XmlWriter.Create(Helper.DataFolder.FoldersXREGW, xws);
 
                 try
                 {
