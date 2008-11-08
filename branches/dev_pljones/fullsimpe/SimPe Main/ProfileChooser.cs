@@ -55,23 +55,26 @@ namespace SimPe
         private void ProfileChooser_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason != CloseReason.UserClosing && e.CloseReason != CloseReason.None) return;
+            if (this.DialogResult != DialogResult.OK) return;
 
             string path = Path.Combine(Helper.DataFolder.Profiles, cbProfiles.Text);
             if (!Directory.Exists(path))
-            {
+            {/* // Removed at Inge's request
                 if (MessageBox.Show(
                     Localization.GetString("spOKCancelCreate")
                     , Localization.GetString("spCreate")
                     , MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) != DialogResult.OK) e.Cancel = true;
-                else try
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, Localization.GetString("spCreate"), MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        e.Cancel = true;
-                    }
+                else
+              */
+                try
+                {
+                    Directory.CreateDirectory(path);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, Localization.GetString("spCreate"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    e.Cancel = true;
+                }
             }
             else if (MessageBox.Show(
                 Localization.GetString("spOKCancelExists")
