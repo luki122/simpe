@@ -46,7 +46,8 @@ namespace SimPe
 
 		public WaitingForm()
 		{
-			//
+            System.Diagnostics.Trace.WriteLine("SimPe.WaitingForm..ctor()");
+            //
 			// Erforderlich für die Windows Form-Designerunterstützung
 			//
 			InitializeComponent();
@@ -88,6 +89,7 @@ namespace SimPe
 
         public void SetImage(System.Drawing.Image image)
         {
+            System.Diagnostics.Trace.WriteLine("SimPe.WaitingForm.SetImage()");
             lock (lockObj)
             {
                 if (this.image == image) return;
@@ -99,6 +101,7 @@ namespace SimPe
 
         public void SetMessage(string message)
         {
+            System.Diagnostics.Trace.WriteLine("SimPe.WaitingForm.SetMessage(): " + message);
             lock (lockObj)
             {
                 if (this.message == message) return;
@@ -115,10 +118,12 @@ namespace SimPe
             {
                 if (m.Msg == WM_CHANGE_MESSAGE)
                 {
+                    System.Diagnostics.Trace.WriteLine("SimPe.WaitingForm.WndProc() - WM_CHANGE_MESSAGE: " + message);
                     lbmsg.Text = message;
                 }
                 else if (m.Msg == WM_CHANGE_IMAGE)
                 {
+                    System.Diagnostics.Trace.WriteLine("SimPe.WaitingForm.WndProc() - WM_CHANGE_IMAGE");
                     pb.Image = image;
                     pb.Visible = (image != null);
                     pbsimpe.Visible = (image == null);
@@ -126,8 +131,9 @@ namespace SimPe
                 else if (m.Msg == WM_SHOW_HIDE)
                 {
                     int i = m.WParam.ToInt32();
-                    if (i == 1) { if (!this.Visible) this.ShowDialog(); else Application.DoEvents(); }
-                    else this.Close();
+                    System.Diagnostics.Trace.WriteLine("SimPe.WaitingForm.WndProc() - WM_SHOW_HIDE: " + i);
+                    if (i == 1) this.Show();//{ if (!this.Visible) this.ShowDialog(); else Application.DoEvents(); }
+                    else this.Hide();//this.Close();
                 }
             }
             base.WndProc(ref m);
@@ -135,11 +141,13 @@ namespace SimPe
 
         public void StartSplash()
         {
+            System.Diagnostics.Trace.WriteLine("SimPe.WaitingForm.StartSplash()");
             Ambertation.Windows.Forms.APIHelp.SendMessage(myhandle, WM_SHOW_HIDE, 1, 0);
         }
 
         public void StopSplash()
         {
+            System.Diagnostics.Trace.WriteLine("SimPe.WaitingForm.StopSplash()");
             Ambertation.Windows.Forms.APIHelp.SendMessage(myhandle, WM_SHOW_HIDE, 0, 0);
         }
 
