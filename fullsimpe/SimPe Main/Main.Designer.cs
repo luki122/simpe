@@ -156,6 +156,7 @@ namespace SimPe
             this.dockBottom = new Ambertation.Windows.Forms.DockContainer();
             this.dcPlugin = new Ambertation.Windows.Forms.DockPanel();
             this.dc = new TD.SandDock.TabControl();
+            this.tbTools = new System.Windows.Forms.ToolStrip();
             this.tbAction = new System.Windows.Forms.ToolStrip();
             this.toolBar1 = new System.Windows.Forms.ToolStrip();
             this.biNew = new System.Windows.Forms.ToolStripButton();
@@ -166,7 +167,6 @@ namespace SimPe
             this.biNewDc = new System.Windows.Forms.ToolStripButton();
             this.biUpdate = new System.Windows.Forms.ToolStripButton();
             this.biReset = new System.Windows.Forms.ToolStripButton();
-            this.tbTools = new System.Windows.Forms.ToolStrip();
             this.tbWindow = new System.Windows.Forms.ToolStrip();
             this.dockCenter = new Ambertation.Windows.Forms.DockContainer();
             this.ofd = new System.Windows.Forms.OpenFileDialog();
@@ -196,6 +196,7 @@ namespace SimPe
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.miPref = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSaveProfile = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSavePrefs = new System.Windows.Forms.ToolStripMenuItem();
             this.miWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.menuBarItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.miKBase = new System.Windows.Forms.ToolStripMenuItem();
@@ -208,7 +209,6 @@ namespace SimPe
             this.sfd = new System.Windows.Forms.SaveFileDialog();
             this.waitControl1 = new SimPe.WaitControl();
             this.resourceViewManager1 = new SimPe.Windows.Forms.ResourceViewManager();
-            this.tsmiSavePrefs = new System.Windows.Forms.ToolStripMenuItem();
             this.tbContainer.ContentPanel.SuspendLayout();
             this.tbContainer.TopToolStripPanel.SuspendLayout();
             this.tbContainer.SuspendLayout();
@@ -239,10 +239,10 @@ namespace SimPe
             // 
             // tbContainer.TopToolStripPanel
             // 
-            this.tbContainer.TopToolStripPanel.Controls.Add(this.tbTools);
-            this.tbContainer.TopToolStripPanel.Controls.Add(this.tbAction);
             this.tbContainer.TopToolStripPanel.Controls.Add(this.toolBar1);
+            this.tbContainer.TopToolStripPanel.Controls.Add(this.tbTools);
             this.tbContainer.TopToolStripPanel.Controls.Add(this.tbWindow);
+            this.tbContainer.TopToolStripPanel.Controls.Add(this.tbAction);
             // 
             // manager
             // 
@@ -637,6 +637,11 @@ namespace SimPe
             this.dc.Name = "dc";
             this.dc.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dc_MouseUp);
             // 
+            // tbTools
+            // 
+            resources.ApplyResources(this.tbTools, "tbTools");
+            this.tbTools.Name = "tbTools";
+            // 
             // tbAction
             // 
             resources.ApplyResources(this.tbAction, "tbAction");
@@ -703,11 +708,6 @@ namespace SimPe
             resources.ApplyResources(this.biReset, "biReset");
             this.biReset.Name = "biReset";
             this.biReset.Click += new System.EventHandler(this.Activate_biReset);
-            // 
-            // tbTools
-            // 
-            resources.ApplyResources(this.tbTools, "tbTools");
-            this.tbTools.Name = "tbTools";
             // 
             // tbWindow
             // 
@@ -902,6 +902,12 @@ namespace SimPe
             resources.ApplyResources(this.tsmiSaveProfile, "tsmiSaveProfile");
             this.tsmiSaveProfile.Click += new System.EventHandler(this.tsmiSaveProfile_Click);
             // 
+            // tsmiSavePrefs
+            // 
+            this.tsmiSavePrefs.Name = "tsmiSavePrefs";
+            resources.ApplyResources(this.tsmiSavePrefs, "tsmiSavePrefs");
+            this.tsmiSavePrefs.Click += new System.EventHandler(this.tsmiSavePrefs_Click);
+            // 
             // miWindow
             // 
             this.miWindow.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -990,12 +996,6 @@ namespace SimPe
             this.resourceViewManager1.ListView = this.lv;
             this.resourceViewManager1.Package = null;
             this.resourceViewManager1.TreeView = this.tv;
-            // 
-            // tsmiSavePrefs
-            // 
-            this.tsmiSavePrefs.Name = "tsmiSavePrefs";
-            resources.ApplyResources(this.tsmiSavePrefs, "tsmiSavePrefs");
-            this.tsmiSavePrefs.Click += new System.EventHandler(this.tsmiSavePrefs_Click);
             // 
             // MainForm
             // 
