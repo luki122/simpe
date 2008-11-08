@@ -540,6 +540,11 @@
     <EmbeddedResource Include="welcome-it.rtf" />
     <EmbeddedResource Include="welcome-ru.rtf" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="SimPe.exe.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
