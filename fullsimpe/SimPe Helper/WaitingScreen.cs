@@ -34,15 +34,23 @@ namespace SimPe
         /// <param name="image">the Image to show</param>
         public static void UpdateImage(System.Drawing.Image image) { Screen.doUpdate(image); }
         /// <summary>
-        /// Display a new WaitingScreen image and message
+        /// The WaitingScreen image
         /// </summary>
-        /// <param name="both">the MessageAndImage to show</param>
-        public static void Update(System.Drawing.Image image, string msg) { Screen.doUpdate(image, msg); }
+        public static System.Drawing.Image Image { get { return scr == null ? null : scr.prevImage; } set { Screen.doUpdate(value); } }
         /// <summary>
         /// Display a new WaitingScreen message
         /// </summary>
         /// <param name="msg">The Message to show</param>
         public static void UpdateMessage(string msg) { Screen.doUpdate(msg); }
+        /// <summary>
+        /// The WaitingScreen message
+        /// </summary>
+        public static string Message { get { return scr == null ? "" : scr.prevMessage; } set { Screen.doUpdate(value); } }
+        /// <summary>
+        /// Display a new WaitingScreen image and message
+        /// </summary>
+        /// <param name="both">the MessageAndImage to show</param>
+        public static void Update(System.Drawing.Image image, string msg) { Screen.doUpdate(image, msg); }
         /// <summary>
         /// Show the WaitingScreen
         /// </summary>
@@ -66,10 +74,6 @@ namespace SimPe
         public static System.Drawing.Size ImageSize { get { return new System.Drawing.Size(64, 64); } }
 
 
-        /// <summary>
-        /// Event1: StartThread has created frm and sent SetMessage
-        /// </summary>
-        static System.Threading.ManualResetEvent ev1 = new System.Threading.ManualResetEvent(false);
         static WaitingScreen scr;
         static object lockFrm = new object();
         static object lockScr = new object();
@@ -77,15 +81,11 @@ namespace SimPe
         {
             get
             {
+                System.Diagnostics.Trace.WriteLine("SimPe.WaitingScreen.getScreen");
                 lock (lockScr)
                 {
                     if (scr == null)
-                    {
-                        Application.UseWaitCursor = true;
-                        ev1.Reset();
                         scr = new WaitingScreen();
-                        ev1.WaitOne();
-                    }
                 }
                 return scr;
             }
@@ -96,58 +96,41 @@ namespace SimPe
         System.Drawing.Image prevImage = null;
         string prevMessage = "";
         SimPe.WaitingForm frm;
-        System.Threading.Thread t = null;
 
-        void doUpdate(System.Drawing.Image image) { lock (lockFrm) { prevImage = image; if (frm != null) frm.SetImage(image); } Application.DoEvents(); }
-        void doUpdate(string msg) { lock (lockFrm) { prevMessage = msg; if (frm != null) frm.SetMessage(msg); } Application.DoEvents(); }
+        void doUpdate(System.Drawing.Image image) { System.Diagnostics.Trace.WriteLine("SimPe.WaitingScreen.doUpdate(image)"); lock (lockFrm) { prevImage = image; if (frm != null) frm.SetImage(image); } Application.DoEvents(); }
+        void doUpdate(string msg) { System.Diagnostics.Trace.WriteLine("SimPe.WaitingScreen.doUpdate(message): " + msg); lock (lockFrm) { prevMessage = msg; if (frm != null) frm.SetMessage(msg); } Application.DoEvents(); }
         void doUpdate(System.Drawing.Image image, string msg) { doUpdate(image); doUpdate(msg); }
-        void doWait() { lock (lockFrm) { if (frm != null) frm.StartSplash(); } }
-        void doStop() { Application.UseWaitCursor = false; lock (lockFrm) { if (frm != null) frm.StopSplash(); } }
+        void doWait() { System.Diagnostics.Trace.WriteLine("SimPe.WaitingScreen.doWait()"); Application.UseWaitCursor = true; lock (lockFrm) { if (frm != null) frm.StartSplash(); } }
+        void doStop() { System.Diagnostics.Trace.WriteLine("SimPe.WaitingScreen.doStop()"); Application.UseWaitCursor = false; lock (lockFrm) { if (frm != null) frm.StopSplash(); } }
 
 
 
         private WaitingScreen()
         {
-            System.Diagnostics.Debug.WriteLine("SimPe.WaitingScreen.WaitingScreen()");
+            System.Diagnostics.Trace.WriteLine("SimPe.WaitingScreen..ctor()");
             if (Helper.WindowsRegistry.WaitingScreen)
             {
-                t = new System.Threading.Thread(new System.Threading.ThreadStart(StartThread));
-                System.Diagnostics.Debug.WriteLine("SimPe.WaitingScreen.WaitingScreen() - created thread object");
-                t.Start();
-                System.Diagnostics.Debug.WriteLine("SimPe.WaitingScreen.WaitingScreen() - started thread");
+                lock (lockFrm)
+                {
+                    frm = new SimPe.WaitingForm();
+                    System.Diagnostics.Trace.WriteLine("SimPe.WaitingScreen..ctor() - created new SimPe.WaitingForm()");
+                    frm.FormClosed += new FormClosedEventHandler(frm_FormClosed);
+                    prevImage = frm.Image;
+                    prevMessage = frm.Message;
+                    doUpdate(prevImage, prevMessage);
+                    System.Diagnostics.Trace.WriteLine("SimPe.WaitingScreen..ctor() - set frm.Image and frm.Message");
+                    frm.StartSplash();
+                    System.Diagnostics.Trace.WriteLine("SimPe.WaitingScreen..ctor() - returned from frm.StartSplash()");
+                }
             }
-            else
-                ev1.Set();
-        }
-
-        protected void StartThread()
-        {
-            lock (lockFrm)
-            {
-                System.Diagnostics.Debug.WriteLine("SimPe.WaitingScreen.StartThread()");
-                frm = new SimPe.WaitingForm();
-                System.Diagnostics.Debug.WriteLine("SimPe.WaitingScreen.StartThread() - created new SimPe.WaitingForm()");
-                prevImage = frm.Image;
-                prevMessage = frm.Message;
-                System.Diagnostics.Debug.WriteLine("SimPe.WaitingScreen.StartThread() - set frm.Image and frm.Message");
-                frm.FormClosed += new FormClosedEventHandler(frm_FormClosed);
-            }
-
-            doUpdate(prevImage, prevMessage);
-            System.Diagnostics.Debug.WriteLine("SimPe.WaitingScreen.StartThread() - about to raise ev1");
-            ev1.Set();
-            System.Diagnostics.Debug.WriteLine("SimPe.WaitingScreen.StartThread() - ev1 raised");
-            frm.StartSplash();
-            System.Diagnostics.Debug.WriteLine("SimPe.WaitingScreen.StartThread() - returned from frm.StartSplash()");
         }
 
         void frm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("SimPe.WaitingScreen.frm_FormClosed(...)");
+            System.Diagnostics.Trace.WriteLine("SimPe.WaitingScreen.frm_FormClosed(...)");
+            Application.UseWaitCursor = false;
             lock (lockFrm)
             {
-                //if (t != null) t.Join();
-                t = null;
                 frm = null;
                 lock (lockScr)
                 {
