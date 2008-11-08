@@ -559,6 +559,16 @@ namespace SimPe
             /// The path of the filetable folders file (readonly)
             /// </summary>
             public static string FoldersXREG { get { return ProfilePath("folders.xreg", true); } }
+
+            /// <summary>
+            /// The path of the MRU registry file (write)
+            /// </summary>
+            public static string MRUXREGW { get { return ProfilePath("mru.xreg"); } }
+
+            /// <summary>
+            /// The path of the MRU registry file (readonly)
+            /// </summary>
+            public static string MRUXREG { get { return MRUXREGW; } } // Only one global MRU list, held in the Data folder
         }
 
 		/// <summary>
