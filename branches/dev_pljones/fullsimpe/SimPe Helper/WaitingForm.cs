@@ -132,7 +132,7 @@ namespace SimPe
                 {
                     int i = m.WParam.ToInt32();
                     System.Diagnostics.Trace.WriteLine("SimPe.WaitingForm.WndProc() - WM_SHOW_HIDE: " + i);
-                    if (i == 1) this.Show();//{ if (!this.Visible) this.ShowDialog(); else Application.DoEvents(); }
+                    if (i == 1) { this.Show(); this.Focus(); }//{ if (!this.Visible) this.ShowDialog(); else Application.DoEvents(); }
                     else this.Hide();//this.Close();
                 }
             }
