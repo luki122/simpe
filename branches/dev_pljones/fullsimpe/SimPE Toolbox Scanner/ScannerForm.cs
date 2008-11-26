@@ -897,6 +897,7 @@ namespace SimPe.Plugin
 
             lv.BeginUpdate();
             WaitingScreen.Wait();
+            WaitingScreen.Message = "";
             stopClicked = false;
             try
             {
@@ -965,6 +966,7 @@ namespace SimPe.Plugin
                 scanClicked = Scan;
                 btscan.Enabled = true;
                 WaitingScreen.Stop();
+                WaitingScreen.Message = "";
                 lv.EndUpdate();
             }
 
