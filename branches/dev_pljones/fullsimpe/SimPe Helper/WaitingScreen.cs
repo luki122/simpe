@@ -116,6 +116,7 @@ namespace SimPe
                     if (parent != null) parent.Activated += new EventHandler(parent_Activated);
                 }
                 parent_Activated(null, null);
+                if (frm != null) frm.Owner = form;
             }
         }
 
