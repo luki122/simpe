@@ -192,8 +192,8 @@ namespace SimPe
 
                 doc.Text = wrapper.ResourceName;
 
-
-                Control pan = wrapper.UIHandler.GUIHandle;
+                SimPe.Interfaces.Plugin.IPackedFileUI uiHandler = wrapper.UIHandler;
+                Control pan = uiHandler == null ? null : wrapper.UIHandler.GUIHandle;
                 if (pan != null)
                 {
 
@@ -271,7 +271,9 @@ namespace SimPe
                 //Present the passed Wrapper
                 return Present(fii, wrapper, overload);
             }
+#if !DEBUG
             catch (Exception ex) { Helper.ExceptionMessage(ex); }
+#endif
             finally { }
             return false;
         }
