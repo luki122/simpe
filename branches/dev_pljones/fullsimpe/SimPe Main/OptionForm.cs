@@ -19,6 +19,7 @@
  ***************************************************************************/
 using System;
 using System.Drawing;
+using System.Collections.Generic;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
@@ -68,36 +69,53 @@ namespace SimPe
 
         }
 
+
+        private Dictionary<string, CheckBox> lcb = null;
+        private CheckBox CreateFileTableCheckbox(ref int left, ref int top, string key, string text)
+        {
+            if (left + cbIncCep.Width > cbIncCep.Parent.Width - cbIncCep.Left)
+            {
+                left = cbIncCep.Left;
+                top += cbIncCep.Height - 2;
+            }
+
+            CheckBox cb = new CheckBox();
+
+            cb.SetBounds(left, top, cbIncCep.Width, cbIncCep.Height);
+            left += cb.Width + 4;
+
+            lcb.Add(key, cb);
+            cb.Text = text;
+            cb.CheckedChanged += new System.EventHandler(this.cbIncNightlife_CheckedChanged);
+
+            cb.Visible = true;
+            cb.Parent = cbIncCep.Parent;
+            cb.Font = cbIncCep.Font;
+
+            return cb;
+        }
         private void CreateFileTableCheckboxes()
         {
+            lcb = new Dictionary<string, CheckBox>();
+
             int cwd = cbIncCep.Parent.Width - 2 * cbIncCep.Left + 4;
             cbIncCep.Width = (cwd / 4) - 4;
             int left = cbIncCep.Right + 4;
             int top = cbIncCep.Top;
+
+            CreateFileTableCheckbox(ref left, ref top, "cbIncGraphics", SimPe.Localization.GetString("FileTableIncludeGraphics"));
+
             foreach (ExpansionItem ei in PathProvider.Global.Expansions)
             {
-                if (left + cbIncCep.Width > cbIncCep.Parent.Width -  cbIncCep.Left)
-                {
-                    left = cbIncCep.Left;
-                    top += cbIncCep.Height - 2;
-                }
-
-                CheckBox cb = new CheckBox();
-                cb.Parent = cbIncCep.Parent;
-                cb.SetBounds(left, top, cbIncCep.Width, cbIncCep.Height);
+                CheckBox cb = CreateFileTableCheckbox(ref left, ref top, ei.NameShort,
+                    SimPe.Localization.GetString("FileTableSectionInclude").Replace("{what}", ei.NameShort));
                 cb.Tag = ei;
-                cb.Text = SimPe.Localization.GetString("FileTableSectionInclude").Replace("{what}", ei.NameShort);
-                cb.Visible = true;
-                cb.CheckedChanged += new System.EventHandler(this.cbIncNightlife_CheckedChanged);
-                cb.Font = cbIncCep.Font;
 
                 if (!ei.Exists)
                 {
                     cb.CheckState = CheckState.Unchecked;
                     cb.Enabled = false;
                 }
-
-                left += cb.Width + 4;                
             }
 
             top += cbIncCep.Height + 2;
@@ -1054,17 +1072,7 @@ namespace SimPe
             cbSimTemp.Enabled = cbDeep.Checked;
         }
 
-        private void lbfolder_ItemCheck(object sender, System.Windows.Forms.ItemCheckEventArgs e)
-        {
-            if (this.Tag != null) return;
-            if (lbfolder.SelectedItem == null) return;
-
-            //((FileTableItem)lbfolder.SelectedItem).Ignore = !((FileTableItem)lbfolder.SelectedItem).Ignore;
-            ((FileTableItem)lbfolder.SelectedItem).Ignore = e.NewValue != CheckState.Checked;
-            btReload.Enabled = true;
-            SetupFileTableCheckboxes();
-        }
-
+        #region Simpe FileTable Settings
         private void lbfolder_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             btdn.Enabled = lbfolder.SelectedIndex < lbfolder.Items.Count - 1;
@@ -1089,20 +1097,8 @@ namespace SimPe
             }
         }
 
-        private void linkLabel6_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
-        {
-            FileTable.BuildFolderXml();
-            FileTable.FileIndex.BaseFolders.Clear();
-            FileTable.FileIndex.BaseFolders = FileTable.DefaultFolders;
 
-            RebuildFileTableList();
-
-            btReload.Enabled = true;
-            SetupFileTableCheckboxes();
-        }
-
-        #region Simple FileTable Settings
-        bool isCEP(FileTableItem fti)
+        private static bool isCEP(FileTableItem fti)
         {
             if (fti.IsFile)
             {
@@ -1126,31 +1122,75 @@ namespace SimPe
             return false;
         }
 
-        void SetupFileTableCheckboxes(CheckBox cb, FileTableItemType epver, bool cep)
+        private static bool IsFtiGraphic(FileTableItem fti)
+        {
+            string cfn = Helper.CompareableFileName(fti.Name);
+            return isCEP(fti) ||
+                cfn.EndsWith("\\3d") || cfn.EndsWith("\\sims3d") || cfn.EndsWith("\\skins") ||
+                cfn.EndsWith("\\materials") || cfn.EndsWith("\\patterns");
+        }
+
+        private bool IsMatch(CheckBox cb, FileTableItem fti, FileTableItemType epver)
+        {
+            if (isCEP(fti)) return cb == this.cbIncCep;
+            if (cb == lcb["cbIncGraphics"]) return IsFtiGraphic(fti);
+            return fti.Type == epver;
+        }
+
+        private void SetupFileTableCheckboxes(CheckBox cb, FileTableItemType epver)
         {
             if (this.cbIncCep.Tag != null) return;
+
             int found = 0;
             int ignored = 0;
 
-
             foreach (FileTableItem fti in lbfolder.Items)
-            {
-                bool ftiIsCEP = isCEP(fti);
-                if ((ftiIsCEP && cep) || (!ftiIsCEP && fti.Type == epver))
+                if (IsMatch(cb, fti, epver))
                 {
                     found++;
                     if (fti.Ignore) ignored++;
                 }
-            }
 
             this.cbIncCep.Tag = true;
-            if (ignored == 0) cb.CheckState = CheckState.Checked;
-            else if (ignored != found) cb.CheckState = CheckState.Indeterminate;
-            else cb.CheckState = CheckState.Unchecked;
+            cb.CheckState = ignored == 0 ? CheckState.Checked : ignored == found ? CheckState.Unchecked : CheckState.Indeterminate;
             this.cbIncCep.Tag = null;
         }
 
-        void ChangeFileTable(CheckBox cb, FileTableItemType epver, bool cep)
+        private void SetupFileTableCheckboxes()
+        {
+            SetupFileTableCheckboxes(this.cbIncCep, null);
+            SetupFileTableCheckboxes(lcb["cbIncGraphics"], null);
+            foreach (CheckBox cb in lcb.Values)
+            {
+                ExpansionItem ei = cb.Tag as ExpansionItem;
+                if (ei != null) SetupFileTableCheckboxes(cb, ei.Expansion);
+            }
+        }
+
+        private void linkLabel6_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+        {
+            FileTable.BuildFolderXml();
+            FileTable.FileIndex.BaseFolders.Clear();
+            FileTable.FileIndex.BaseFolders = FileTable.DefaultFolders;
+
+            RebuildFileTableList();
+
+            btReload.Enabled = true;
+            SetupFileTableCheckboxes();
+        }
+
+        private void lbfolder_ItemCheck(object sender, System.Windows.Forms.ItemCheckEventArgs e)
+        {
+            if (this.Tag != null) return;
+            if (lbfolder.SelectedItem == null) return;
+
+            ((FileTableItem)lbfolder.SelectedItem).Ignore = e.NewValue != CheckState.Checked;
+            btReload.Enabled = true;
+            SetupFileTableCheckboxes();
+        }
+
+
+        void ChangeFileTable(CheckBox cb, FileTableItemType epver)
         {
             bool firstobjpkg = true;
             this.cbIncCep.Tag = true;
@@ -1158,11 +1198,11 @@ namespace SimPe
             {
                 FileTableItem fti = (FileTableItem)lbfolder.Items[i];
 
-                bool ftiIsCEP = isCEP(fti);
-                if ((ftiIsCEP && cep) || (!ftiIsCEP && fti.Type == epver))
+                if (IsMatch(cb, fti, epver))
                     lbfolder.SetItemChecked(i, cb.CheckState != CheckState.Unchecked);
-
                 fti.Ignore = !lbfolder.GetItemChecked(i);
+
+                #region I have no idea what this section of code does
                 ExpansionItem ei = null;
                 bool fullobj = true;
                 int thisepver = FileTableItem.GetEPVersion(fti.Type);
@@ -1171,7 +1211,7 @@ namespace SimPe
                     ei = PathProvider.Global.GetExpansion(thisepver);
                     fullobj = ei.Flag.FullObjectsPackage;
                 }
-                if (fti.Exists && !fti.Ignore && fullobj && (Helper.CompareableFileName(fti.Name).EndsWith("\\objects") || Helper.CompareableFileName(fti.Name).EndsWith("\\objects\\")))
+                if (fti.Exists && !fti.Ignore && fullobj && (Helper.CompareableFileName(fti.Name).EndsWith("\\objects")))
                 {
                     if (firstobjpkg)
                     {
@@ -1188,24 +1228,9 @@ namespace SimPe
 
                     lbfolder.Items[i] = fti;
                 }
-
+                #endregion
             }
             this.cbIncCep.Tag = null;
-        }
-
-        void SetupFileTableCheckboxes()
-        {
-            foreach (Control c in cbIncCep.Parent.Controls)
-            {
-                CheckBox cb = c as CheckBox;
-                if (cb == null) continue;
-                if (cb.Tag == null) continue;
-                ExpansionItem ei = cb.Tag as ExpansionItem;
-                if (ei == null) continue;
-                SetupFileTableCheckboxes(cb, ei.Expansion, false);
-                
-            }
-            SetupFileTableCheckboxes(this.cbIncCep, FileTablePaths.Absolute, true);
         }
 
         private void cbIncNightlife_CheckedChanged(object sender, System.EventArgs e)
@@ -1216,9 +1241,11 @@ namespace SimPe
             this.Tag = true;
 
             btReload.Enabled = true;
-            if (cb == this.cbIncCep) ChangeFileTable(cb, FileTablePaths.Absolute, true);
+            if (cb == this.cbIncCep) ChangeFileTable(cb, null);
+            else if (cb == lcb["cbIncGraphics"]) ChangeFileTable(cb, null);
             else
             {
+                #region FileTableSimpleSelectUseGroups
                 ExpansionItem ei = cb.Tag as ExpansionItem;
                 if (cb.Checked && Helper.WindowsRegistry.FileTableSimpleSelectUseGroups)
                 {
@@ -1233,12 +1260,13 @@ namespace SimPe
                         }
                     } //foreach
                 }
-                ChangeFileTable(cb, ei.Expansion, false);
+                #endregion
+                ChangeFileTable(cb, ei.Expansion);
             }
 
             this.Tag = null;
+            SetupFileTableCheckboxes();
         }
-
         #endregion
 
         private void cbLock_CheckedChanged(object sender, System.EventArgs e)
