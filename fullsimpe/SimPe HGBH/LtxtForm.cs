@@ -172,8 +172,9 @@ namespace SimPe.Plugin
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.label26 = new System.Windows.Forms.Label();
-            this.btnDelApt = new System.Windows.Forms.Button();
+            this.flpAptBtns = new System.Windows.Forms.FlowLayoutPanel();
             this.btnAddApt = new System.Windows.Forms.Button();
+            this.btnDelApt = new System.Windows.Forms.Button();
             this.lbApts = new System.Windows.Forms.ListBox();
             this.gbApartment = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
@@ -245,13 +246,13 @@ namespace SimPe.Plugin
             this.panel2 = new System.Windows.Forms.Panel();
             this.label27 = new System.Windows.Forms.Label();
             this.pb = new System.Windows.Forms.PictureBox();
-            this.flpAptBtns = new System.Windows.Forms.FlowLayoutPanel();
             this.ltxtPanel.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.flowLayoutPanel4.SuspendLayout();
+            this.flpAptBtns.SuspendLayout();
             this.gbApartment.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
@@ -262,7 +263,6 @@ namespace SimPe.Plugin
             this.tableLayoutPanel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb)).BeginInit();
-            this.flpAptBtns.SuspendLayout();
             this.SuspendLayout();
             // 
             // ltxtPanel
@@ -281,7 +281,6 @@ namespace SimPe.Plugin
             this.ltxtPanel.Controls.Add(this.panel2);
             this.ltxtPanel.Controls.Add(this.pb);
             this.ltxtPanel.Name = "ltxtPanel";
-            this.ltxtPanel.Enter += new System.EventHandler(this.LtxtPanel_Enter);
             // 
             // tableLayoutPanel7
             // 
@@ -363,12 +362,12 @@ namespace SimPe.Plugin
             this.flowLayoutPanel4.SetFlowBreak(this.label26, true);
             this.label26.Name = "label26";
             // 
-            // btnDelApt
+            // flpAptBtns
             // 
-            resources.ApplyResources(this.btnDelApt, "btnDelApt");
-            this.btnDelApt.Name = "btnDelApt";
-            this.btnDelApt.UseVisualStyleBackColor = true;
-            this.btnDelApt.Click += new System.EventHandler(this.btnDelApt_Click);
+            resources.ApplyResources(this.flpAptBtns, "flpAptBtns");
+            this.flpAptBtns.Controls.Add(this.btnAddApt);
+            this.flpAptBtns.Controls.Add(this.btnDelApt);
+            this.flpAptBtns.Name = "flpAptBtns";
             // 
             // btnAddApt
             // 
@@ -376,6 +375,13 @@ namespace SimPe.Plugin
             this.btnAddApt.Name = "btnAddApt";
             this.btnAddApt.UseVisualStyleBackColor = true;
             this.btnAddApt.Click += new System.EventHandler(this.btnAddApt_Click);
+            // 
+            // btnDelApt
+            // 
+            resources.ApplyResources(this.btnDelApt, "btnDelApt");
+            this.btnDelApt.Name = "btnDelApt";
+            this.btnDelApt.UseVisualStyleBackColor = true;
+            this.btnDelApt.Click += new System.EventHandler(this.btnDelApt_Click);
             // 
             // lbApts
             // 
@@ -902,19 +908,11 @@ namespace SimPe.Plugin
             this.pb.Name = "pb";
             this.pb.TabStop = false;
             // 
-            // flpAptBtns
-            // 
-            resources.ApplyResources(this.flpAptBtns, "flpAptBtns");
-            this.flpAptBtns.Controls.Add(this.btnAddApt);
-            this.flpAptBtns.Controls.Add(this.btnDelApt);
-            this.flpAptBtns.Name = "flpAptBtns";
-            // 
             // LtxtForm
             // 
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.ltxtPanel);
             this.Name = "LtxtForm";
-            this.Activated += new System.EventHandler(this.LtxtPanel_Enter);
             this.ltxtPanel.ResumeLayout(false);
             this.ltxtPanel.PerformLayout();
             this.tableLayoutPanel7.ResumeLayout(false);
@@ -927,6 +925,8 @@ namespace SimPe.Plugin
             this.tableLayoutPanel5.PerformLayout();
             this.flowLayoutPanel4.ResumeLayout(false);
             this.flowLayoutPanel4.PerformLayout();
+            this.flpAptBtns.ResumeLayout(false);
+            this.flpAptBtns.PerformLayout();
             this.gbApartment.ResumeLayout(false);
             this.gbApartment.PerformLayout();
             this.tableLayoutPanel8.ResumeLayout(false);
@@ -946,8 +946,6 @@ namespace SimPe.Plugin
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb)).EndInit();
-            this.flpAptBtns.ResumeLayout(false);
-            this.flpAptBtns.PerformLayout();
             this.ResumeLayout(false);
 
 		}
@@ -1202,12 +1200,6 @@ namespace SimPe.Plugin
             if (pfd == null) return;
 
             SimPe.RemoteControl.OpenPackedFile(pfd, wrapper.Package);
-        }
-
-        private void LtxtPanel_Enter(object sender, EventArgs e)
-        {
-            flpAptBtns.Visible = (wrapper.Version >= LtxtVersion.Apartment || wrapper.SubVersion >= LtxtSubVersion.Apartment)
-                && !Helper.WindowsRegistry.HiddenMode;
         }
 
         private void btnAddApt_Click(object sender, EventArgs e)

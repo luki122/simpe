@@ -2209,7 +2209,7 @@
     <value>cborient</value>
   </data>
   <data name="&gt;&gt;cborient.Type" xml:space="preserve">
-    <value>Ambertation.Windows.Forms.EnumComboBox, EnumComboBox, Version=1.0.3249.23839, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ambertation.Windows.Forms.EnumComboBox, EnumComboBox, Version=1.0.3251.27173, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;cborient.Parent" xml:space="preserve">
     <value>flowLayoutPanel1</value>

@@ -160,6 +160,8 @@ namespace SimPe.Plugin
                 !form.lbApts.Enabled;
 
             form.llAptBase.Enabled = (wrp.ApartmentBase != 0);
+            form.flpAptBtns.Visible = (wrp.Version >= LtxtVersion.Apartment || wrp.SubVersion >= LtxtSubVersion.Apartment)
+                && !Helper.WindowsRegistry.HiddenMode;
             form.flpAptBtns.Enabled = (wrp.ApartmentBase == 0);
             form.btnDelApt.Enabled = form.llFamily.Enabled = form.llSubLot.Enabled = false;
 
