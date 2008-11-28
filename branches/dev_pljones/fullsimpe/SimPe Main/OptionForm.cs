@@ -35,97 +35,45 @@ namespace SimPe
 
         public OptionForm()
         {
-            //
-            // Erforderlich für die Windows Form-Designerunterstützung
-            //
-            InitializeComponent();
-
-            this.cbRLExt.ResourceManager = SimPe.Localization.Manager;
-            this.cbRLNames.ResourceManager = SimPe.Localization.Manager;
-            this.cbRLTGI.ResourceManager = SimPe.Localization.Manager;
-
-            this.cbRLExt.Enum = typeof(SimPe.Registry.ResourceListExtensionFormats);
-            this.cbRLNames.Enum = typeof(SimPe.Registry.ResourceListFormats);
-            this.cbRLTGI.Enum = typeof(SimPe.Registry.ResourceListUnnamedFormats);
-            this.pgPaths.SelectedObject = SimPe.PathSettings.Global;
-
-
-            for (byte i = 1; i < 0x44; i++) this.cblang.Items.Add(new SimPe.PackedFiles.Wrapper.StrLanguage(i));
-            SelectCategory(nbFolders, null);
-
-            SimPe.GuiTheme[] gts = (SimPe.GuiTheme[])System.Enum.GetValues(typeof(SimPe.GuiTheme));
-            foreach (SimPe.GuiTheme gt in gts) cbThemes.Items.Add(gt);
-            cbThemes.SelectedIndex = 0;
-
-            SimPe.Registry.ReportFormats[] rfs = (SimPe.Registry.ReportFormats[])System.Enum.GetValues(typeof(SimPe.Registry.ReportFormats));
-            foreach (SimPe.Registry.ReportFormats rf in rfs) cbReport.Items.Add(rf);
-            cbReport.SelectedIndex = 0;
-
-            foreach (SimPe.Interfaces.ISettings settings in FileTable.SettingsRegistry.Settings)
-                this.cbCustom.Items.Add(settings);
-            if (cbCustom.Items.Count > 0) cbCustom.SelectedIndex = 0;
-
-            CreateFileTableCheckboxes();
-
-        }
-
-
-        private Dictionary<string, CheckBox> lcb = null;
-        private CheckBox CreateFileTableCheckbox(ref int left, ref int top, string key, string text)
-        {
-            if (left + cbIncCep.Width > cbIncCep.Parent.Width - cbIncCep.Left)
+            Application.UseWaitCursor = true;
+            try
             {
-                left = cbIncCep.Left;
-                top += cbIncCep.Height - 2;
+                Application.DoEvents();
+                //
+                // Erforderlich für die Windows Form-Designerunterstützung
+                //
+                InitializeComponent();
+
+                this.cbRLExt.ResourceManager = SimPe.Localization.Manager;
+                this.cbRLNames.ResourceManager = SimPe.Localization.Manager;
+                this.cbRLTGI.ResourceManager = SimPe.Localization.Manager;
+
+                this.cbRLExt.Enum = typeof(SimPe.Registry.ResourceListExtensionFormats);
+                this.cbRLNames.Enum = typeof(SimPe.Registry.ResourceListFormats);
+                this.cbRLTGI.Enum = typeof(SimPe.Registry.ResourceListUnnamedFormats);
+                this.pgPaths.SelectedObject = SimPe.PathSettings.Global;
+
+
+                for (byte i = 1; i < 0x44; i++) this.cblang.Items.Add(new SimPe.PackedFiles.Wrapper.StrLanguage(i));
+                SelectCategory(nbFolders, null);
+
+                SimPe.GuiTheme[] gts = (SimPe.GuiTheme[])System.Enum.GetValues(typeof(SimPe.GuiTheme));
+                foreach (SimPe.GuiTheme gt in gts) cbThemes.Items.Add(gt);
+                cbThemes.SelectedIndex = 0;
+
+                SimPe.Registry.ReportFormats[] rfs = (SimPe.Registry.ReportFormats[])System.Enum.GetValues(typeof(SimPe.Registry.ReportFormats));
+                foreach (SimPe.Registry.ReportFormats rf in rfs) cbReport.Items.Add(rf);
+                cbReport.SelectedIndex = 0;
+
+                foreach (SimPe.Interfaces.ISettings settings in FileTable.SettingsRegistry.Settings)
+                    this.cbCustom.Items.Add(settings);
+                if (cbCustom.Items.Count > 0) cbCustom.SelectedIndex = 0;
+
+                CreateFileTableCheckboxes();
             }
-
-            CheckBox cb = new CheckBox();
-
-            cb.SetBounds(left, top, cbIncCep.Width, cbIncCep.Height);
-            left += cb.Width + 4;
-
-            lcb.Add(key, cb);
-            cb.Text = text;
-            cb.CheckedChanged += new System.EventHandler(this.cbIncNightlife_CheckedChanged);
-
-            cb.Visible = true;
-            cb.Parent = cbIncCep.Parent;
-            cb.Font = cbIncCep.Font;
-
-            return cb;
-        }
-        private void CreateFileTableCheckboxes()
-        {
-            lcb = new Dictionary<string, CheckBox>();
-
-            int cwd = cbIncCep.Parent.Width - 2 * cbIncCep.Left + 4;
-            cbIncCep.Width = (cwd / 4) - 4;
-            int left = cbIncCep.Right + 4;
-            int top = cbIncCep.Top;
-
-            CreateFileTableCheckbox(ref left, ref top, "cbIncGraphics", SimPe.Localization.GetString("FileTableIncludeGraphics"));
-
-            foreach (ExpansionItem ei in PathProvider.Global.Expansions)
-            {
-                CheckBox cb = CreateFileTableCheckbox(ref left, ref top, ei.NameShort,
-                    SimPe.Localization.GetString("FileTableSectionInclude").Replace("{what}", ei.NameShort));
-                cb.Tag = ei;
-
-                if (!ei.Exists)
-                {
-                    cb.CheckState = CheckState.Unchecked;
-                    cb.Enabled = false;
-                }
-            }
-
-            top += cbIncCep.Height + 2;
-            groupBox8.Height = top;
-            groupBox9.Top = groupBox8.Bottom + 8;
-            groupBox9.Height = hcFileTable.Height - groupBox9.Top - 8;
+            finally { Application.UseWaitCursor = false; }
         }
 
-
-        
 
         void Execute()
         {
@@ -350,65 +298,6 @@ namespace SimPe
         private void LoadDDS(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
         {
             System.Windows.Forms.Help.ShowHelp(this, "http://developer.nvidia.com/object/nv_texture_tools.html");
-        }
-
-        private void lladddown_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
-        {
-            FileTableItem fti = new FileTableItem("Downloads", true, false, -1);
-            fti.Name = System.IO.Path.Combine(PathProvider.SimSavegameFolder, "Downloads");
-            fti.Type = FileTablePaths.SaveGameFolder;
-            lbfolder.Items.Insert(0, fti);
-            this.btReload.Enabled = true;
-            SetupFileTableCheckboxes();
-        }
-
-        private void btup_Click(object sender, System.EventArgs e)
-        {
-            if (lbfolder.SelectedIndex < 1) return;
-            object o = lbfolder.Items[lbfolder.SelectedIndex - 1];
-            lbfolder.Items[lbfolder.SelectedIndex - 1] = lbfolder.Items[lbfolder.SelectedIndex];
-            lbfolder.Items[lbfolder.SelectedIndex] = o;
-
-            bool sel = lbfolder.GetItemChecked(lbfolder.SelectedIndex - 1);
-            lbfolder.SetItemChecked(lbfolder.SelectedIndex - 1, lbfolder.GetItemChecked(lbfolder.SelectedIndex));
-            lbfolder.SetItemChecked(lbfolder.SelectedIndex, sel);
-
-            lbfolder.SelectedIndex--;
-            this.btReload.Enabled = true;
-        }
-
-        private void btdn_Click(object sender, System.EventArgs e)
-        {
-            if (lbfolder.SelectedIndex > lbfolder.Items.Count - 2) return;
-            object o = lbfolder.Items[lbfolder.SelectedIndex + 1];
-            lbfolder.Items[lbfolder.SelectedIndex + 1] = lbfolder.Items[lbfolder.SelectedIndex];
-            lbfolder.Items[lbfolder.SelectedIndex] = o;
-
-            bool sel = lbfolder.GetItemChecked(lbfolder.SelectedIndex + 1);
-            lbfolder.SetItemChecked(lbfolder.SelectedIndex + 1, lbfolder.GetItemChecked(lbfolder.SelectedIndex));
-            lbfolder.SetItemChecked(lbfolder.SelectedIndex, sel);
-
-            lbfolder.SelectedIndex++;
-            this.btReload.Enabled = true;
-        }
-
-        private void lldel_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
-        {
-            if (lbfolder.SelectedIndex < 0) return;
-            lbfolder.Items.RemoveAt(lbfolder.SelectedIndex);
-            this.btReload.Enabled = true;
-            SetupFileTableCheckboxes();
-        }
-
-        private void lladd_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
-        {
-            FileTableItem fti = FileTableItemForm.Execute();
-            if (fti != null)
-            {
-                lbfolder.Items.Insert(0, fti);
-                this.btReload.Enabled = true;
-                SetupFileTableCheckboxes();
-            }
         }
 
         private void visualStyleLinkLabel1_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
@@ -1056,36 +945,103 @@ namespace SimPe
             cbblur.Checked = Helper.WindowsRegistry.BlurNudity;
         }
 
-        private void llchg_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
-        {
-            if (lbfolder.SelectedItem != null)
-                if (FileTableItemForm.Execute((FileTableItem)lbfolder.SelectedItem))
-                {
-                    lbfolder.Items[lbfolder.SelectedIndex] = (FileTableItem)lbfolder.SelectedItem;
-                    this.btReload.Enabled = true;
-                    SetupFileTableCheckboxes();
-                }
-        }
-
         private void cbDeep_CheckedChanged(object sender, System.EventArgs e)
         {
             cbSimTemp.Enabled = cbDeep.Checked;
         }
 
         #region Simpe FileTable Settings
-        private void lbfolder_SelectedIndexChanged(object sender, System.EventArgs e)
+        private Dictionary<string, CheckBox> lcb = null;
+        private CheckBox CreateFileTableCheckbox(ref int left, ref int top, string key, string text)
         {
-            btdn.Enabled = lbfolder.SelectedIndex < lbfolder.Items.Count - 1;
-            btup.Enabled = lbfolder.SelectedIndex > 0;
+            if (left + cbIncCep.Width > cbIncCep.Parent.Width - cbIncCep.Left)
+            {
+                left = cbIncCep.Left;
+                top += cbIncCep.Height - 2;
+            }
+
+            CheckBox cb = new CheckBox();
+
+            cb.SetBounds(left, top, cbIncCep.Width, cbIncCep.Height);
+            left += cb.Width + 4;
+
+            lcb.Add(key, cb);
+            cb.Text = text;
+            cb.CheckedChanged += new System.EventHandler(this.cbIncNightlife_CheckedChanged);
+
+            cb.Visible = true;
+            cb.Parent = cbIncCep.Parent;
+            cb.Font = cbIncCep.Font;
+
+            return cb;
         }
+        private void CreateFileTableCheckboxes()
+        {
+            this.Enabled = false;
+            try
+            {
+                lcb = new Dictionary<string, CheckBox>();
+
+                int cwd = cbIncCep.Parent.Width - 2 * cbIncCep.Left + 4;
+                cbIncCep.Width = (cwd / 4) - 4;
+                int left = cbIncCep.Right + 4;
+                int top = cbIncCep.Top;
+
+                CreateFileTableCheckbox(ref left, ref top, "cbIncGraphics", SimPe.Localization.GetString("FileTableIncludeGraphics"));
+
+                foreach (ExpansionItem ei in PathProvider.Global.Expansions)
+                {
+                    CheckBox cb = CreateFileTableCheckbox(ref left, ref top, ei.NameShort,
+                        SimPe.Localization.GetString("FileTableSectionInclude").Replace("{what}", ei.NameShort));
+                    cb.Tag = ei;
+
+                    if (!ei.Exists)
+                    {
+                        cb.CheckState = CheckState.Unchecked;
+                        cb.Enabled = false;
+                    }
+                }
+
+                top += cbIncCep.Height + 2;
+                groupBox8.Height = top;
+                groupBox9.Top = groupBox8.Bottom + 8;
+                groupBox9.Height = hcFileTable.Height - groupBox9.Top - 8;
+            }
+            finally { this.Enabled = true; }
+        }
+
+
+
 
         private void btReload_Click(object sender, System.EventArgs e)
         {
-            System.Collections.Generic.List<FileTableItem> lfti = new System.Collections.Generic.List<FileTableItem>();
-            foreach (FileTableItem fti in lbfolder.Items) lfti.Add(fti);
-            FileTable.StoreFoldersXml(lfti);
-            FileTable.Reload();
-            btReload.Enabled = false;
+            this.Enabled = false;
+            try
+            {
+                System.Collections.Generic.List<FileTableItem> lfti = new System.Collections.Generic.List<FileTableItem>();
+                foreach (FileTableItem fti in lbfolder.Items) lfti.Add(fti);
+                FileTable.StoreFoldersXml(lfti);
+                FileTable.Reload();
+                btReload.Enabled = false;
+            }
+            finally { this.Enabled = true; }
+        }
+
+        private void linkLabel6_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+        {
+            this.Enabled = false;
+            try
+            {
+                FileTable.BuildFolderXml();
+                FileTable.FileIndex.BaseFolders.Clear();
+                FileTable.FileIndex.BaseFolders = FileTable.DefaultFolders;
+
+                RebuildFileTableList();
+
+                btReload.Enabled = true;
+                SetupFileTableCheckboxes();
+            }
+            finally { this.Enabled = true; }
         }
 
         void RebuildFileTableList()
@@ -1145,11 +1101,13 @@ namespace SimPe
             int ignored = 0;
 
             foreach (FileTableItem fti in lbfolder.Items)
+            {
                 if (IsMatch(cb, fti, epver))
                 {
                     found++;
                     if (fti.Ignore) ignored++;
                 }
+            }
 
             this.cbIncCep.Tag = true;
             cb.CheckState = ignored == 0 ? CheckState.Checked : ignored == found ? CheckState.Unchecked : CheckState.Indeterminate;
@@ -1167,26 +1125,66 @@ namespace SimPe
             }
         }
 
-        private void linkLabel6_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
-        {
-            FileTable.BuildFolderXml();
-            FileTable.FileIndex.BaseFolders.Clear();
-            FileTable.FileIndex.BaseFolders = FileTable.DefaultFolders;
-
-            RebuildFileTableList();
-
-            btReload.Enabled = true;
-            SetupFileTableCheckboxes();
-        }
-
         private void lbfolder_ItemCheck(object sender, System.Windows.Forms.ItemCheckEventArgs e)
         {
             if (this.Tag != null) return;
             if (lbfolder.SelectedItem == null) return;
 
-            ((FileTableItem)lbfolder.SelectedItem).Ignore = e.NewValue != CheckState.Checked;
-            btReload.Enabled = true;
-            SetupFileTableCheckboxes();
+            this.Enabled = false;
+            try
+            {
+                ((FileTableItem)lbfolder.SelectedItem).Ignore = e.NewValue != CheckState.Checked;
+                btReload.Enabled = true;
+                SetupFileTableCheckboxes();
+            }
+            finally { this.Enabled = true; }
+        }
+
+
+        private void lbfolder_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            btdn.Enabled = lbfolder.SelectedIndex < lbfolder.Items.Count - 1;
+            btup.Enabled = lbfolder.SelectedIndex > 0;
+        }
+
+        private void btup_Click(object sender, System.EventArgs e)
+        {
+            if (lbfolder.SelectedIndex < 1) return;
+            this.Enabled = false;
+            try
+            {
+                object o = lbfolder.Items[lbfolder.SelectedIndex - 1];
+                lbfolder.Items[lbfolder.SelectedIndex - 1] = lbfolder.Items[lbfolder.SelectedIndex];
+                lbfolder.Items[lbfolder.SelectedIndex] = o;
+
+                bool sel = lbfolder.GetItemChecked(lbfolder.SelectedIndex - 1);
+                lbfolder.SetItemChecked(lbfolder.SelectedIndex - 1, lbfolder.GetItemChecked(lbfolder.SelectedIndex));
+                lbfolder.SetItemChecked(lbfolder.SelectedIndex, sel);
+
+                lbfolder.SelectedIndex--;
+                this.btReload.Enabled = true;
+            }
+            finally { this.Enabled = true; }
+        }
+
+        private void btdn_Click(object sender, System.EventArgs e)
+        {
+            if (lbfolder.SelectedIndex > lbfolder.Items.Count - 2) return;
+            this.Enabled = false;
+            try
+            {
+                object o = lbfolder.Items[lbfolder.SelectedIndex + 1];
+                lbfolder.Items[lbfolder.SelectedIndex + 1] = lbfolder.Items[lbfolder.SelectedIndex];
+                lbfolder.Items[lbfolder.SelectedIndex] = o;
+
+                bool sel = lbfolder.GetItemChecked(lbfolder.SelectedIndex + 1);
+                lbfolder.SetItemChecked(lbfolder.SelectedIndex + 1, lbfolder.GetItemChecked(lbfolder.SelectedIndex));
+                lbfolder.SetItemChecked(lbfolder.SelectedIndex, sel);
+
+                lbfolder.SelectedIndex++;
+                this.btReload.Enabled = true;
+            }
+            finally { this.Enabled = true; }
         }
 
 
@@ -1235,37 +1233,102 @@ namespace SimPe
 
         private void cbIncNightlife_CheckedChanged(object sender, System.EventArgs e)
         {
-            CheckBox cb = (CheckBox)sender;
             if (this.cbIncCep.Tag != null) return;
-
-            this.Tag = true;
-
-            btReload.Enabled = true;
-            if (cb == this.cbIncCep) ChangeFileTable(cb, null);
-            else if (cb == lcb["cbIncGraphics"]) ChangeFileTable(cb, null);
-            else
+            this.Enabled = false;
+            try
             {
-                #region FileTableSimpleSelectUseGroups
-                ExpansionItem ei = cb.Tag as ExpansionItem;
-                if (cb.Checked && Helper.WindowsRegistry.FileTableSimpleSelectUseGroups)
-                {
-                    foreach (Control c in groupBox8.Controls)
-                    {
-                        CheckBox cbs = c as CheckBox;
-                        if (cbs != null)
-                        {
-                            ExpansionItem eis = cbs.Tag as ExpansionItem;
-                            if (eis != null)
-                                if (cbs.Checked && !ei.ShareOneGroup(eis)) cbs.Checked = false;                            
-                        }
-                    } //foreach
-                }
-                #endregion
-                ChangeFileTable(cb, ei.Expansion);
-            }
+                CheckBox cb = (CheckBox)sender;
 
-            this.Tag = null;
-            SetupFileTableCheckboxes();
+                this.Tag = true;
+
+                btReload.Enabled = true;
+                if (cb == this.cbIncCep) ChangeFileTable(cb, null);
+                else if (cb == lcb["cbIncGraphics"]) ChangeFileTable(cb, null);
+                else
+                {
+                    #region FileTableSimpleSelectUseGroups
+                    ExpansionItem ei = cb.Tag as ExpansionItem;
+                    if (cb.Checked && Helper.WindowsRegistry.FileTableSimpleSelectUseGroups)
+                    {
+                        foreach (Control c in groupBox8.Controls)
+                        {
+                            CheckBox cbs = c as CheckBox;
+                            if (cbs != null)
+                            {
+                                ExpansionItem eis = cbs.Tag as ExpansionItem;
+                                if (eis != null)
+                                    if (cbs.Checked && !ei.ShareOneGroup(eis)) cbs.Checked = false;
+                            }
+                        } //foreach
+                    }
+                    #endregion
+                    ChangeFileTable(cb, ei.Expansion);
+                }
+
+                this.Tag = null;
+                SetupFileTableCheckboxes();
+            }
+            finally { this.Enabled = true; }
+        }
+
+        private void lladddown_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+        {
+            this.Enabled = false;
+            try
+            {
+                FileTableItem fti = new FileTableItem("Downloads", true, false, -1);
+                fti.Name = System.IO.Path.Combine(PathProvider.SimSavegameFolder, "Downloads");
+                fti.Type = FileTablePaths.SaveGameFolder;
+                lbfolder.Items.Insert(0, fti);
+                this.btReload.Enabled = true;
+                SetupFileTableCheckboxes();
+            }
+            finally { this.Enabled = true; }
+        }
+
+        private void lldel_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+        {
+            if (lbfolder.SelectedIndex < 0) return;
+            this.Enabled = false;
+            try
+            {
+                lbfolder.Items.RemoveAt(lbfolder.SelectedIndex);
+                this.btReload.Enabled = true;
+                SetupFileTableCheckboxes();
+            }
+            finally { this.Enabled = true; }
+        }
+
+        private void lladd_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+        {
+            FileTableItem fti = FileTableItemForm.Execute();
+            if (fti != null)
+            {
+                this.Enabled = false;
+                try
+                {
+                    lbfolder.Items.Insert(0, fti);
+                    this.btReload.Enabled = true;
+                    SetupFileTableCheckboxes();
+                }
+                finally { this.Enabled = true; }
+            }
+        }
+
+        private void llchg_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+        {
+            if (lbfolder.SelectedItem != null)
+                if (FileTableItemForm.Execute((FileTableItem)lbfolder.SelectedItem))
+                {
+                    this.Enabled = false;
+                    try
+                    {
+                        lbfolder.Items[lbfolder.SelectedIndex] = (FileTableItem)lbfolder.SelectedItem;
+                        this.btReload.Enabled = true;
+                        SetupFileTableCheckboxes();
+                    }
+                    finally { this.Enabled = true; }
+                }
         }
         #endregion
 
