@@ -1007,7 +1007,7 @@ namespace SimPe
                 groupBox9.Top = groupBox8.Bottom + 8;
                 groupBox9.Height = hcFileTable.Height - groupBox9.Top - 8;
             }
-            finally { this.Enabled = true; }
+            finally { Application.DoEvents(); this.Enabled = true; }
         }
 
 
@@ -1024,7 +1024,7 @@ namespace SimPe
                 FileTable.Reload();
                 btReload.Enabled = false;
             }
-            finally { this.Enabled = true; }
+            finally { Application.DoEvents(); this.Enabled = true; }
         }
 
         private void linkLabel6_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
@@ -1041,7 +1041,7 @@ namespace SimPe
                 btReload.Enabled = true;
                 SetupFileTableCheckboxes();
             }
-            finally { this.Enabled = true; }
+            finally { Application.DoEvents(); this.Enabled = true; }
         }
 
         void RebuildFileTableList()
@@ -1137,7 +1137,7 @@ namespace SimPe
                 btReload.Enabled = true;
                 SetupFileTableCheckboxes();
             }
-            finally { this.Enabled = true; }
+            finally { Application.DoEvents(); this.Enabled = true; }
         }
 
 
@@ -1164,7 +1164,7 @@ namespace SimPe
                 lbfolder.SelectedIndex--;
                 this.btReload.Enabled = true;
             }
-            finally { this.Enabled = true; }
+            finally { Application.DoEvents(); this.Enabled = true; }
         }
 
         private void btdn_Click(object sender, System.EventArgs e)
@@ -1184,7 +1184,7 @@ namespace SimPe
                 lbfolder.SelectedIndex++;
                 this.btReload.Enabled = true;
             }
-            finally { this.Enabled = true; }
+            finally { Application.DoEvents(); this.Enabled = true; }
         }
 
 
@@ -1268,7 +1268,7 @@ namespace SimPe
                 this.Tag = null;
                 SetupFileTableCheckboxes();
             }
-            finally { this.Enabled = true; }
+            finally { Application.DoEvents(); this.Enabled = true; }
         }
 
         private void lladddown_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
@@ -1283,7 +1283,7 @@ namespace SimPe
                 this.btReload.Enabled = true;
                 SetupFileTableCheckboxes();
             }
-            finally { this.Enabled = true; }
+            finally { Application.DoEvents(); this.Enabled = true; }
         }
 
         private void lldel_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
@@ -1296,7 +1296,7 @@ namespace SimPe
                 this.btReload.Enabled = true;
                 SetupFileTableCheckboxes();
             }
-            finally { this.Enabled = true; }
+            finally { Application.DoEvents(); this.Enabled = true; }
         }
 
         private void lladd_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
@@ -1311,7 +1311,7 @@ namespace SimPe
                     this.btReload.Enabled = true;
                     SetupFileTableCheckboxes();
                 }
-                finally { this.Enabled = true; }
+                finally { Application.DoEvents(); this.Enabled = true; }
             }
         }
 
@@ -1327,7 +1327,7 @@ namespace SimPe
                         this.btReload.Enabled = true;
                         SetupFileTableCheckboxes();
                     }
-                    finally { this.Enabled = true; }
+                    finally { Application.DoEvents(); this.Enabled = true; }
                 }
         }
         #endregion
