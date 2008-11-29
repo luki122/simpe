@@ -41,6 +41,30 @@ namespace SimPe
 		/// </summary>
 		Hashtable single;
 
+        static ResourceLoader srl = null;
+        public static void Refresh()
+        {
+            if (srl != null) foreach (SimPe.Interfaces.Scenegraph.IScenegraphFileIndexItem loaded in srl.loaded) srl.RefreshUI(loaded);
+        }
+        public static void Refresh(SimPe.Interfaces.Scenegraph.IScenegraphFileIndexItem fii)
+        {
+            if (srl != null) foreach (SimPe.Interfaces.Scenegraph.IScenegraphFileIndexItem loaded in srl.loaded.Keys)
+                if (loaded.Package == fii.Package && loaded.FileDescriptor.Equals(fii.FileDescriptor))
+                    srl.RefreshUI(loaded);
+        }
+        public void RefreshUI(SimPe.Interfaces.Scenegraph.IScenegraphFileIndexItem fii)
+        {
+            TD.SandDock.DockControl doc = this.GetDocument(fii);
+            if (doc == null) return;
+
+            SimPe.Interfaces.Plugin.IFileWrapper wrp = (SimPe.Interfaces.Plugin.IFileWrapper)doc.Tag;
+            if (UnloadWrapper(wrp))
+            {
+                wrp.ProcessData(fii);
+                wrp.RefreshUI();
+            }
+        }
+
 		/// <summary>
 		/// Create a new Instance
 		/// </summary>
@@ -52,6 +76,7 @@ namespace SimPe
 			pkg = lp;
 			loaded = new Hashtable();
 			single = new Hashtable();
+            if (srl == null) srl = this;
 		}		
 
 		/// <summary>
@@ -272,10 +297,9 @@ namespace SimPe
                 return Present(fii, wrapper, overload);
             }
 #if !DEBUG
-            catch (Exception ex) { Helper.ExceptionMessage(ex); }
+            catch (Exception ex) { Helper.ExceptionMessage(ex); return false; }
 #endif
             finally { }
-            return false;
         }
 
 		/// <summary>
