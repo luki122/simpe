@@ -1275,9 +1275,9 @@ namespace SimPe
 		public static string CompareableFileName(string fl)
 		{
 #if MAC
-			return fl.Trim();
+			return fl.Trim().TrimEnd('/');
 #else
-			return fl.Trim().ToLower();
+			return fl.Trim().TrimEnd('\\').ToLower();
 #endif
 		}
 
