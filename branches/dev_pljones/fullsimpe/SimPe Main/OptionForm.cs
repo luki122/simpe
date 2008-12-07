@@ -1078,11 +1078,16 @@ namespace SimPe
             return false;
         }
 
-        private static bool IsFtiGraphic(FileTableItem fti)
+        private bool IsFtiGraphic(FileTableItem fti)
         {
+            ExpansionItem ei = PathProvider.Global[fti.Type.AsExpansions];
+            if (ei == null || PathProvider.Nil.Equals(ei)) return false;
+            CheckBox cb = lcb[ei.NameShort];
+            if (cb == null) return false;
+            if (cb.CheckState == CheckState.Unchecked) return false;
+
             string cfn = Helper.CompareableFileName(fti.Name);
-            return isCEP(fti) ||
-                cfn.EndsWith("\\3d") || cfn.EndsWith("\\sims3d") || cfn.EndsWith("\\skins") ||
+            return cfn.EndsWith("\\3d") || cfn.EndsWith("\\sims3d") || cfn.EndsWith("\\skins") ||
                 cfn.EndsWith("\\materials") || cfn.EndsWith("\\patterns");
         }
 
@@ -1117,12 +1122,12 @@ namespace SimPe
         private void SetupFileTableCheckboxes()
         {
             SetupFileTableCheckboxes(this.cbIncCep, null);
-            SetupFileTableCheckboxes(lcb["cbIncGraphics"], null);
             foreach (CheckBox cb in lcb.Values)
             {
                 ExpansionItem ei = cb.Tag as ExpansionItem;
                 if (ei != null) SetupFileTableCheckboxes(cb, ei.Expansion);
             }
+            SetupFileTableCheckboxes(lcb["cbIncGraphics"], null); // Must be last as refs back to expansion CBs
         }
 
         private void lbfolder_ItemCheck(object sender, System.Windows.Forms.ItemCheckEventArgs e)
