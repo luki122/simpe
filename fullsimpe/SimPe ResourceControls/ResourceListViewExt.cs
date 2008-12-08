@@ -400,19 +400,17 @@ namespace SimPe.Windows.Forms
         {
             get
             {
-                if (order == null)
-                {
-                    List<ColumnHeader> columns = new List<ColumnHeader>();
-                    foreach (ColumnHeader ch in lv.Columns) columns.Add(ch);
+                List<ColumnHeader> columns = new List<ColumnHeader>();
+                foreach (ColumnHeader ch in lv.Columns) columns.Add(ch);
 
-                    foreach (ColumnHeader ch in colHeads) if (!columns.Contains(ch)) columns.Add(ch);
+                foreach (ColumnHeader ch in colHeads) if (!columns.Contains(ch)) columns.Add(ch);
 
-                    columns.Sort(new CHSort());
+                columns.Sort(new CHSort());
 
-                    order = new List<string>();
-                    foreach (ColumnHeader ch in columns)
-                        order.Add(colNames[colHeads.IndexOf(ch)]);
-                }
+                order = new List<string>();
+                foreach (ColumnHeader ch in columns)
+                    order.Add(colNames[colHeads.IndexOf(ch)]);
+
                 return order;
             }
         }
