@@ -3741,7 +3741,7 @@ namespace SimPe.Plugin
 
                 Language.DataSource = languageString;
 
-                CareerTitle.Text = catalogueDesc[currentLanguage, 0].Title;
+                CareerTitle.Text = (((List<StrItem>)catalogueDesc[currentLanguage]).Count == 0) ? "" : catalogueDesc[currentLanguage, 0].Title;
 
                 englishOnly = (catalogueDesc.Languages.Length <= 1);
                 miEnglishOnly.Checked = englishOnly;
@@ -4379,6 +4379,8 @@ namespace SimPe.Plugin
 		{
             if (internalchg) return;
 			string text = ((System.Windows.Forms.TextBox)sender).Text;
+            if (((List<StrItem>)catalogueDesc[currentLanguage]).Count == 0)
+                ((List<StrItem>)catalogueDesc[currentLanguage]).Add(new StrItem(catalogueDesc));
             catalogueDesc[currentLanguage][0].Title = text;
 		}
         private void Language_SelectedIndexChanged(object sender, System.EventArgs e)
