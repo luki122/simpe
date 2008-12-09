@@ -160,7 +160,7 @@ namespace SimPe
             cbSimTemp.Enabled = cbDeep.Checked;
 
             this.Tag = null;
-            btReload.Enabled = false;
+            btReload.Enabled = Helper.LocalMode; // When in LocalMode, default the Reload button to enabled.
             SetupFileTableCheckboxes();
             this.ShowDialog();
         }
@@ -1018,11 +1018,11 @@ namespace SimPe
             this.Enabled = false;
             try
             {
+                Helper.LocalMode = btReload.Enabled = false; // We're no longer in LocalMode after a filetable reload
                 System.Collections.Generic.List<FileTableItem> lfti = new System.Collections.Generic.List<FileTableItem>();
                 foreach (FileTableItem fti in lbfolder.Items) lfti.Add(fti);
                 FileTable.StoreFoldersXml(lfti);
                 FileTable.Reload();
-                btReload.Enabled = false;
             }
             finally { Application.DoEvents(); this.Enabled = true; }
         }
