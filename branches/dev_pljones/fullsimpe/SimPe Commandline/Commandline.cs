@@ -255,6 +255,7 @@ namespace SimPe
                         i = ArgParser.Parse(argv, "-enable");
                         if (i >= 0) { haveEnable = true; needEnable = false; }
                     }
+                    if (!haveEnable && argv.Count <= i) break; // processed everything
                 }
 
                 if (Helper.LocalMode || Helper.NoPlugins || Helper.NoErrors)
