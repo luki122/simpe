@@ -1091,11 +1091,29 @@ namespace SimPe
                 cfn.EndsWith("\\materials") || cfn.EndsWith("\\patterns");
         }
 
+        private bool IsEP(FileTableItem fti, FileTableItemType epver)
+        {
+            string cfn = Helper.CompareableFileName(fti.Name);
+            bool isFtiGraphic = cfn.EndsWith("\\3d") || cfn.EndsWith("\\sims3d") || cfn.EndsWith("\\skins") ||
+                cfn.EndsWith("\\materials") || cfn.EndsWith("\\patterns");
+            bool state = fti.Type == epver;
+
+            if (isFtiGraphic)
+            {
+                ExpansionItem ei = PathProvider.Global[fti.Type.AsExpansions];
+                if (ei == null || PathProvider.Nil.Equals(ei)) return state;
+                CheckBox cb = lcb["cbIncGraphics"];
+                if (cb == null) return state;
+                if (cb.CheckState == CheckState.Unchecked) return false;
+            }
+            return state;
+        }
+
         private bool IsMatch(CheckBox cb, FileTableItem fti, FileTableItemType epver)
         {
             if (isCEP(fti)) return cb == this.cbIncCep;
             if (cb == lcb["cbIncGraphics"]) return IsFtiGraphic(fti);
-            return fti.Type == epver;
+            return IsEP(fti, epver);
         }
 
         private void SetupFileTableCheckboxes(CheckBox cb, FileTableItemType epver)
