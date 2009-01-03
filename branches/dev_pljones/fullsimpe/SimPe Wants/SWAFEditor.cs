@@ -1054,7 +1054,7 @@ namespace SimPe.Wants
                 }
                 if (lgc.IndexOf(gc) == 0)
                 {
-                    lvItems.SelectedItems[0].SubItems[1].Text = wantNames[wantIDs.IndexOf(i.WantId)];
+                    lvItems.SelectedItems[0].SubItems[1].Text = getName(wantNames, wantIDs, i.WantId);
                     UpdateGroupsColumn(lvItems.SelectedItems[0], 1);
                 }
                 else
