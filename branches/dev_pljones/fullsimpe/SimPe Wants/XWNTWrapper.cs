@@ -93,6 +93,46 @@ namespace SimPe.Wants
         {
             items = new List<XWNTItem>();
 
+            #region Un-break Quaxified XWNTs
+            // Because Quaxi's CPF wrapper rewrites XML as binary, we handle that case here
+            byte[] hdr = reader.ReadBytes(6);
+			reader.BaseStream.Seek(0, System.IO.SeekOrigin.Begin);
+
+            bool isCpf = true;
+            byte[] id = new byte[] { 0xE0, 0x50, 0xE7, 0xCB, 0x02, 0x00, };
+            for (int i = 0; i < hdr.Length && isCpf; i++) isCpf = hdr[i] == id[i];
+
+            if (isCpf)
+            {
+                SimPe.PackedFiles.Wrapper.Cpf cpf = new SimPe.PackedFiles.Wrapper.Cpf();
+                cpf.ProcessData(this.FileDescriptor, this.Package);
+                XWNTWrapper xwnt = new XWNTWrapper();
+                foreach (XWNTItem item in xwnt)
+                {
+                    if (item.Key.StartsWith("<!"))
+                        Add(new XWNTItem(this, item.Key, ""));
+                    else
+                    {
+                        SimPe.PackedFiles.Wrapper.CpfItem cpfitem = cpf.GetItem(item.Key);
+                        if (cpfitem != null)
+                        {
+                            string value = "";
+                            switch (cpfitem.Datatype) // Argh... So broken...
+                            {
+                                case SimPe.Data.MetaData.DataTypes.dtInteger: value = cpfitem.IntegerValue.ToString(); break;
+                                case SimPe.Data.MetaData.DataTypes.dtBoolean: value = cpfitem.BooleanValue.ToString(); break;
+                                default: value = cpfitem.StringValue; break;
+                            }
+                            items.Add(new XWNTItem(this, item.Key, value));
+                        }
+                        else
+                            items.Add(new XWNTItem(this, item.Key, item.Value));
+                    }
+                }
+                return;
+            }
+            #endregion
+
             XmlReaderSettings xrs = new XmlReaderSettings();
             //xrs.IgnoreComments = true;
             xrs.IgnoreProcessingInstructions = true;
