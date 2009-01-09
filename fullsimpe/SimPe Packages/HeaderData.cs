@@ -281,7 +281,7 @@ namespace SimPe.Packages
                 throw new InvalidOperationException("SimPe does not support this type of file." + spore);
 			
 			this.majorversion = reader.ReadInt32();
-            if (this.majorversion > 1)
+            if (!Helper.AnyPackage && this.majorversion > 1)
                 throw new InvalidOperationException("SimPe does not support this version of DBPF file." + spore);
 
 			this.minorversion = reader.ReadInt32();
